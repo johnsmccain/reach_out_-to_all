@@ -5,8 +5,8 @@ import toast from "react-hot-toast";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
-// Updated to your backend URL
-const API_URL = "https://r2a.netlify.app";
+// Replace with your actual deployed backend URL
+const API_URL = "http://localhost:5000"; // <--- Update this with the real backend URL
 
 const DonateButton = () => {
   const [loading, setLoading] = useState(false);
@@ -14,7 +14,7 @@ const DonateButton = () => {
 
   const handleDonate = async () => {
     if (!amount || isNaN(Number(amount)) || Number(amount) <= 0) {
-      toast.error("Please enter a valid donation amount.");
+      toast.error("Please enter a valid amount.");
       return;
     }
 
@@ -38,13 +38,11 @@ const DonateButton = () => {
         throw new Error(data.error || "Failed to create checkout session");
       }
 
-      //  Redirect immediately if we get a session URL
       if (data.url) {
         window.location.href = data.url;
         return;
       }
 
-      //  Fallback to redirectToCheckout if only session ID is returned
       const stripe = await stripePromise;
       if (!stripe) {
         throw new Error("Stripe failed to load");
@@ -70,7 +68,7 @@ const DonateButton = () => {
       {/* User inputs donation amount */}
       <input
         type="number"
-        placeholder="Enter donation amount"
+        placeholder="Enter amount"
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
         className="w-full border rounded-lg px-4 py-2 text-black"

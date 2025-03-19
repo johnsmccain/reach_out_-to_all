@@ -18,41 +18,40 @@ if (!process.env.STRIPE_SECRET_KEY) {
   throw new Error("ERROR: Missing STRIPE_SECRET_KEY in .env file.");
 }
 
-// Updated to your domain
-const CLIENT_URL = "https://r2a.netlify.app";
+// Ensure correct frontend URL
+const CLIENT_URL = process.env.CLIENT_URL || "https://r2a.netlify.app";
 
-// Middleware
 app.use(express.json());
 app.use(helmet());
 app.use(
   cors({
-    origin: CLIENT_URL, // Updated frontend domain
+    origin: CLIENT_URL, // ✅ Allow frontend requests
     methods: ["POST", "GET"],
     allowedHeaders: ["Content-Type"],
   })
 );
 
-//  Root Route
+// ✅ Root Route
 app.get("/", (req, res) => {
   res.status(200).json({
-    message: "Welcome to the Stripe Payment API ",
+    message: "Welcome to the Stripe Payment API 🚀",
     status: "running",
   });
 });
 
-//  Health Check Endpoint
+// ✅ Health Check Endpoint
 app.get("/health", (req, res) => {
   res.status(200).json({ status: "ok" });
 });
 
-//  Create Stripe Checkout Session
+// ✅ Create Stripe Checkout Session
 app.post("/create-checkout-session", async (req, res) => {
   try {
     const { amount } = req.body;
 
     // Validate amount
     if (!amount || isNaN(amount) || amount <= 0) {
-      return res.status(400).json({ error: "Invalid donation amount" });
+      return res.status(400).json({ error: "Invalid amount" });
     }
 
     console.log(`🔹 Creating Stripe session for NGN ${amount}`);
@@ -78,10 +77,10 @@ app.post("/create-checkout-session", async (req, res) => {
       cancel_url: `${CLIENT_URL}/get-involved?payment=cancelled`,
     });
 
-    console.log(" Stripe Checkout Session Created:", session.id);
+    console.log("✅ Stripe Checkout Session Created:", session.id);
     res.json({ id: session.id, url: session.url });
   } catch (error) {
-    console.error(" Stripe error:", error);
+    console.error("❌ Stripe error:", error);
     res.status(500).json({
       error: "An error occurred while processing payment",
       details: error.message,
@@ -91,4 +90,4 @@ app.post("/create-checkout-session", async (req, res) => {
 
 // Start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(` Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
