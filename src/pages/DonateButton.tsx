@@ -7,7 +7,7 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
 // API base URL based on environment
 const API_URL = import.meta.env.PROD
-  ? "https://r2a-api.onrender.com" // Production API URL
+  ? "https://r2a-api.onrender.com"
   : "http://localhost:5000"; // Development API URL
 
 const DonateButton = () => {
