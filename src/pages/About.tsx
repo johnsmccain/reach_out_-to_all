@@ -243,7 +243,9 @@ const About = () => {
 
       {/* Team Section */}
       <section className="container mx-auto px-4 max-w-4xl mb-16">
-        <h2 className="text-4xl font-bold text-blue-900 mb-8">Our Team</h2>
+        <h2 className="text-4xl font-bold text-blue-900 mb-8 text-center">
+          Our Team
+        </h2>
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
           <table className="w-full">
             <tbody className="divide-y divide-gray-100">
