@@ -1,14 +1,15 @@
 import { useState } from "react";
 import image from "@/asset/pastorbawa.png";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Menu } from "lucide-react";
 
 const About = () => {
   const [activeTab, setActiveTab] = useState("story");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <div className="space-y-16">
       {/* Hero Section */}
-      <section className="relative h-[500px] overflow-hidden">
+      <section className="relative h-[400px] md:h-[500px] overflow-hidden">
         <div className="absolute inset-0">
           <img
             src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3"
@@ -19,26 +20,70 @@ const About = () => {
         </div>
         <div className="relative container mx-auto px-4 h-full flex items-center">
           <div className="max-w-3xl">
-            <h1 className="text-7xl font-bold mb-8 text-white animate-fade-in">
+            <h1 className="text-4xl md:text-7xl font-bold mb-4 md:mb-8 text-white animate-fade-in">
               About Us
             </h1>
-            <p className="text-xl leading-relaxed text-white/90 font-light animate-slide-up">
+            <p className="text-lg md:text-xl leading-relaxed text-white/90 font-light animate-slide-up">
               We are a group of believers from diverse denominations, united by
               a passion for missions. We aim to reach out to people everywhere,
               enabling their salvation, rededication, commitment, and
               discipleship.
             </p>
-            <div className="mt-8 animate-bounce-slow">
+            <div className="mt-8 animate-bounce-slow hidden md:block">
               <ChevronDown className="w-8 h-8 text-white/70" />
             </div>
           </div>
         </div>
       </section>
 
+      {/* Mobile Tab Menu */}
+      <div className="md:hidden px-4">
+        <button
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          className="w-full flex items-center justify-between p-4 bg-white rounded-lg shadow-md"
+        >
+          <span className="font-semibold">
+            {
+              [
+                { id: "story", label: "Our Story" },
+                { id: "mission", label: "Mission & Vision" },
+                { id: "leadership", label: "Leadership" },
+              ].find((tab) => tab.id === activeTab)?.label
+            }
+          </span>
+          <Menu className="h-5 w-5" />
+        </button>
+        {isMenuOpen && (
+          <div className="mt-2 bg-white rounded-lg shadow-lg overflow-hidden">
+            {[
+              { id: "story", label: "Our Story" },
+              { id: "mission", label: "Mission & Vision" },
+              { id: "leadership", label: "Leadership" },
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => {
+                  setActiveTab(tab.id);
+                  setIsMenuOpen(false);
+                }}
+                className={`w-full p-4 text-left ${
+                  activeTab === tab.id
+                    ? "bg-blue-50 text-blue-900"
+                    : "text-gray-700 hover:bg-gray-50"
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
       {/* Main Content Tabs */}
       <section className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
-          <div className="flex space-x-4 mb-8 border-b border-gray-200 justify-center items-center">
+          {/* Desktop Tab Navigation */}
+          <div className="hidden md:flex space-x-4 mb-8 border-b border-gray-200 items-center justify-center">
             {[
               { id: "story", label: "Our Story" },
               { id: "mission", label: "Mission & Vision" },
@@ -107,8 +152,8 @@ const About = () => {
             }`}
           >
             <div className="grid gap-8 md:grid-cols-2">
-              <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-shadow">
-                <h3 className="text-2xl font-bold mb-6 text-blue-900">
+              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-shadow">
+                <h3 className="text-xl md:text-2xl font-bold mb-6 text-blue-900">
                   Our Foundation
                 </h3>
                 <ul className="space-y-6">
@@ -130,8 +175,8 @@ const About = () => {
                   </li>
                 </ul>
               </div>
-              <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-shadow">
-                <h3 className="text-2xl font-bold mb-6 text-blue-900">
+              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-shadow">
+                <h3 className="text-xl md:text-2xl font-bold mb-6 text-blue-900">
                   Our Purpose
                 </h3>
                 <ul className="space-y-6">
@@ -168,8 +213,8 @@ const About = () => {
           >
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
               <div className="flex flex-col lg:flex-row">
-                <div className="lg:w-1/3 relative">
-                  <div className="sticky top-0 pt-[150%]">
+                <div className="lg:w-1/3">
+                  <div className="relative pt-[100%] lg:pt-[150%]">
                     <img
                       src={image}
                       alt="Pastor Bawa G. Emmanuel"
@@ -177,14 +222,14 @@ const About = () => {
                     />
                   </div>
                 </div>
-                <div className="lg:w-2/3 p-8 lg:p-12">
-                  <h3 className="text-3xl font-bold text-blue-900 mb-2">
+                <div className="lg:w-2/3 p-6 md:p-8 lg:p-12">
+                  <h3 className="text-2xl md:text-3xl font-bold text-blue-900 mb-2">
                     Bawa G. Emmanuel
                   </h3>
-                  <p className="text-xl text-blue-600 mb-8">
+                  <p className="text-lg md:text-xl text-blue-600 mb-6 md:mb-8">
                     Coordinator/President
                   </p>
-                  <div className="prose prose-lg text-gray-700">
+                  <div className="prose prose-base md:prose-lg text-gray-700">
                     <p>
                       Bawa G. Emmanuel has an apostolic and evangelistic
                       mandate, serving as a spiritual midwife to bring about the
@@ -219,21 +264,23 @@ const About = () => {
       </section>
 
       {/* Core Values */}
-      <section className="bg-gradient-to-b from-gray-50 to-white py-20">
+      <section className="bg-gradient-to-b from-gray-50 to-white py-12 md:py-20">
         <div className="container mx-auto px-4 max-w-4xl text-center space-y-12">
           <div className="space-y-6">
-            <h2 className="text-4xl font-bold text-blue-900">
+            <h2 className="text-3xl md:text-4xl font-bold text-blue-900">
               What We Believe
             </h2>
-            <p className="text-xl text-gray-700 max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-gray-700 max-w-2xl mx-auto">
               We believe that all people deserve to be reached with the gospel
               alongside humanitarian services for their rounded development.
             </p>
           </div>
 
           <div className="space-y-6">
-            <h2 className="text-4xl font-bold text-blue-900">Call to Action</h2>
-            <p className="text-xl text-gray-700 max-w-2xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-blue-900">
+              Call to Action
+            </h2>
+            <p className="text-lg md:text-xl text-gray-700 max-w-2xl mx-auto">
               You can get involved in reaching out to lives using your skills,
               talents, and resources.
             </p>
@@ -243,36 +290,41 @@ const About = () => {
 
       {/* Team Section */}
       <section className="container mx-auto px-4 max-w-4xl mb-16">
-        <h2 className="text-4xl font-bold text-blue-900 mb-8 text-center">
+        <h2 className="text-3xl md:text-4xl font-bold text-blue-900 mb-8 text-center">
           Our Team
         </h2>
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-          <table className="w-full">
-            <tbody className="divide-y divide-gray-100">
-              {[
-                {
-                  role: "Secretary-Administration",
-                  name: "Japhet Chucks Jonathan",
-                },
-                { role: "Secretary-Operations", name: "Obed Marcus Minna" },
-                { role: "Treasurer", name: "Alheri Ali" },
-                { role: "Abuja Field Missionary", name: "Nathan S. Galadima" },
-                { role: "Ondo Field Missionary", name: "Victor O. Enenche" },
-              ].map((member, index) => (
-                <tr
-                  key={index}
-                  className="hover:bg-blue-50/50 transition-colors group"
-                >
-                  <td className="px-8 py-6 font-semibold text-blue-900 group-hover:text-blue-700">
-                    {member.role}
-                  </td>
-                  <td className="px-8 py-6 text-gray-700 group-hover:text-gray-900">
-                    {member.name}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <tbody className="divide-y divide-gray-100">
+                {[
+                  {
+                    role: "Secretary-Administration",
+                    name: "Japhet Chucks Jonathan",
+                  },
+                  { role: "Secretary-Operations", name: "Obed Marcus Minna" },
+                  { role: "Treasurer", name: "Alheri Ali" },
+                  {
+                    role: "Abuja Field Missionary",
+                    name: "Nathan S. Galadima",
+                  },
+                  { role: "Ondo Field Missionary", name: "Victor O. Enenche" },
+                ].map((member, index) => (
+                  <tr
+                    key={index}
+                    className="hover:bg-blue-50/50 transition-colors group"
+                  >
+                    <td className="px-4 md:px-8 py-4 md:py-6 font-semibold text-blue-900 group-hover:text-blue-700">
+                      {member.role}
+                    </td>
+                    <td className="px-4 md:px-8 py-4 md:py-6 text-gray-700 group-hover:text-gray-900">
+                      {member.name}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </section>
     </div>
