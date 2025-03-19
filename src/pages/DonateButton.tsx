@@ -1,80 +1,32 @@
 import { useState } from "react";
-import { loadStripe } from "@stripe/stripe-js";
 import { CreditCard } from "lucide-react";
 import toast from "react-hot-toast";
 
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
+// Replace with your actual Stripe Payment Link (must allow custom amounts)
+const STRIPE_PAYMENT_LINK = "https://buy.stripe.com/test_3cseXs1qGdf46Jy7st";
 
-// Replace with your actual deployed backend URL
-const API_URL = "http://localhost:5000"; // <--- Update this with the real backend URL
+// Define success and cancel redirect URLs
+const SUCCESS_URL = "https://r2a.netlify.app/"; // Updated success URL
+const CANCEL_URL = "http://localhost:5174/";
 
 const DonateButton = () => {
   const [loading, setLoading] = useState(false);
-  const [amount, setAmount] = useState(""); // Store user input amount
 
-  const handleDonate = async () => {
-    if (!amount || isNaN(Number(amount)) || Number(amount) <= 0) {
-      toast.error("Please enter a valid amount.");
-      return;
-    }
-
+  const handleDonate = () => {
     setLoading(true);
-    try {
-      const response = await fetch(`${API_URL}/create-checkout-session`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          amount: Number(amount),
-        }),
-      });
+    toast.loading("Redirecting to Stripe...");
 
-      const data = await response.json();
-      console.log("🔹 Server Response:", data);
+    // Redirect to Stripe with success and cancel URLs
+    const stripeUrl = `${STRIPE_PAYMENT_LINK}?success_url=${encodeURIComponent(
+      SUCCESS_URL
+    )}&cancel_url=${encodeURIComponent(CANCEL_URL)}`;
 
-      if (!response.ok) {
-        throw new Error(data.error || "Failed to create checkout session");
-      }
-
-      if (data.url) {
-        window.location.href = data.url;
-        return;
-      }
-
-      const stripe = await stripePromise;
-      if (!stripe) {
-        throw new Error("Stripe failed to load");
-      }
-
-      const { error: stripeError } = await stripe.redirectToCheckout({
-        sessionId: data.id,
-      });
-
-      if (stripeError) {
-        throw stripeError;
-      }
-    } catch (error) {
-      toast.error("Payment failed. Please try again.");
-      console.error("❌ Error:", error);
-    } finally {
-      setLoading(false);
-    }
+    window.location.href = stripeUrl;
+    setLoading(false);
   };
 
   return (
     <div className="flex flex-col space-y-3 w-full">
-      {/* User inputs donation amount */}
-      <input
-        type="number"
-        placeholder="Enter amount"
-        value={amount}
-        onChange={(e) => setAmount(e.target.value)}
-        className="w-full border rounded-lg px-4 py-2 text-black"
-        min="1"
-      />
-
       <button
         onClick={handleDonate}
         disabled={loading}
