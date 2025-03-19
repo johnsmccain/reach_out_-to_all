@@ -1,9 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Heart, CreditCard, Send } from "lucide-react";
-import { supabase } from "../lib/supabase";
-import emailjs from "@emailjs/browser";
 import toast from "react-hot-toast";
-
 import DonateButton from "./DonateButton";
 
 const VOLUNTEER_UNITS = [
@@ -23,8 +20,8 @@ const VOLUNTEER_UNITS = [
 ];
 
 const GetInvolved = () => {
-  const [loading, setLoading] = React.useState(false);
-  const [formData, setFormData] = React.useState({
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
@@ -49,46 +46,26 @@ const GetInvolved = () => {
     setLoading(true);
 
     try {
-      // First, save to Supabase
-      const { error: supabaseError } = await supabase
-        .from("volunteers")
-        .insert([
-          {
-            name: formData.name,
-            email: formData.email,
-            phone: formData.phone,
-            unit: formData.unit,
-            message: formData.message,
-          },
-        ]);
-
-      if (supabaseError) throw supabaseError;
-
-      // Then, send email notification
-      await emailjs.send(
-        import.meta.env.VITE_SERVICE_ID,
-        import.meta.env.VITE_TEMPLATE_ID,
-        {
-          user_name: formData.name,
-          user_email: formData.email,
-          user_phone: formData.phone,
-          unit: formData.unit,
-          message: formData.message,
-        },
-        import.meta.env.VITE_PUBLIC_KEY
-      );
-
-      toast.success("Thank you for volunteering! We will contact you soon.");
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        unit: "",
-        message: "",
+      const response = await fetch("https://formspree.io/f/mdkekqwg", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
       });
-    } catch (error: any) {
-      console.error("Error submitting volunteer form:", error);
-      toast.error(error.message || "Something went wrong. Please try again.");
+
+      if (response.ok) {
+        toast.success("Thank you for volunteering! We will contact you soon.");
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          unit: "",
+          message: "",
+        });
+      } else {
+        toast.error("Error submitting the form. Please try again.");
+      }
+    } catch (error) {
+      toast.error("Network error. Please check your internet connection.");
     } finally {
       setLoading(false);
     }
@@ -126,77 +103,67 @@ const GetInvolved = () => {
               <h2 className="text-3xl font-bold">Volunteer</h2>
             </div>
             <form onSubmit={handleVolunteerSubmit} className="space-y-6">
+              <input
+                type="hidden"
+                name="_subject"
+                value="New Volunteer Application"
+              />
+
               <div>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
+                <label className="block text-sm font-medium text-gray-700 mb-1">
                   Name
                 </label>
                 <input
                   type="text"
-                  id="name"
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
                   placeholder="Enter your full name"
                 />
               </div>
 
               <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
+                <label className="block text-sm font-medium text-gray-700 mb-1">
                   Email
                 </label>
                 <input
                   type="email"
-                  id="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
                   placeholder="Enter your email address"
                 />
               </div>
 
               <div>
-                <label
-                  htmlFor="phone"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
+                <label className="block text-sm font-medium text-gray-700 mb-1">
                   Phone
                 </label>
                 <input
                   type="tel"
-                  id="phone"
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
                   placeholder="Enter your phone number"
                 />
               </div>
 
               <div>
-                <label
-                  htmlFor="unit"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
+                <label className="block text-sm font-medium text-gray-700 mb-1">
                   Select Unit
                 </label>
                 <select
-                  id="unit"
                   name="unit"
                   value={formData.unit}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
                 >
                   <option value="">Select a unit</option>
                   {VOLUNTEER_UNITS.map((unit) => (
@@ -208,19 +175,15 @@ const GetInvolved = () => {
               </div>
 
               <div>
-                <label
-                  htmlFor="message"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
+                <label className="block text-sm font-medium text-gray-700 mb-1">
                   Message (Optional)
                 </label>
                 <textarea
-                  id="message"
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
                   rows={4}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
                   placeholder="Tell us about your interests and experience"
                 ></textarea>
               </div>
@@ -228,7 +191,7 @@ const GetInvolved = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 flex items-center justify-center space-x-2 disabled:opacity-50"
               >
                 <span>{loading ? "Submitting..." : "Submit Application"}</span>
                 <Send className="h-5 w-5" />
@@ -251,28 +214,22 @@ const GetInvolved = () => {
               {/* Bank Account Details */}
               <div className="mb-8">
                 <h3 className="text-xl font-bold mb-4">Bank Account Details</h3>
-                <div className="space-y-2">
-                  <p>
-                    <span className="font-medium">Bank Name:</span> First Gospel
-                    Bank
-                  </p>
-                  <p>
-                    <span className="font-medium">Account Name:</span> Gospel
-                    Mission
-                  </p>
-                  <p>
-                    <span className="font-medium">Account Number:</span>{" "}
-                    1234567890
-                  </p>
-                  <p>
-                    <span className="font-medium">Sort Code:</span> 12-34-56
-                  </p>
-                </div>
+                <p>
+                  <strong>Bank Name:</strong> First Gospel Bank
+                </p>
+                <p>
+                  <strong>Account Name:</strong> Gospel Mission
+                </p>
+                <p>
+                  <strong>Account Number:</strong> 1234567890
+                </p>
+                <p>
+                  <strong>Sort Code:</strong> 12-34-56
+                </p>
               </div>
 
               {/* Online Payment Button */}
-              <button className="w-full bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center space-x-2">
-                {/* <<span>Donate Online</span>> */}
+              <button className="w-full bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700">
                 <DonateButton />
               </button>
             </div>

@@ -1,7 +1,7 @@
-import React from 'react';
-import { Mail, Phone, MapPin, Send } from 'lucide-react';
-import emailjs from '@emailjs/browser';
-import toast from 'react-hot-toast';
+import React from "react";
+import { Mail, Phone, MapPin, Send } from "lucide-react";
+import emailjs from "@emailjs/browser";
+import toast from "react-hot-toast";
 
 // Initialize EmailJS with environment variable
 emailjs.init(import.meta.env.VITE_PUBLIC_KEY);
@@ -21,11 +21,11 @@ const Contact = () => {
         form
       );
 
-      toast.success('Message sent successfully!');
+      toast.success("Message sent successfully!");
       form.reset();
     } catch (error) {
-      console.error('Error sending email:', error);
-      toast.error('Failed to send message. Please try again.');
+      console.error("Error sending email:", error);
+      toast.error("Failed to send message. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -47,7 +47,8 @@ const Contact = () => {
           <div className="max-w-2xl text-white">
             <h1 className="text-5xl font-bold mb-4">Contact Us</h1>
             <p className="text-xl">
-              We'd love to hear from you. Get in touch with us for any inquiries.
+              We'd love to hear from you. Get in touch with us for any
+              inquiries.
             </p>
           </div>
         </div>
@@ -59,7 +60,7 @@ const Contact = () => {
           <div className="space-y-8">
             <h2 className="text-3xl font-bold text-blue-900">Get in Touch</h2>
             <p className="text-lg text-gray-600">
-              Have questions about our mission work or want to get involved? 
+              Have questions about our mission work or want to get involved?
               We're here to help you on your journey.
             </p>
 
@@ -80,11 +81,14 @@ const Contact = () => {
                 </div>
               </div>
 
-              <div className="flex items-center space-x-4">
-                <MapPin className="h-10 w-10 text-blue-600" />
+              <div className="flex items-start space-x-4">
+                <MapPin className="h-6 w-6 shrink-0 text-blue-600 mt-1" />
                 <div>
                   <h3 className="font-semibold">Address</h3>
-                  <p className="text-gray-600">Suite 5, Victory Plaza, Opposite Concord Garden, Adjacent U/Boro New Market l, Sabon Tasha, Kaduna State, Nigeria.</p>
+                  <p className="text-gray-600 leading-relaxed">
+                    Suite 5, Victory Plaza, Opposite Concord Garden, Adjacent
+                    U/Boro New Market, Sabon Tasha, Kaduna State, Nigeria
+                  </p>
                 </div>
               </div>
             </div>
@@ -95,7 +99,10 @@ const Contact = () => {
             <h2 className="text-2xl font-bold mb-6">Send us a Message</h2>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Name
                 </label>
                 <input
@@ -108,7 +115,10 @@ const Contact = () => {
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Email
                 </label>
                 <input
@@ -121,7 +131,10 @@ const Contact = () => {
               </div>
 
               <div>
-                <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="subject"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Subject
                 </label>
                 <input
@@ -134,7 +147,10 @@ const Contact = () => {
               </div>
 
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="message"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Message
                 </label>
                 <textarea
@@ -151,7 +167,7 @@ const Contact = () => {
                 disabled={loading}
                 className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center space-x-2 disabled:opacity-50"
               >
-                <span>{loading ? 'Sending...' : 'Send Message'}</span>
+                <span>{loading ? "Sending..." : "Send Message"}</span>
                 <Send className="h-5 w-5" />
               </button>
             </form>

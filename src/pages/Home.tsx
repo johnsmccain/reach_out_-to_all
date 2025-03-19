@@ -1,22 +1,55 @@
-import React from 'react';
-import { ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { supabase } from '../lib/supabase';
-import StatisticsCounter from '../components/StatisticsCounter';
-import type { Statistics } from '../types';
+import React from "react";
+import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
+import { supabase } from "../lib/supabase";
+import StatisticsCounter from "../components/StatisticsCounter";
+import type { Statistics } from "../types";
+import img from "../asset/image1.jpg";
+import imgs from "../asset/image22.jpg";
+import img1 from "../asset/image23.jpg";
 
 const Home = () => {
   const [statistics, setStatistics] = React.useState<Statistics | null>(null);
+  const [currentImageIndex, setCurrentImageIndex] = React.useState(0);
+
+  const heroImages = [
+    {
+      url: "https://images.unsplash.com/photo-1438232992991-995b7058bbb3?ixlib=rb-4.0.3",
+      alt: "Mission work",
+    },
+    {
+      url: img,
+      alt: "Community outreach",
+    },
+    {
+      url: imgs,
+      alt: "Humanitarian aid",
+    },
+    {
+      url: img1,
+      alt: "Gospel sharing",
+    },
+  ];
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) =>
+        prevIndex === heroImages.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 5000); // Change image every 5 seconds
+
+    return () => clearInterval(interval);
+  }, []);
 
   React.useEffect(() => {
     const fetchStatistics = async () => {
       const { data, error } = await supabase
-        .from('statistics')
-        .select('*')
+        .from("statistics")
+        .select("*")
         .single();
-      
+
       if (error) {
-        console.error('Error fetching statistics:', error);
+        console.error("Error fetching statistics:", error);
       } else if (data) {
         setStatistics(data);
       }
@@ -59,16 +92,23 @@ const Home = () => {
 
   return (
     <div className="space-y-16">
-      {/* Hero Section */}
-      <section className="relative h-[600px]">
-        <div className="absolute inset-0">
-          <img
-            src="https://images.unsplash.com/photo-1438232992991-995b7058bbb3?ixlib=rb-4.0.3"
-            alt="Mission work"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-black bg-opacity-50" />
-        </div>
+      {/* Hero Section with Image Carousel */}
+      <section className="relative h-[600px] overflow-hidden">
+        {heroImages.map((image, index) => (
+          <div
+            key={index}
+            className={`absolute inset-0 transition-opacity duration-1000 ${
+              index === currentImageIndex ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <img
+              src={image.url}
+              alt={image.alt}
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-black bg-opacity-50" />
+          </div>
+        ))}
         <div className="relative container mx-auto px-4 h-full flex items-center">
           <div className="max-w-2xl text-white">
             <h1 className="text-5xl font-bold mb-6">
@@ -88,11 +128,25 @@ const Home = () => {
             </Link>
           </div>
         </div>
+        {/* Carousel Indicators */}
+        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+          {heroImages.map((_, index) => (
+            <button
+              key={index}
+              className={`w-2 h-2 rounded-full transition-all ${
+                index === currentImageIndex ? "bg-white w-4" : "bg-white/50"
+              }`}
+              onClick={() => setCurrentImageIndex(index)}
+            />
+          ))}
+        </div>
       </section>
 
       {/* Statistics Section */}
       <section className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center text-blue-900 mb-8">Our Impact</h2>
+        <h2 className="text-3xl font-bold text-center text-blue-900 mb-8">
+          Our Impact
+        </h2>
         <StatisticsCounter statistics={statistics || undefined} />
       </section>
 
@@ -151,7 +205,9 @@ const Home = () => {
       <section className="container mx-auto px-4 grid md:grid-cols-3 gap-8">
         <div className="bg-white rounded-lg shadow-lg p-6">
           <h3 className="text-2xl font-bold mb-4">Upcoming Events</h3>
-          <p className="mb-4">Join us in our upcoming mission activities and events.</p>
+          <p className="mb-4">
+            Join us in our upcoming mission activities and events.
+          </p>
           <Link to="/events" className="text-blue-600 hover:underline">
             View Events →
           </Link>
@@ -159,7 +215,9 @@ const Home = () => {
 
         <div className="bg-white rounded-lg shadow-lg p-6">
           <h3 className="text-2xl font-bold mb-4">Get Involved</h3>
-          <p className="mb-4">Discover ways to contribute to our mission work.</p>
+          <p className="mb-4">
+            Discover ways to contribute to our mission work.
+          </p>
           <Link to="/get-involved" className="text-blue-600 hover:underline">
             Learn More →
           </Link>
@@ -167,7 +225,9 @@ const Home = () => {
 
         <div className="bg-white rounded-lg shadow-lg p-6">
           <h3 className="text-2xl font-bold mb-4">Resources</h3>
-          <p className="mb-4">Access sermons, podcasts, and other spiritual materials.</p>
+          <p className="mb-4">
+            Access sermons, podcasts, and other spiritual materials.
+          </p>
           <Link to="/resources" className="text-blue-600 hover:underline">
             Browse Resources →
           </Link>

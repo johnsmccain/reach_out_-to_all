@@ -11,9 +11,7 @@ dotenv.config({ path: path.resolve(process.cwd(), ".env") });
 // Debug: Check if environment variables are loaded
 console.log("🔹 Loaded ENV Variables:");
 console.log({
-  STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY
-    ? "✅ Loaded"
-    : "❌ Not Found",
+  STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY ? " Loaded" : " Not Found",
   CLIENT_URL: process.env.CLIENT_URL || "https://r2a.netlify.app/",
 });
 
@@ -47,7 +45,7 @@ app.post("/create-checkout-session", async (req, res) => {
   try {
     const { amount } = req.body;
 
-    // ✅ Validate amount
+    //  Validate amount
     if (!amount || isNaN(amount) || amount <= 0) {
       console.error("❌ Invalid donation amount:", amount);
       return res.status(400).json({ error: "Invalid donation amount" });
@@ -55,7 +53,7 @@ app.post("/create-checkout-session", async (req, res) => {
 
     console.log(`🔹 Received donation amount: NGN ${amount}`);
 
-    // ✅ Create Stripe checkout session
+    //  Create Stripe checkout session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: [
@@ -80,10 +78,10 @@ app.post("/create-checkout-session", async (req, res) => {
       }/get-involved?payment=cancelled`,
     });
 
-    console.log("✅ Stripe Checkout Session Created:", session.id);
+    console.log(" Stripe Checkout Session Created:", session.id);
     res.json({ id: session.id });
   } catch (error) {
-    console.error("❌ Stripe error:", error);
+    console.error("Stripe error:", error);
     res.status(500).json({
       error: "An error occurred while processing payment",
       details: error.message,
@@ -93,4 +91,4 @@ app.post("/create-checkout-session", async (req, res) => {
 
 // Start the server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(` Server running on port ${PORT}`));
