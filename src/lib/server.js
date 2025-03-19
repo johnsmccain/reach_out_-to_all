@@ -5,21 +5,19 @@ import dotenv from "dotenv";
 import path from "path";
 import helmet from "helmet";
 
-// Load environment variables from .env
+// Load environment variables
 dotenv.config({ path: path.resolve(process.cwd(), ".env") });
 
 // Debug: Check if environment variables are loaded
 console.log("🔹 Loaded ENV Variables:");
 console.log({
-  STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY
-    ? "✅ Loaded"
-    : "❌ Not Found",
+  STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY ? " Loaded" : " Not Found",
   CLIENT_URL: process.env.CLIENT_URL || "https://r2a.netlify.app",
 });
 
 // Ensure essential environment variables exist
 if (!process.env.STRIPE_SECRET_KEY) {
-  throw new Error("❌ ERROR: Missing STRIPE_SECRET_KEY in .env file.");
+  throw new Error("ERROR: Missing STRIPE_SECRET_KEY in .env file.");
 }
 
 // Initialize Express and Stripe
@@ -35,22 +33,30 @@ app.use(
   cors({
     origin: [
       process.env.CLIENT_URL || "https://r2a.netlify.app",
-      "http://localhost:3000",
+      "http://localhost:5000",
     ],
-    methods: ["POST"],
+    methods: ["POST", "GET", "OPTIONS"], // Added OPTIONS
     allowedHeaders: ["Content-Type"],
   })
 );
 
-// 🟢 Debugging Endpoint - Check if Backend is Running
+// ✅ Root Route (Fix for "Not Found" Issue)
 app.get("/", (req, res) => {
-  res.send(" Stripe Backend is Running!");
+  res.status(200).json({
+    message: "Welcome to the R2A Payment API 🚀",
+    status: "running",
+  });
 });
 
-// 🔹 Route to Create Stripe Checkout Session
+// ✅ Health Check Endpoint
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
+// ✅ Create Stripe Checkout Session
 app.post("/create-checkout-session", async (req, res) => {
   try {
-    const { amount } = req.body;
+    const { amount, email } = req.body;
 
     // Validate amount
     if (!amount || isNaN(amount) || amount <= 0) {
@@ -58,14 +64,17 @@ app.post("/create-checkout-session", async (req, res) => {
       return res.status(400).json({ error: "Invalid donation amount" });
     }
 
-    console.log(`🔹 Received donation amount: NGN ${amount}`);
+    // Validate email
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      console.error("❌ Invalid email:", email);
+      return res.status(400).json({ error: "Invalid email address" });
+    }
 
-    // Ensure the amount is converted correctly to kobo
-    const amountInKobo = Math.round(Number(amount) * 100);
+    console.log(`🔹 Received donation amount: NGN ${amount} from ${email}`);
 
     // Create Stripe checkout session
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
+      customer_email: email,
       line_items: [
         {
           price_data: {
@@ -74,18 +83,22 @@ app.post("/create-checkout-session", async (req, res) => {
               name: "Donation",
               description: "Support our mission",
             },
-            unit_amount: amountInKobo,
+            unit_amount: Math.round(amount * 100), // Convert to kobo
           },
           quantity: 1,
         },
       ],
       mode: "payment",
-      success_url: `${process.env.CLIENT_URL}/get-involved?payment=success`,
-      cancel_url: `${process.env.CLIENT_URL}/get-involved?payment=cancelled`,
+      success_url: `${
+        process.env.CLIENT_URL || "https://r2a.netlify.app"
+      }/get-involved?payment=success&session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${
+        process.env.CLIENT_URL || "https://r2a.netlify.app"
+      }/get-involved?payment=cancelled`,
     });
 
     console.log("✅ Stripe Checkout Session Created:", session.id);
-    res.json({ id: session.id });
+    res.json({ id: session.id, url: session.url });
   } catch (error) {
     console.error("❌ Stripe error:", error);
     res.status(500).json({
@@ -94,7 +107,3 @@ app.post("/create-checkout-session", async (req, res) => {
     });
   }
 });
-
-// Start the server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(` Server running on port ${PORT}`));
