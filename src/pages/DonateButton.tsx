@@ -5,27 +5,16 @@ import toast from "react-hot-toast";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
-// API base URL based on environment
-const API_URL = import.meta.env.PROD
-  ? "https://r2a-api.onrender.com"
-  : "http://localhost:5000"; // Development API URL
+// Updated to your backend URL
+const API_URL = "https://r2a.netlify.app";
 
 const DonateButton = () => {
   const [loading, setLoading] = useState(false);
   const [amount, setAmount] = useState(""); // Store user input amount
-  const [email, setEmail] = useState(""); // Store user email
-
-  // Improved email validation function
-  const isValidEmail = (email: any) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const handleDonate = async () => {
     if (!amount || isNaN(Number(amount)) || Number(amount) <= 0) {
       toast.error("Please enter a valid donation amount.");
-      return;
-    }
-
-    if (!email || !isValidEmail(email)) {
-      toast.error("Please enter a valid email address.");
       return;
     }
 
@@ -39,11 +28,9 @@ const DonateButton = () => {
         },
         body: JSON.stringify({
           amount: Number(amount),
-          email: email.trim(), // Ensure no trailing spaces
         }),
       });
 
-      // Debugging response
       const data = await response.json();
       console.log("🔹 Server Response:", data);
 
@@ -51,13 +38,13 @@ const DonateButton = () => {
         throw new Error(data.error || "Failed to create checkout session");
       }
 
-      // ✅ Redirect immediately if we get a session URL
+      //  Redirect immediately if we get a session URL
       if (data.url) {
         window.location.href = data.url;
         return;
       }
 
-      // ✅ Fallback to redirectToCheckout if only session ID is returned
+      //  Fallback to redirectToCheckout if only session ID is returned
       const stripe = await stripePromise;
       if (!stripe) {
         throw new Error("Stripe failed to load");
@@ -71,11 +58,7 @@ const DonateButton = () => {
         throw stripeError;
       }
     } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message || "Payment failed. Please try again.");
-      } else {
-        toast.error("An unexpected error occurred.");
-      }
+      toast.error("Payment failed. Please try again.");
       console.error("❌ Error:", error);
     } finally {
       setLoading(false);
@@ -84,15 +67,6 @@ const DonateButton = () => {
 
   return (
     <div className="flex flex-col space-y-3 w-full">
-      {/* User inputs email */}
-      <input
-        type="email"
-        placeholder="Enter your email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        className="w-full border rounded-lg px-4 py-2 text-black"
-      />
-
       {/* User inputs donation amount */}
       <input
         type="number"
