@@ -24,6 +24,8 @@ const EventModal = ({
   editingEvent,
 }: EventModalProps) => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false); // Prevent multiple form submissions
+
   const [formData, setFormData] = useState({
     title: editingEvent?.title || "",
     description: editingEvent?.description || "",
@@ -95,12 +97,15 @@ const EventModal = ({
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (isSubmitting) return; // Prevent duplicate submission
+    setIsSubmitting(true);
 
     if (!imageUrl) {
       toast.error("Please upload an image", {
         position: "top-right",
         autoClose: 3000,
       });
+      setIsSubmitting(false);
       return;
     }
 
@@ -111,7 +116,37 @@ const EventModal = ({
     };
 
     try {
-      const { error } = await supabase.from("events").insert([eventDetails]);
+      // Check if an event with the same title and date already exists
+      const { data: existingEvent, error: fetchError } = await supabase
+        .from("events")
+        .select("*")
+        .eq("title", eventDetails.title)
+        .eq("date", eventDetails.date)
+        .single();
+
+      if (fetchError && fetchError.code !== "PGRST116") {
+        console.error("Error checking existing event:", fetchError.message);
+        toast.error(`Error: ${fetchError.message}`, {
+          position: "top-right",
+          autoClose: 3000,
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
+      if (existingEvent) {
+        toast.error("An event with this title and date already exists!", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Insert or update event using upsert
+      const { error } = await supabase
+        .from("events")
+        .upsert([eventDetails], { onConflict: "id" });
 
       if (error) {
         console.error("❌ Error saving to Supabase:", error.message);
@@ -120,7 +155,7 @@ const EventModal = ({
           autoClose: 3000,
         });
       } else {
-        toast.success(" Event saved successfully!", {
+        toast.success("Event saved successfully!", {
           position: "top-right",
           autoClose: 3000,
         });
@@ -133,6 +168,8 @@ const EventModal = ({
         position: "top-right",
         autoClose: 3000,
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -221,9 +258,11 @@ const EventModal = ({
             </button>
             <button
               type="submit"
+              disabled={isSubmitting}
               className="px-4 py-2 bg-blue-600 text-white rounded-md"
             >
-              {editingEvent ? "Update" : "Create"} Event
+              {isSubmitting ? "Saving..." : editingEvent ? "Update" : "Create"}{" "}
+              Event
             </button>
           </div>
         </form>
