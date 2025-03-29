@@ -1,23 +1,66 @@
+import React from "react";
 import { useState } from "react";
 import image from "@/asset/pastorbawa.png";
 import { ChevronDown, Menu } from "lucide-react";
+import img from "../asset/r2a 1.jpg";
+import imgs from "../asset/R2a 2.jpg";
+import img1 from "../asset/R2A3.jpg";
+import img2 from "../asset/R2A 4.jpg";
 
 const About = () => {
   const [activeTab, setActiveTab] = useState("story");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = React.useState(0);
+  const heroImages = [
+    {
+      url: "https://images.unsplash.com/photo-1438232992991-995b7058bbb3?ixlib=rb-4.0.3",
+      alt: "Mission work",
+    },
+    {
+      url: img,
+      alt: "Community outreach",
+    },
+    {
+      url: imgs,
+      alt: "Humanitarian aid",
+    },
+    {
+      url: img1,
+      alt: "Gospel sharing",
+    },
+    {
+      url: img2,
+      alt: "Gospel sharing",
+    },
+  ];
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) =>
+        prevIndex === heroImages.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 5000); // Change image every 5 seconds
 
+    return () => clearInterval(interval);
+  }, []);
   return (
     <div className="space-y-16">
       {/* Hero Section */}
       <section className="relative h-[400px] md:h-[500px] overflow-hidden">
-        <div className="absolute inset-0">
-          <img
-            src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3"
-            alt="Mission team"
-            className="w-full h-full object-cover transform scale-105 animate-ken-burns"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70" />
-        </div>
+        {heroImages.map((image, index) => (
+          <div
+            key={index}
+            className={`absolute inset-0 transition-opacity duration-1000 ${
+              index === currentImageIndex ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <img
+              src={image.url}
+              alt={image.alt}
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-black bg-opacity-50" />
+          </div>
+        ))}
         <div className="relative container mx-auto px-4 h-full flex items-center">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-7xl font-bold mb-4 md:mb-8 text-white animate-fade-in">
@@ -33,6 +76,17 @@ const About = () => {
               <ChevronDown className="w-8 h-8 text-white/70" />
             </div>
           </div>
+        </div>
+        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+          {heroImages.map((_, index) => (
+            <button
+              key={index}
+              className={`w-2 h-2 rounded-full transition-all ${
+                index === currentImageIndex ? "bg-white w-4" : "bg-white/50"
+              }`}
+              onClick={() => setCurrentImageIndex(index)}
+            />
+          ))}
         </div>
       </section>
 

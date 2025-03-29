@@ -7,7 +7,7 @@ import type { Statistics } from "../types";
 import img from "../asset/image1.jpg";
 import imgs from "../asset/image22.jpg";
 import img1 from "../asset/image23.jpg";
-
+import img2 from "../asset/image222.jpg";
 const Home = () => {
   const [statistics, setStatistics] = React.useState<Statistics | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = React.useState(0);
@@ -27,6 +27,10 @@ const Home = () => {
     },
     {
       url: img1,
+      alt: "Gospel sharing",
+    },
+    {
+      url: img2,
       alt: "Gospel sharing",
     },
   ];

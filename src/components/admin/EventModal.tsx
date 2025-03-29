@@ -149,7 +149,7 @@ const EventModal = ({
         .upsert([eventDetails], { onConflict: "id" });
 
       if (error) {
-        console.error("❌ Error saving to Supabase:", error.message);
+        console.error(" Error saving to Supabase:", error.message);
         toast.error(`Error: ${error.message}`, {
           position: "top-right",
           autoClose: 3000,
