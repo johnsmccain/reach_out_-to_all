@@ -215,17 +215,18 @@ const GetInvolved = () => {
               <div className="mb-8">
                 <h3 className="text-xl font-bold mb-4">Bank Account Details</h3>
                 <p>
-                  <strong>Bank Name:</strong> First Gospel Bank
+                  <strong>Bank Name:</strong> Zenith Bank
                 </p>
                 <p>
-                  <strong>Account Name:</strong> Gospel Mission
+                  <strong>Account Name:</strong> Reachout To All Ministry
+                  International
                 </p>
                 <p>
-                  <strong>Account Number:</strong> 1234567890
+                  <strong>Account Number:</strong> 1220446780
                 </p>
-                <p>
+                {/* <p>
                   <strong>Sort Code:</strong> 12-34-56
-                </p>
+                </p> */}
               </div>
 
               {/* Online Payment Button */}
