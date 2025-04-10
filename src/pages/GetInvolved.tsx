@@ -3,7 +3,11 @@ import { Heart, CreditCard, Send } from "lucide-react";
 import toast from "react-hot-toast";
 import DonateButton from "./DonateButton";
 
-const VOLUNTEER_UNITS = [
+const VOLUNTEER_UNITS = ["Financial", "Prayer", "Others"];
+
+const MEMBERSHIP_OPTIONS = ["Yes", "No"];
+
+const SERVICE_UNITS = [
   "Prayer Unit",
   "Kitchen Unit",
   "Choir Unit",
@@ -25,6 +29,11 @@ const GetInvolved = () => {
     name: "",
     email: "",
     phone: "",
+    address: "",
+    state: "",
+    country: "",
+    volunteer: "",
+    membership: "",
     unit: "",
     message: "",
   });
@@ -58,6 +67,11 @@ const GetInvolved = () => {
           name: "",
           email: "",
           phone: "",
+          address: "",
+          state: "",
+          country: "",
+          volunteer: "",
+          membership: "",
           unit: "",
           message: "",
         });
@@ -156,6 +170,91 @@ const GetInvolved = () => {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Address
+                </label>
+                <input
+                  type="text"
+                  name="address"
+                  value={formData.address}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                  placeholder="Enter your address"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  State/Province
+                </label>
+                <input
+                  type="text"
+                  name="state"
+                  value={formData.state}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                  placeholder="Enter your state/province"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Country
+                </label>
+                <input
+                  type="text"
+                  name="country"
+                  value={formData.country}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                  placeholder="Enter your country"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Volunteer Options
+                </label>
+                <select
+                  name="volunteer"
+                  value={formData.volunteer}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                >
+                  <option value="">Select volunteer option</option>
+                  {VOLUNTEER_UNITS.map((unit) => (
+                    <option key={unit} value={unit}>
+                      {unit}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Membership
+                </label>
+                <select
+                  name="membership"
+                  value={formData.membership}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                >
+                  <option value="">Are you a member?</option>
+                  {MEMBERSHIP_OPTIONS.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
                   Select Unit
                 </label>
                 <select
@@ -166,7 +265,7 @@ const GetInvolved = () => {
                   className="w-full px-4 py-2 border border-gray-300 rounded-md"
                 >
                   <option value="">Select a unit</option>
-                  {VOLUNTEER_UNITS.map((unit) => (
+                  {SERVICE_UNITS.map((unit) => (
                     <option key={unit} value={unit}>
                       {unit}
                     </option>
@@ -215,7 +314,7 @@ const GetInvolved = () => {
               <div className="mb-8">
                 <h3 className="text-xl font-bold mb-4">Bank Account Details</h3>
                 <p>
-                  <strong>Bank Name:</strong> Zenith Bank
+                  <strong>Bank Name:</strong> Zenith Bank
                 </p>
                 <p>
                   <strong>Account Name:</strong> Reachout To All Ministry
@@ -224,9 +323,6 @@ const GetInvolved = () => {
                 <p>
                   <strong>Account Number:</strong> 1220446780
                 </p>
-                {/* <p>
-                  <strong>Sort Code:</strong> 12-34-56
-                </p> */}
               </div>
 
               {/* Online Payment Button */}

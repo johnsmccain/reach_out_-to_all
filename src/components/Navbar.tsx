@@ -36,7 +36,7 @@ const Navbar = () => {
               {/* <Globe className="h-8 w-8" /> */}
             </motion.div>
             <span className="font-bold text-xl group-hover:text-blue-200 text-white transition-colors">
-              Reach Out To All
+              ReachOut To All
             </span>
           </Link>
 

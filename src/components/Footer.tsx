@@ -11,7 +11,7 @@ const Footer = () => {
           <div>
             <div className="flex items-center space-x-2 mb-4">
               <img src={image} alt="logo" className="h-8 w-8 rounded-full" />
-              <span className="font-bold text-lg">Reach Out To All</span>
+              <span className="font-bold text-lg">ReachOut To All</span>
             </div>
             <p className="text-blue-200">
               Welcome to Reachout To All. Here, every soul counts. We are on a
@@ -55,7 +55,7 @@ const Footer = () => {
               <li className="flex items-center space-x-2">
                 <Phone className="h-5 w-5 text-blue-300" />
                 <a href="tel:+2347037043343" className="hover:underline">
-                  +234 703 704 3343
+                  +234 703 704 3343, +2348123605848
                 </a>
               </li>
               <li className="flex items-start gap-3">

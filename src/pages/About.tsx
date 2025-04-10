@@ -1,7 +1,6 @@
-import React from "react";
-import { useState } from "react";
-import image from "@/asset/pastorbawa.png";
+import React, { useState } from "react";
 import { ChevronDown, Menu } from "lucide-react";
+import image from "@/asset/pastorbawa.png";
 import img from "../asset/r2a 1.jpg";
 import imgs from "../asset/R2a 2.jpg";
 import img1 from "../asset/R2A3.jpg";
@@ -33,15 +32,17 @@ const About = () => {
       alt: "Gospel sharing",
     },
   ];
+
   React.useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) =>
         prevIndex === heroImages.length - 1 ? 0 : prevIndex + 1
       );
-    }, 5000); // Change image every 5 seconds
+    }, 5000);
 
     return () => clearInterval(interval);
   }, []);
+
   return (
     <div className="space-y-16">
       {/* Hero Section */}
@@ -310,6 +311,59 @@ const About = () => {
                       family is based in Kaduna, Nigeria.
                     </p>
                   </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Regional Chapters */}
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden p-6 md:p-8">
+              <h3 className="text-2xl font-bold text-blue-900 mb-6">
+                Regional Chapters
+              </h3>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <h4 className="text-xl font-semibold text-blue-900">
+                    Lagos Reachout to All
+                  </h4>
+                  <p className="text-gray-700">
+                    Our vibrant Lagos chapter, reaching the bustling metropolis
+                    with the Gospel.
+                  </p>
+                </div>
+                <div className="space-y-4">
+                  <h4 className="text-xl font-semibold text-blue-900">
+                    Kano Reachout to All
+                  </h4>
+                  <p className="text-gray-700">
+                    Serving and ministering to communities in Northern Nigeria.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Leadership Structure */}
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden p-6 md:p-8">
+              <h3 className="text-2xl font-bold text-blue-900 mb-6">
+                Leadership Structure
+              </h3>
+              <div className="space-y-6">
+                <div className="space-y-4">
+                  <h4 className="text-xl font-semibold text-blue-900">
+                    Coordinator
+                  </h4>
+                  <p className="text-gray-700">
+                    Overseeing all ministry operations and providing strategic
+                    direction.
+                  </p>
+                </div>
+                <div className="space-y-4">
+                  <h4 className="text-xl font-semibold text-blue-900">
+                    Central Planning Committee (CPC)
+                  </h4>
+                  <p className="text-gray-700">
+                    A dedicated team responsible for planning and executing
+                    ministry initiatives, events, and outreach programs.
+                  </p>
                 </div>
               </div>
             </div>
