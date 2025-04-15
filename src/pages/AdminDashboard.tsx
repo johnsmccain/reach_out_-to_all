@@ -350,7 +350,7 @@ const AdminDashboard = () => {
         </div>
       ) : (
         <Tabs defaultValue="events" className="w-full">
-          <TabsList className="mb-4">
+          <TabsList className="mb-4 flex flex-wrap gap-2">
             <TabsTrigger value="events">Events</TabsTrigger>
             <TabsTrigger value="sermons">Sermons</TabsTrigger>
             <TabsTrigger value="documents">Documents</TabsTrigger>
@@ -366,14 +366,16 @@ const AdminDashboard = () => {
                 Add Event
               </button>
             </div>
-            <EventsTable
-              events={events}
-              onEdit={(event) => {
-                setEditingEvent(event);
-                setShowEventModal(true);
-              }}
-              onDelete={(id) => handleDelete(id, "event")}
-            />
+            <div className="overflow-x-auto">
+              <EventsTable
+                events={events}
+                onEdit={(event) => {
+                  setEditingEvent(event);
+                  setShowEventModal(true);
+                }}
+                onDelete={(id) => handleDelete(id, "event")}
+              />
+            </div>
           </TabsContent>
 
           <TabsContent value="sermons">
@@ -385,23 +387,23 @@ const AdminDashboard = () => {
                 Add Sermon
               </button>
             </div>
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div className="bg-white rounded-lg shadow-lg overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Title
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Speaker
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Date
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Duration
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Actions
                     </th>
                   </tr>
@@ -409,13 +411,13 @@ const AdminDashboard = () => {
                 <tbody className="bg-white divide-y divide-gray-200">
                   {sermons.map((sermon) => (
                     <tr key={sermon.id}>
-                      <td className="px-6 py-4">{sermon.title}</td>
-                      <td className="px-6 py-4">{sermon.speaker}</td>
-                      <td className="px-6 py-4">
+                      <td className="px-4 sm:px-6 py-4 whitespace-nowrap">{sermon.title}</td>
+                      <td className="px-4 sm:px-6 py-4 whitespace-nowrap">{sermon.speaker}</td>
+                      <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
                         {new Date(sermon.date).toLocaleDateString()}
                       </td>
-                      <td className="px-6 py-4">{sermon.duration}</td>
-                      <td className="px-6 py-4">
+                      <td className="px-4 sm:px-6 py-4 whitespace-nowrap">{sermon.duration}</td>
+                      <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
                         <button
                           onClick={() => {
                             setEditingSermon(sermon);
@@ -448,20 +450,20 @@ const AdminDashboard = () => {
                 Add Document
               </button>
             </div>
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div className="bg-white rounded-lg shadow-lg overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Title
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Type
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Size
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Actions
                     </th>
                   </tr>
@@ -469,10 +471,10 @@ const AdminDashboard = () => {
                 <tbody className="bg-white divide-y divide-gray-200">
                   {documents.map((document) => (
                     <tr key={document.id}>
-                      <td className="px-6 py-4">{document.title}</td>
-                      <td className="px-6 py-4">{document.fileType}</td>
-                      <td className="px-6 py-4">{document.fileSize}</td>
-                      <td className="px-6 py-4">
+                      <td className="px-4 sm:px-6 py-4 whitespace-nowrap">{document.title}</td>
+                      <td className="px-4 sm:px-6 py-4 whitespace-nowrap">{document.fileType}</td>
+                      <td className="px-4 sm:px-6 py-4 whitespace-nowrap">{document.fileSize}</td>
+                      <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
                         <button
                           onClick={() => {
                             setEditingDocument(document);
@@ -506,53 +508,44 @@ const AdminDashboard = () => {
               </button>
             </div>
             {statistics && (
-              <div className="bg-white rounded-lg shadow-lg p-6">
+              <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6">
                 <h3 className="text-xl font-bold mb-4">Current Statistics</h3>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <p className="font-medium">States Covered</p>
-                    <p className="text-2xl">{statistics.states_covered}</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <div className="p-4 bg-gray-50 rounded-lg">
+                    <p className="font-medium text-gray-600">States Covered</p>
+                    <p className="text-2xl mt-2">{statistics.states_covered}</p>
                   </div>
-                  <div>
-                    <p className="font-medium">Outreaches Conducted</p>
-                    <p className="text-2xl">
-                      {statistics.outreaches_conducted}
-                    </p>
+                  <div className="p-4 bg-gray-50 rounded-lg">
+                    <p className="font-medium text-gray-600">Outreaches Conducted</p>
+                    <p className="text-2xl mt-2">{statistics.outreaches_conducted}</p>
                   </div>
-                  <div>
-                    <p className="font-medium">Locals Reached</p>
-                    <p className="text-2xl">{statistics.locals_reached}</p>
+                  <div className="p-4 bg-gray-50 rounded-lg">
+                    <p className="font-medium text-gray-600">Locals Reached</p>
+                    <p className="text-2xl mt-2">{statistics.locals_reached}</p>
                   </div>
-                  <div>
-                    <p className="font-medium">Communities Reached</p>
-                    <p className="text-2xl">{statistics.communities_reached}</p>
+                  <div className="p-4 bg-gray-50 rounded-lg">
+                    <p className="font-medium text-gray-600">Communities Reached</p>
+                    <p className="text-2xl mt-2">{statistics.communities_reached}</p>
                   </div>
-                  <div>
-                    <p className="font-medium">Souls Won</p>
-                    <p className="text-2xl">{statistics.souls_won}</p>
+                  <div className="p-4 bg-gray-50 rounded-lg">
+                    <p className="font-medium text-gray-600">Souls Won</p>
+                    <p className="text-2xl mt-2">{statistics.souls_won}</p>
                   </div>
-                  <div>
-                    <p className="font-medium">Rededication Commitments</p>
-                    <p className="text-2xl">
-                      {statistics.rededication_commitments}
-                    </p>
+                  <div className="p-4 bg-gray-50 rounded-lg">
+                    <p className="font-medium text-gray-600">Rededication Commitments</p>
+                    <p className="text-2xl mt-2">{statistics.rededication_commitments}</p>
                   </div>
-                  <div>
-                    <p className="font-medium">Medical Beneficiaries</p>
-                    <p className="text-2xl">
-                      {statistics.medical_beneficiaries}
-                    </p>
+                  <div className="p-4 bg-gray-50 rounded-lg">
+                    <p className="font-medium text-gray-600">Medical Beneficiaries</p>
+                    <p className="text-2xl mt-2">{statistics.medical_beneficiaries}</p>
                   </div>
-                  <div>
-                    <p className="font-medium">Welfare Beneficiaries</p>
-                    <p className="text-2xl">
-                      {statistics.welfare_beneficiaries}
-                    </p>
+                  <div className="p-4 bg-gray-50 rounded-lg">
+                    <p className="font-medium text-gray-600">Welfare Beneficiaries</p>
+                    <p className="text-2xl mt-2">{statistics.welfare_beneficiaries}</p>
                   </div>
                 </div>
                 <p className="text-sm text-gray-500 mt-4">
-                  Last updated:{" "}
-                  {new Date(statistics.updated_at).toLocaleString()}
+                  Last updated: {new Date(statistics.updated_at).toLocaleString()}
                 </p>
               </div>
             )}
@@ -574,7 +567,7 @@ const AdminDashboard = () => {
       {/* Sermon Modal */}
       {showSermonModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg max-w-2xl w-full p-6">
+          <div className="bg-white rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto p-4 sm:p-6">
             <h2 className="text-2xl font-bold mb-6">
               {editingSermon ? "Edit Sermon" : "Add New Sermon"}
             </h2>
@@ -656,20 +649,20 @@ const AdminDashboard = () => {
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 />
               </div>
-              <div className="flex justify-end space-x-4 mt-6">
+              <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 mt-6">
                 <button
                   type="button"
                   onClick={() => {
                     setShowSermonModal(false);
                     setEditingSermon(null);
                   }}
-                  className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+                  className="w-full sm:w-auto px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                  className="w-full sm:w-auto px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                 >
                   {editingSermon ? "Update" : "Create"} Sermon
                 </button>
@@ -682,7 +675,7 @@ const AdminDashboard = () => {
       {/* Document Modal */}
       {showDocumentModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg max-w-2xl w-full p-6">
+          <div className="bg-white rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto p-4 sm:p-6">
             <h2 className="text-2xl font-bold mb-6">
               {editingDocument ? "Edit Document" : "Add New Document"}
             </h2>
@@ -749,20 +742,20 @@ const AdminDashboard = () => {
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 />
               </div>
-              <div className="flex justify-end space-x-4 mt-6">
+              <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 mt-6">
                 <button
                   type="button"
                   onClick={() => {
                     setShowDocumentModal(false);
                     setEditingDocument(null);
                   }}
-                  className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+                  className="w-full sm:w-auto px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                  className="w-full sm:w-auto px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                 >
                   {editingDocument ? "Update" : "Create"} Document
                 </button>
@@ -775,10 +768,10 @@ const AdminDashboard = () => {
       {/* Statistics Modal */}
       {showStatsModal && statistics && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg max-w-2xl w-full p-6">
+          <div className="bg-white rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto p-4 sm:p-6">
             <h2 className="text-2xl font-bold mb-6">Update Statistics</h2>
             <form onSubmit={handleStatsSubmit} className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
                     States Covered
@@ -884,17 +877,17 @@ const AdminDashboard = () => {
                   />
                 </div>
               </div>
-              <div className="flex justify-end space-x-4 mt-6">
+              <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 mt-6">
                 <button
                   type="button"
                   onClick={() => setShowStatsModal(false)}
-                  className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+                  className="w-full sm:w-auto px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                  className="w-full sm:w-auto px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                 >
                   Update Statistics
                 </button>
