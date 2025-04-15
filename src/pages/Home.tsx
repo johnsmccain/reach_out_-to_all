@@ -8,6 +8,7 @@ import img from "../asset/image1.jpg";
 import imgs from "../asset/image22.jpg";
 import img1 from "../asset/image23.jpg";
 import img2 from "../asset/image222.jpg";
+
 const Home = () => {
   const [statistics, setStatistics] = React.useState<Statistics | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = React.useState(0);
@@ -95,9 +96,9 @@ const Home = () => {
   ];
 
   return (
-    <div className="space-y-16">
+    <div className="space-y-8 sm:space-y-16">
       {/* Hero Section with Image Carousel */}
-      <section className="relative h-[600px] overflow-hidden">
+      <section className="relative h-[400px] sm:h-[600px] overflow-hidden">
         {heroImages.map((image, index) => (
           <div
             key={index}
@@ -115,20 +116,20 @@ const Home = () => {
         ))}
         <div className="relative container mx-auto px-4 h-full flex items-center">
           <div className="max-w-2xl text-white">
-            <h1 className="text-5xl font-bold mb-6">
+            <h1 className="text-3xl sm:text-5xl font-bold mb-4 sm:mb-6">
               Carrying the Gospel to the Ends of the Earth
             </h1>
-            <p className="text-xl mb-8">
+            <p className="text-lg sm:text-xl mb-6 sm:mb-8">
               Welcome to Reachout To All. Here, every soul counts. We are on a
               mission to reach out to all people with the gospel, accompanied by
               a humanitarian touch of love.
             </p>
             <Link
               to="/get-involved"
-              className="inline-flex items-center bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+              className="inline-flex items-center bg-blue-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg hover:bg-blue-700 transition-colors text-sm sm:text-base"
             >
               Get Involved
-              <ArrowRight className="ml-2" />
+              <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
             </Link>
           </div>
         </div>
@@ -148,57 +149,57 @@ const Home = () => {
 
       {/* Statistics Section */}
       <section className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center text-blue-900 mb-8">
+        <h2 className="text-2xl sm:text-3xl font-bold text-center text-blue-900 mb-6 sm:mb-8">
           Our Impact
         </h2>
         <StatisticsCounter statistics={statistics || undefined} />
       </section>
 
-      <div className="p-4 space-y-6 max-sm:space-y-4 max-sm:p-2  w-full ">
+      <div className="container mx-auto px-4 space-y-6">
         {/* Title */}
-        <h2 className="text-4xl font-bold">{title}</h2>
+        <h2 className="text-3xl sm:text-4xl font-bold">{title}</h2>
 
         {/* Introduction */}
-        <p className="text-xl">{introduction}</p>
+        <p className="text-lg sm:text-xl">{introduction}</p>
 
         {/* Message */}
-        <p className="text-xl">{message}</p>
+        <p className="text-lg sm:text-xl">{message}</p>
 
         {/* List of Items */}
         <div className="space-y-4">
           {items.map((item, index) => (
-            <p key={index} className="text-xl">
+            <p key={index} className="text-lg sm:text-xl">
               {item.text}
             </p>
           ))}
         </div>
 
         {/* Closing */}
-        <p className="text-xl">{closing}</p>
+        <p className="text-lg sm:text-xl">{closing}</p>
 
         {/* Signature */}
-        <div className="mt-6 text-xl">
+        <div className="mt-6 text-lg sm:text-xl">
           <p>On behalf of the Brethren,</p>
           <p className="font-bold">Bawa G. Emmanuel</p>
           <p>Coordinator, Reachout To All</p>
         </div>
 
         {/* Contact Info */}
-        <div className="text-xl">
+        <div className="text-lg sm:text-xl space-y-2">
           {contact.map((item, index) => (
-            <p key={index}>
+            <p key={index} className="break-words">
               <strong>{item.label}</strong>{" "}
               {item.label === "Blog:" ? (
                 <a
                   href={item.value}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline"
+                  className="text-blue-600 hover:underline break-all"
                 >
                   {item.value}
                 </a>
               ) : (
-                item.value
+                <span className="break-all">{item.value}</span>
               )}
             </p>
           ))}
@@ -206,35 +207,52 @@ const Home = () => {
       </div>
 
       {/* Featured Sections */}
-      <section className="container mx-auto px-4 grid md:grid-cols-3 gap-8">
-        <div className="bg-white rounded-lg shadow-lg p-6">
-          <h3 className="text-2xl font-bold mb-4">Upcoming Events</h3>
-          <p className="mb-4">
-            Join us in our upcoming mission activities and events.
-          </p>
-          <Link to="/events" className="text-blue-600 hover:underline">
-            View Events →
-          </Link>
-        </div>
+      <section className="container mx-auto px-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+          <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6">
+            <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">
+              Upcoming Events
+            </h3>
+            <p className="mb-4 text-sm sm:text-base">
+              Join us in our upcoming mission activities and events.
+            </p>
+            <Link
+              to="/events"
+              className="text-blue-600 hover:underline text-sm sm:text-base"
+            >
+              View Events →
+            </Link>
+          </div>
 
-        <div className="bg-white rounded-lg shadow-lg p-6">
-          <h3 className="text-2xl font-bold mb-4">Get Involved</h3>
-          <p className="mb-4">
-            Discover ways to contribute to our mission work.
-          </p>
-          <Link to="/get-involved" className="text-blue-600 hover:underline">
-            Learn More →
-          </Link>
-        </div>
+          <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6">
+            <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">
+              Get Involved
+            </h3>
+            <p className="mb-4 text-sm sm:text-base">
+              Discover ways to contribute to our mission work.
+            </p>
+            <Link
+              to="/get-involved"
+              className="text-blue-600 hover:underline text-sm sm:text-base"
+            >
+              Learn More →
+            </Link>
+          </div>
 
-        <div className="bg-white rounded-lg shadow-lg p-6">
-          <h3 className="text-2xl font-bold mb-4">Resources</h3>
-          <p className="mb-4">
-            Access sermons, podcasts, and other spiritual materials.
-          </p>
-          <Link to="/resources" className="text-blue-600 hover:underline">
-            Browse Resources →
-          </Link>
+          <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6">
+            <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">
+              Resources
+            </h3>
+            <p className="mb-4 text-sm sm:text-base">
+              Access sermons, podcasts, and other spiritual materials.
+            </p>
+            <Link
+              to="/resources"
+              className="text-blue-600 hover:underline text-sm sm:text-base"
+            >
+              Browse Resources →
+            </Link>
+          </div>
         </div>
       </section>
     </div>
