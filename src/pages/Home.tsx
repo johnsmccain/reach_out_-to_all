@@ -8,6 +8,17 @@ import img from "../asset/image1.jpg";
 import imgs from "../asset/image22.jpg";
 import img1 from "../asset/image23.jpg";
 import img2 from "../asset/image222.jpg";
+import img3 from "../asset/img3.jpeg"
+import img4 from "../asset/img4.jpeg"
+import img5 from "../asset/img5.jpeg"
+import img6 from "../asset/img6.jpeg"
+import img7 from "../asset/img7.jpeg"
+import img8 from "../asset/img8.jpeg"
+import img9 from "../asset/img9.jpeg"
+import img10 from "../asset/img10.jpeg"
+import img11 from "../asset/img11.jpeg"
+
+
 
 const Home = () => {
   const [statistics, setStatistics] = React.useState<Statistics | null>(null);
@@ -34,6 +45,42 @@ const Home = () => {
       url: img2,
       alt: "Gospel sharing",
     },
+    {
+      url: img3,
+      alt: "Gospel sharing",
+    },
+    {
+      url: img4,
+      alt: "Gospel sharing",
+    },
+    {
+      url: img5,
+      alt: "Gospel sharing",
+    },
+    {
+      url: img6,
+      alt: "Gospel sharing",
+    },
+    {
+      url: img7,
+      alt: "Gospel sharing",
+    },
+    {
+      url: img8,
+      alt: "Gospel sharing",
+    },
+    {
+      url: img9,
+      alt: "Gospel sharing",
+    },
+    {
+      url: img10,
+      alt: "Gospel sharing",
+    },
+    {
+      url: img11,
+      alt: "Gospel sharing",
+    },
   ];
 
   React.useEffect(() => {
@@ -41,7 +88,7 @@ const Home = () => {
       setCurrentImageIndex((prevIndex) =>
         prevIndex === heroImages.length - 1 ? 0 : prevIndex + 1
       );
-    }, 5000); // Change image every 5 seconds
+    }, 3000); // Change image every 5 seconds
 
     return () => clearInterval(interval);
   }, []);
