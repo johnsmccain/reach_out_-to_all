@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Heart, CreditCard, Send } from "lucide-react";
 import toast from "react-hot-toast";
 import DonateButton from "./DonateButton";
+import Donate from "@/components/Donate";
 
 const VOLUNTEER_UNITS = ["Financial", "Prayer", "Others"];
 
@@ -299,38 +300,7 @@ const GetInvolved = () => {
           </div>
 
           {/* Donation Section */}
-          <div>
-            <div className="flex items-center space-x-2 mb-6">
-              <CreditCard className="h-8 w-8 text-blue-600" />
-              <h2 className="text-3xl font-bold">Donate</h2>
-            </div>
-            <div className="bg-white rounded-lg shadow-lg p-8">
-              <p className="text-lg text-gray-600 mb-8">
-                Support our mission work through your generous donations. Your
-                contribution helps us reach more people with the Gospel message.
-              </p>
-
-              {/* Bank Account Details */}
-              <div className="mb-8">
-                <h3 className="text-xl font-bold mb-4">Bank Account Details</h3>
-                <p>
-                  <strong>Bank Name:</strong> Zenith Bank
-                </p>
-                <p>
-                  <strong>Account Name:</strong> Reachout To All Ministry
-                  International
-                </p>
-                <p>
-                  <strong>Account Number:</strong> 1220446780
-                </p>
-              </div>
-
-              {/* Online Payment Button */}
-              <button className="w-full bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700">
-                <DonateButton />
-              </button>
-            </div>
-          </div>
+          <Donate/>
         </div>
       </div>
     </div>
