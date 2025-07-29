@@ -34,7 +34,7 @@ const Events = () => {
 
   return (
     <div className="space-y-8 sm:space-y-12">
-      <section className="relative h-[200px] sm:h-[300px]">
+      <section className="relative h-[200px] sm:h-[300px] rounded-2xl overflow-hidden">
         <div className="absolute inset-0">
           <img
             src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3"

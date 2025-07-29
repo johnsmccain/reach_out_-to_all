@@ -34,7 +34,7 @@ const Contact = () => {
   return (
     <div className="space-y-16">
       {/* Hero Section */}
-      <section className="relative h-[300px]">
+      <section className="relative h-[300px] rounded-2xl overflow-hidden">
         <div className="absolute inset-0">
           <img
             src="https://images.unsplash.com/photo-1423666639041-f56000c27a9a?ixlib=rb-4.0.3"
@@ -111,7 +111,7 @@ const Contact = () => {
                   type="text"
                   id="name"
                   name="user_name"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-full focus:ring-blue-500 focus:border-blue-500"
                   required
                 />
               </div>
@@ -127,7 +127,7 @@ const Contact = () => {
                   type="email"
                   id="email"
                   name="user_email"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-full focus:ring-blue-500 focus:border-blue-500"
                   required
                 />
               </div>
@@ -143,7 +143,7 @@ const Contact = () => {
                   type="text"
                   id="subject"
                   name="subject"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-full focus:ring-blue-500 focus:border-blue-500"
                   required
                 />
               </div>
@@ -159,7 +159,7 @@ const Contact = () => {
                   id="message"
                   name="message"
                   rows={4}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-blue-500 focus:border-blue-500"
                   required
                 ></textarea>
               </div>
@@ -167,7 +167,7 @@ const Contact = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center space-x-2 disabled:opacity-50"
+                className="w-full bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition-colors flex items-center justify-center space-x-2 disabled:opacity-50"
               >
                 <span>{loading ? "Sending..." : "Send Message"}</span>
                 <Send className="h-5 w-5" />

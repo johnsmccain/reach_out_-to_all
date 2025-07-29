@@ -65,7 +65,7 @@ const Resources = () => {
   return (
     <div className="space-y-12">
       {/* Hero Section */}
-      <section className="relative h-[300px]">
+      <section className="relative h-[300px] rounded-2xl overflow-hidden">
         <div className="absolute inset-0">
           <img
             src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?ixlib=rb-4.0.3"

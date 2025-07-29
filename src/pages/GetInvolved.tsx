@@ -88,14 +88,14 @@ const GetInvolved = () => {
   return (
     <div className="space-y-16">
       {/* Hero Section */}
-      <section className="relative h-[400px]">
+      <section className="relative h-[400px] rounded-xl">
         <div className="absolute inset-0">
           <img
             src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3"
             alt="Volunteering"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover rounded-2xl"
           />
-          <div className="absolute inset-0 bg-black bg-opacity-50" />
+          <div className="absolute inset-0 bg-black bg-opacity-50 rounded-2xl"  />
         </div>
         <div className="relative container mx-auto px-4 h-full flex items-center">
           <div className="max-w-2xl text-white">
@@ -133,7 +133,7 @@ const GetInvolved = () => {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-xl"
                   placeholder="Enter your full name"
                 />
               </div>
@@ -148,7 +148,7 @@ const GetInvolved = () => {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-xl"
                   placeholder="Enter your email address"
                 />
               </div>
@@ -163,7 +163,7 @@ const GetInvolved = () => {
                   value={formData.phone}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-xl"
                   placeholder="Enter your phone number"
                 />
               </div>
@@ -178,7 +178,7 @@ const GetInvolved = () => {
                   value={formData.address}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-xl"
                   placeholder="Enter your address"
                 />
               </div>
@@ -193,7 +193,7 @@ const GetInvolved = () => {
                   value={formData.state}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-xl"
                   placeholder="Enter your state/province"
                 />
               </div>
@@ -208,7 +208,7 @@ const GetInvolved = () => {
                   value={formData.country}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-xl"
                   placeholder="Enter your country"
                 />
               </div>
@@ -222,7 +222,7 @@ const GetInvolved = () => {
                   value={formData.volunteer}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-xl"
                 >
                   <option value="">Select volunteer option</option>
                   {VOLUNTEER_UNITS.map((unit) => (
@@ -242,7 +242,7 @@ const GetInvolved = () => {
                   value={formData.membership}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-xl"
                 >
                   <option value="">Are you a member?</option>
                   {MEMBERSHIP_OPTIONS.map((option) => (
@@ -262,7 +262,7 @@ const GetInvolved = () => {
                   value={formData.unit}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-xl"
                 >
                   <option value="">Select a unit</option>
                   {SERVICE_UNITS.map((unit) => (
@@ -282,7 +282,7 @@ const GetInvolved = () => {
                   value={formData.message}
                   onChange={handleChange}
                   rows={4}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-xl"
                   placeholder="Tell us about your interests and experience"
                 ></textarea>
               </div>

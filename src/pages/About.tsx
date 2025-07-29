@@ -46,11 +46,11 @@ const About = () => {
   return (
     <div className="space-y-16">
       {/* Hero Section */}
-      <section className="relative h-[400px] md:h-[500px] overflow-hidden">
+      <section className="relative h-[400px] md:h-[500px] overflow-hidden rounded-3xl">
         {heroImages.map((image, index) => (
           <div
             key={index}
-            className={`absolute inset-0 transition-opacity duration-1000 ${
+            className={`absolute inset-0 transition-opacity duration-1000 rounded-xl ${
               index === currentImageIndex ? "opacity-100" : "opacity-0"
             }`}
           >
@@ -95,7 +95,7 @@ const About = () => {
       <div className="md:hidden px-4">
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="w-full flex items-center justify-between p-4 bg-white rounded-lg shadow-md"
+          className="w-full flex items-center justify-between p-4 bg-white rounded-xl shadow-md"
         >
           <span className="font-semibold">
             {
@@ -121,7 +121,7 @@ const About = () => {
                   setActiveTab(tab.id);
                   setIsMenuOpen(false);
                 }}
-                className={`w-full p-4 text-left ${
+                className={`w-full p-4 text-left rounded-xl ${
                   activeTab === tab.id
                     ? "bg-blue-50 text-blue-900"
                     : "text-gray-700 hover:bg-gray-50"

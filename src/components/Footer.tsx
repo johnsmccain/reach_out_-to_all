@@ -5,7 +5,7 @@ import image from "@/asset/reachout.jpeg";
 const Footer = () => {
   return (
     <footer className="bg-blue-900 text-white">
-      <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* About */}
           <div>

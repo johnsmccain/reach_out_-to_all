@@ -40,7 +40,7 @@ const Counter = ({ end, label, duration = 2.5 }: CounterProps) => {
       initial={{ opacity: 0, y: 20 }}
       animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
       transition={{ duration: 0.5 }}
-      className="text-center p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow"
+      className="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow"
     >
       <div className="text-4xl font-bold text-blue-600 mb-2">{count.toLocaleString()}</div>
       <div className="text-gray-600 font-medium">{label}</div>

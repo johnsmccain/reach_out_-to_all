@@ -145,18 +145,18 @@ const Home = () => {
   return (
     <div className="space-y-8 sm:space-y-16">
       {/* Hero Section with Image Carousel */}
-      <section className="relative h-[400px] sm:h-[600px] overflow-hidden">
+      <section className="relative h-[400px] sm:h-[600px] overflow-hidden rounded-2xl">
         {heroImages.map((image, index) => (
           <div
             key={index}
-            className={`absolute inset-0 transition-opacity duration-1000 ${
+            className={`absolute inset-0 transition-opacity duration-1000 rounded-xl  ${
               index === currentImageIndex ? "opacity-100" : "opacity-0"
             }`}
           >
             <img
               src={image.url}
               alt={image.alt}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover rounded-lg"
             />
             <div className="absolute inset-0 bg-black bg-opacity-50" />
           </div>
@@ -173,7 +173,7 @@ const Home = () => {
             </p>
             <Link
               to="/get-involved"
-              className="inline-flex items-center bg-blue-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg hover:bg-blue-700 transition-colors text-sm sm:text-base"
+              className="inline-flex items-center bg-blue-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full hover:bg-blue-700 transition-colors text-sm sm:text-base"
             >
               Get Involved
               <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
@@ -215,7 +215,7 @@ const Home = () => {
         {/* List of Items */}
         <div className="space-y-4">
           {items.map((item, index) => (
-            <p key={index} className="text-lg sm:text-xl">
+            <p key={index} className="text-lg sm:text-xl rounded-xl">
               {item.text}
             </p>
           ))}
@@ -226,7 +226,7 @@ const Home = () => {
 
         {/* Signature */}
         <div className="mt-6 text-lg sm:text-xl">
-          <p>On behalf of the Brethren,</p>
+          <p>On behalf of the Brethren,</p>Home
           <p className="font-bold">Bawa G. Emmanuel</p>
           <p>Coordinator, Reachout To All</p>
         </div>
@@ -254,9 +254,9 @@ const Home = () => {
       </div>
 
       {/* Featured Sections */}
-      <section className="container mx-auto px-4">
+      <section className="container mx-auto px-4 ">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
-          <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6">
+          <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6">
             <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">
               Upcoming Events
             </h3>
@@ -271,7 +271,7 @@ const Home = () => {
             </Link>
           </div>
 
-          <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6">
+          <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6">
             <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">
               Get Involved
             </h3>
@@ -286,7 +286,7 @@ const Home = () => {
             </Link>
           </div>
 
-          <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6">
+          <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6">
             <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">
               Resources
             </h3>
