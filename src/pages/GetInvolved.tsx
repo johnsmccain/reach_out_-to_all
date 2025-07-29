@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Heart, CreditCard, Send } from "lucide-react";
+import { Heart, Send } from "lucide-react";
 import toast from "react-hot-toast";
-import DonateButton from "./DonateButton";
 import Donate from "@/components/Donate";
 
 const VOLUNTEER_UNITS = ["Financial", "Prayer", "Others"];
