@@ -290,7 +290,7 @@ const GetInvolved = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 flex items-center justify-center space-x-2 disabled:opacity-50"
+                className="w-full bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 flex items-center justify-center space-x-2 disabled:opacity-50"
               >
                 <span>{loading ? "Submitting..." : "Submit Application"}</span>
                 <Send className="h-5 w-5" />

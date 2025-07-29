@@ -63,7 +63,7 @@ const DonateButton = ({
       <button
         onClick={handleDonate}
         disabled={loading||disabled}
-        className="w-full bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center space-x-2 disabled:opacity-50"
+        className="w-full bg-green-600 text-white px-6 py-3 rounded-full hover:bg-green-700 transition-colors flex items-center justify-center space-x-2 disabled:opacity-50"
       >
         <span>{loading ? "Processing..." : "Donate Online"}</span>
         <CreditCard className="h-5 w-5" />

@@ -1,11 +1,44 @@
 import DonateButton from "@/pages/DonateButton";
-import { CreditCard, Banknote } from "lucide-react";
+import { CreditCard, Banknote, Bitcoin } from "lucide-react";
 import { useState } from "react";
+import Depay from "./Depay";
+const supportedCryptoDonations = [
+  {
+    label: "USDC (Base)",
+    token: "USDC",
+  },
+  {
+    label: "USDT (BNB Chain)",
+    token: "USDT",
+  },
+  {
+    label: "USDC (Avalanche)",
+    token: "USDC",
+  },
+  {
+    label: "USDT (Optimism)",
+    token: "USDT",
+  },
+  {
+    label: "USDT (Polygon)",
+    token: "USDT",
+  },
+  {
+    label: "USDT (Arbitrum)",
+    token: "USDT",
+  },
+  {
+    label: "USDT (Ethereum)",
+    token: "USDT",
+  },
+];
 
 const Donate = () => {
-  const [paymentType, setPaymentType] = useState<boolean>(false);
+  const [paymentType, setPaymentType] = useState<"card" | "bank" | "crypto">(
+    "bank"
+  );
   const [email, setEmail] = useState<string>("");
-  const [amount, setAmount] = useState<number|any>();
+  const [amount, setAmount] = useState<number | any>();
 
   const isFormValid = email && amount > 0;
 
@@ -16,32 +49,50 @@ const Donate = () => {
         <h2 className="text-3xl font-bold">Donate</h2>
       </div>
 
-      {/* Toggle Payment Type */}
-      <div className="flex justify-end mb-4">
+      {/* Payment Type Switcher */}
+      <div className="flex gap-3 justify-center mb-6">
         <button
-          onClick={() => setPaymentType(!paymentType)}
-          className="flex items-center gap-2 text-sm text-blue-600 hover:underline"
+          onClick={() => setPaymentType("bank")}
+          className={`flex items-center gap-2 px-4 py-2 border rounded-full ${
+            paymentType === "bank"
+              ? "bg-blue-600 text-white"
+              : "text-blue-600 border-blue-600 hover:bg-blue-50"
+          }`}
         >
-          {paymentType ? (
-            <>
-              <CreditCard className="w-4 h-4" /> Use Card
-            </>
-          ) : (
-            <>
-              <Banknote className="w-4 h-4" /> Use Bank Transfer
-            </>
-          )}
+          <Banknote className="w-4 h-4" />
+          Bank Transfer
+        </button>
+        <button
+          onClick={() => setPaymentType("card")}
+          className={`flex items-center gap-2 px-4 py-2 border rounded-full ${
+            paymentType === "card"
+              ? "bg-green-600 text-white"
+              : "text-green-600 border-green-600 hover:bg-green-50"
+          }`}
+        >
+          <CreditCard className="w-4 h-4" />
+          Card
+        </button>
+        <button
+          onClick={() => setPaymentType("crypto")}
+          className={`flex items-center gap-2 px-4 py-2 border rounded-full ${
+            paymentType === "crypto"
+              ? "bg-yellow-600 text-white"
+              : "text-yellow-600 border-yellow-600 hover:bg-yellow-50"
+          }`}
+        >
+          <Bitcoin className="w-4 h-4" />
+          Crypto
         </button>
       </div>
 
-      {paymentType ? (
+      {/* Render Sections */}
+      {paymentType === "bank" ? (
         <div className="bg-white rounded-lg shadow-lg p-8">
           <p className="text-lg text-gray-600 mb-6">
             Support our mission work through your generous donations. Your
             contribution helps us reach more people with the Gospel message.
           </p>
-
-          {/* Bank Account Details */}
           <div>
             <h3 className="text-xl font-bold mb-4">Bank Account Details</h3>
             <p className="mb-2">
@@ -56,18 +107,16 @@ const Donate = () => {
             </p>
           </div>
         </div>
-      ) : (
+      ) : paymentType === "card" ? (
         <div className="bg-white rounded-lg shadow-lg p-8">
           <p className="text-lg text-gray-600 mb-6">
             Use your card or digital wallet to make a secure donation.
           </p>
 
-          {/* Donation Form */}
           <form
             onSubmit={(e) => {
               e.preventDefault();
               if (!isFormValid) return;
-              // You may handle custom logic here
             }}
             className="space-y-4"
           >
@@ -100,11 +149,25 @@ const Donate = () => {
               />
             </div>
 
-            {/* DonateButton gets rendered only when form is valid */}
-            <div>
-              <DonateButton email={email} amount={amount} disabled={!isFormValid} />
-            </div>
+            <DonateButton
+              email={email}
+              amount={amount}
+              disabled={!isFormValid}
+            />
           </form>
+        </div>
+      ) : (
+        <div className="bg-white rounded-lg shadow-lg p-8">
+          <div className="text-lg text-gray-600 mb-6">
+            Send crypto donations securely using your wallet. We currently
+            accept 
+            {supportedCryptoDonations.map(({ label }: any, idx) => (
+              <div key={idx} className="rounded-full inline-block m-1 p-1 bg-green-100 text-sm">
+                <span >{label}</span>
+              </div>
+            ))}
+          </div>
+          <Depay />
         </div>
       )}
     </div>
