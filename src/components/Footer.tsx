@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Facebook, Youtube, Mail, Phone, MapPin } from "lucide-react";
 import image from "@/asset/reachout.jpeg";
 
+
 const Footer = () => {
   return (
     <footer className="bg-blue-900 text-white">
@@ -11,7 +12,7 @@ const Footer = () => {
           <div>
             <div className="flex items-center space-x-2 mb-4">
               <img src={image} alt="logo" className="h-8 w-8 rounded-full" />
-              <span className="font-bold text-lg">ReachOut To All</span>
+              <span className="font-bold text-lg">Reachout To All</span>
             </div>
             <p className="text-blue-200">
               Welcome to Reachout To All. Here, every soul counts. We are on a
@@ -49,7 +50,8 @@ const Footer = () => {
                   href="mailto:toallreachout@gmail.com"
                   className="hover:underline"
                 >
-                  toallreachout@gmail.com
+                  toallreachout@gmail.com,
+                  reachouttoall@yahoo.com
                 </a>
               </li>
               <li className="flex items-center space-x-2">

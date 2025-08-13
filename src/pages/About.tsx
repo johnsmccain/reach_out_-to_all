@@ -64,10 +64,10 @@ const About = () => {
         ))}
         <div className="relative container mx-auto px-4 h-full flex items-center">
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-7xl font-bold mb-4 md:mb-8 text-white animate-fade-in">
+            <h1 className="text-4xl md:text-7xl font-bold mb-4 md:mb-8 text-white animate-fade-in max-sm:hidden">
               About Us
             </h1>
-            <p className="text-lg md:text-xl leading-relaxed text-white/90 font-light animate-slide-up">
+            <p className="text-lg md:text-xl leading-relaxed text-white/90 font-light animate-slide-up max-sm:hidden">
               We are a group of believers from diverse denominations, united by
               a passion for missions. We aim to reach out to people everywhere,
               enabling their salvation, rededication, commitment, and

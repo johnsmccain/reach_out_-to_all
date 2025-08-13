@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Heart, Send } from "lucide-react";
 import toast from "react-hot-toast";
 import Donate from "@/components/Donate";
 
+import img from "../asset/r2a 1.jpg";
+import imgs from "../asset/R2a 2.jpg";
+import img1 from "../asset/R2A3.jpg";
+import img2 from "../asset/R2A 4.jpg";
+
 const VOLUNTEER_UNITS = ["Financial", "Prayer", "Others"];
-
 const MEMBERSHIP_OPTIONS = ["Yes", "No"];
-
 const SERVICE_UNITS = [
   "Prayer Unit",
   "Kitchen Unit",
@@ -25,6 +28,8 @@ const SERVICE_UNITS = [
 
 const GetInvolved = () => {
   const [loading, setLoading] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -85,134 +90,109 @@ const GetInvolved = () => {
     }
   };
 
+  const heroImages = [
+    {
+      url: "https://images.unsplash.com/photo-1438232992991-995b7058bbb3?ixlib=rb-4.0.3",
+      alt: "Mission work",
+    },
+    { url: img, alt: "Community outreach" },
+    { url: imgs, alt: "Humanitarian aid" },
+    { url: img1, alt: "Gospel sharing" },
+    { url: img2, alt: "Community service" },
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) =>
+        prevIndex === heroImages.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="space-y-16">
       {/* Hero Section */}
-      <section className="relative h-[400px] rounded-xl">
+      <section className="relative h-[300px] sm:h-[400px] rounded-3xl overflow-hidden">
         <div className="absolute inset-0">
-          <img
-            src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3"
-            alt="Volunteering"
-            className="w-full h-full object-cover rounded-2xl"
-          />
-          <div className="absolute inset-0 bg-black bg-opacity-50 rounded-2xl"  />
+          {heroImages.map((image, index) => (
+            <div
+              key={index}
+              className={`absolute inset-0 transition-opacity duration-1000 ${
+                index === currentImageIndex ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              <img
+                src={image.url}
+                alt={image.alt}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-black bg-opacity-50" />
+            </div>
+          ))}
         </div>
+
         <div className="relative container mx-auto px-4 h-full flex items-center">
           <div className="max-w-2xl text-white">
-            <h1 className="text-5xl font-bold mb-4">Get Involved</h1>
-            <p className="text-xl">
+            <h1 className="text-3xl sm:text-5xl font-bold mb-2 sm:mb-4">
+              Get Involved
+            </h1>
+            <p className="text-md sm:text-xl">
               Join us in spreading the Gospel and making a difference in
               people's lives.
             </p>
           </div>
         </div>
+
+        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+          {heroImages.map((_, index) => (
+            <button
+              key={index}
+              className={`w-2 h-2 rounded-full transition-all ${
+                index === currentImageIndex ? "bg-white w-4" : "bg-white/50"
+              }`}
+              onClick={() => setCurrentImageIndex(index)}
+            />
+          ))}
+        </div>
       </section>
 
       <div className="container mx-auto px-4">
-        <div className="grid md:grid-cols-2 gap-12">
-          {/* Volunteer Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+          {/* Volunteer Form */}
           <div>
             <div className="flex items-center space-x-2 mb-6">
               <Heart className="h-8 w-8 text-blue-600" />
-              <h2 className="text-3xl font-bold">Volunteer</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold">Volunteer</h2>
             </div>
+
             <form onSubmit={handleVolunteerSubmit} className="space-y-6">
-              <input
-                type="hidden"
-                name="_subject"
-                value="New Volunteer Application"
-              />
+              <input type="hidden" name="_subject" value="New Volunteer Application" />
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-xl"
-                  placeholder="Enter your full name"
-                />
-              </div>
+              {[
+                { label: "Name", name: "name", type: "text", placeholder: "Enter your full name" },
+                { label: "Email", name: "email", type: "email", placeholder: "Enter your email address" },
+                { label: "Phone", name: "phone", type: "tel", placeholder: "Enter your phone number" },
+                { label: "Address", name: "address", type: "text", placeholder: "Enter your address" },
+                { label: "State/Province", name: "state", type: "text", placeholder: "Enter your state/province" },
+                { label: "Country", name: "country", type: "text", placeholder: "Enter your country" },
+              ].map(({ label, name, type, placeholder }) => (
+                <div key={name}>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+                  <input
+                    type={type}
+                    name={name}
+                    value={formData[name as keyof typeof formData]}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 rounded-xl"
+                    placeholder={placeholder}
+                  />
+                </div>
+              ))}
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-xl"
-                  placeholder="Enter your email address"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Phone
-                </label>
-                <input
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-xl"
-                  placeholder="Enter your phone number"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Address
-                </label>
-                <input
-                  type="text"
-                  name="address"
-                  value={formData.address}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-xl"
-                  placeholder="Enter your address"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  State/Province
-                </label>
-                <input
-                  type="text"
-                  name="state"
-                  value={formData.state}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-xl"
-                  placeholder="Enter your state/province"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Country
-                </label>
-                <input
-                  type="text"
-                  name="country"
-                  value={formData.country}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-xl"
-                  placeholder="Enter your country"
-                />
-              </div>
-
+              {/* Select Inputs */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Volunteer Options
@@ -299,7 +279,9 @@ const GetInvolved = () => {
           </div>
 
           {/* Donation Section */}
-          <Donate/>
+          <div>
+            <Donate />
+          </div>
         </div>
       </div>
     </div>

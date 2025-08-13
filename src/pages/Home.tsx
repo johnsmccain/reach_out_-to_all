@@ -17,7 +17,7 @@ import img8 from "../asset/img8.jpeg"
 import img9 from "../asset/img9.jpeg"
 import img10 from "../asset/img10.jpeg"
 import img11 from "../asset/img11.jpeg"
-
+import bawa from "@/asset/pastorbawa.png"
 
 
 const Home = () => {
@@ -162,11 +162,11 @@ const Home = () => {
           </div>
         ))}
         <div className="relative container mx-auto px-4 h-full flex items-center">
-          <div className="max-w-2xl text-white">
-            <h1 className="text-3xl sm:text-5xl font-bold mb-4 sm:mb-6">
+          <div className="max-w-2xl text-white max-sm:mt-[130px]">
+            <h4 className="text-3xl sm:text-5xl font-bold mb-4 sm:mb-6">
               Carrying the Gospel to the Ends of the Earth
-            </h1>
-            <p className="text-lg sm:text-xl mb-6 sm:mb-8">
+            </h4>
+            <p className="text-lg sm:text-xl mb-6 sm:mb-8 max-sm:hidden">
               Welcome to Reachout To All. Here, every soul counts. We are on a
               mission to reach out to all people with the gospel, accompanied by
               a humanitarian touch of love.
@@ -205,7 +205,7 @@ const Home = () => {
       <div className="container mx-auto px-4 space-y-6">
         {/* Title */}
         <h2 className="text-3xl sm:text-4xl font-bold">{title}</h2>
-
+<img src={bawa} alt="" className="sm:w-[300px] sm:h-[300]"/>
         {/* Introduction */}
         <p className="text-lg sm:text-xl">{introduction}</p>
 
