@@ -138,7 +138,8 @@ const Home = () => {
     gifts, and other skill sets. We invite you to make a deliberate decision to Reach Out To All.
   `;
   const contact = [
-    { label: "Email:", value: "reachouttoall@yahoo.com" },
+    { label: "Email:", value: "reachouttoall@yahoo.com,   toallreachout@gmail.com,   info@reachouttoall.org"},
+    
     { label: "Blog:", value: "https://bawagemmanuel.blogspot.com" },
   ];
 
@@ -226,7 +227,7 @@ const Home = () => {
 
         {/* Signature */}
         <div className="mt-6 text-lg sm:text-xl">
-          <p>On behalf of the Brethren,</p>Home
+          <p>On behalf of the Brethren,</p>
           <p className="font-bold">Bawa G. Emmanuel</p>
           <p>Coordinator, Reachout To All</p>
         </div>
@@ -234,7 +235,7 @@ const Home = () => {
         {/* Contact Info */}
         <div className="text-lg sm:text-xl space-y-2">
           {contact.map((item, index) => (
-            <p key={index} className="break-words">
+            <p key={index} className="break-words max-sm;gap-2">
               <strong>{item.label}</strong>{" "}
               {item.label === "Blog:" ? (
                 <a
@@ -246,7 +247,7 @@ const Home = () => {
                   {item.value}
                 </a>
               ) : (
-                <span className="break-all">{item.value}</span>
+                <span className="">{item.value}</span>
               )}
             </p>
           ))}
