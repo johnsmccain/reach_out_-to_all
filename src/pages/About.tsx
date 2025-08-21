@@ -417,6 +417,9 @@ const About = () => {
                     name: "Nathan S. Galadima",
                   },
                   { role: "Ondo Field Missionary", name: "Victor O. Enenche" },
+                  {role: "Lagos Field Missionary ", name: "Olumide C. Jolaiya"},
+                  {role: "Kano Field Missionary ", name: "Hamman Adamu"},
+                  
                 ].map((member, index) => (
                   <tr
                     key={index}

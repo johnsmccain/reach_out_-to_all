@@ -45,13 +45,14 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
             <ul className="space-y-3 text-blue-200">
               <li className="flex items-center space-x-2">
-                <Mail className="h-5 w-5 text-blue-300" />
+                  <Mail className="h-5 w-5 shrink-0 text-blue-300" />
                 <a
                   href="mailto:toallreachout@gmail.com"
                   className="hover:underline"
                 >
                   toallreachout@gmail.com,
-                  reachouttoall@yahoo.com
+                  info@reachouttoall.org
+                  reachouttoall@yahoo.com,
                 </a>
               </li>
               <li className="flex items-center space-x-2">

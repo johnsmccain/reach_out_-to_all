@@ -163,7 +163,7 @@ const Home = () => {
         ))}
         <div className="relative container mx-auto px-4 h-full flex items-center">
           <div className="max-w-2xl text-white max-sm:mt-[130px]">
-            <h4 className="text-3xl sm:text-5xl font-bold mb-4 sm:mb-6">
+            <h4 className="text-3xl sm:text-5xl font-bold mb-4 sm:mb-6 max-sm:text-2xl">
               Carrying the Gospel to the Ends of the Earth
             </h4>
             <p className="text-lg sm:text-xl mb-6 sm:mb-8 max-sm:hidden">
