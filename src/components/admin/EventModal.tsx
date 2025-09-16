@@ -5,9 +5,9 @@ import "react-toastify/dist/ReactToastify.css"; // Import Toastify CSS
 import type { Event } from "@/types";
 
 // Supabase Configuration
-const supabaseUrl = "https://viktpmvqtsmqfekqtdhs.supabase.co";
+const supabaseUrl = "https://vrxowwnqvdsiqhjmnpob.supabase.co";
 const supabaseKey =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZpa3RwbXZxdHNtcWZla3F0ZGhzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzgxNDY5MTQsImV4cCI6MjA1MzcyMjkxNH0.kd-WYLwn6Of4d-4OPMr7eoybZykR3OKi0D8LHfTEbUU"; // Replace with a secure environment variable
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZyeG93d25xdmRzaXFoam1ucG9iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgwMDU0NzYsImV4cCI6MjA3MzU4MTQ3Nn0.wuPmTtMry_sPGWdwIZBIi7ZhFwT8mHiJQVSvjfeYSm8"
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 interface EventModalProps {
