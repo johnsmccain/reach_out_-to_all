@@ -13,6 +13,7 @@ const Navbar = () => {
     { name: "About Us", path: "/about" },
     { name: "Get Involved", path: "/get-involved" },
     { name: "Events", path: "/events" },
+    { name: "Registration", path: "/registration" },
     { name: "Resources", path: "/resources" },
     { name: "Admin", path: "/login" },
     { name: "Contact", path: "/contact" },
@@ -91,3 +92,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+

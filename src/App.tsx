@@ -13,6 +13,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import Login from "./pages/Login";
 import AuthGuard from "./components/AuthGuard";
 import PageTransition from "./components/PageTransition";
+import Registration from "./pages/Registration";
 
 function App() {
   return (
@@ -59,6 +60,14 @@ function App() {
                 element={
                   <PageTransition>
                     <Events />
+                  </PageTransition>
+                }
+              />
+              <Route
+                path="/registration"
+                element={
+                  <PageTransition>
+                    <Registration />
                   </PageTransition>
                 }
               />
@@ -119,3 +128,4 @@ function App() {
 }
 
 export default App;
+
