@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
+import axios from "axios";
 // Optional YouTube video URLs; set these to embed videos on the page
 const VIDEO_WHO_WE_ARE = "https://www.youtube.com/watch?v=Oj2jJdNu57k"; // e.g. https://www.youtube.com/embed/XXXXXXXX
 const VIDEO_OUTREACH_LOOKS_LIKE = "https://youtu.be/G11gADLw8F4?si=lJGi-kP3QNizAMAI"; // e.g. https://www.youtube.com/embed/YYYYYYYY
@@ -132,14 +133,18 @@ export default function Registration() {
   const frequency = watch("frequency");
 
   const onSubmit = async (values: FormValues) => {
-    try {
+    const scriptURL = `https://script.google.com/macros/s/${import.meta.env.VITE_SHEET_API_KEY}/exec`
+
+   
       // Placeholder: wire to Supabase or EmailJS here
       // For now, just log and toast success
-      // console.log("Registration submission", values);
+      const response = await fetch(scriptURL, { method: 'POST', body: JSON.stringify({ ...values }) })
+      console.log(response)
+    if (response.ok) {
       await new Promise((r) => setTimeout(r, 600));
       toast.success("Registration submitted. We'll be in touch soon!");
       reset();
-    } catch (err) {
+    } else  {
       toast.error("Submission failed. Please try again.");
     }
   };
