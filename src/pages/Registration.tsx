@@ -1,9 +1,7 @@
-import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
-import axios from "axios";
 // Optional YouTube video URLs; set these to embed videos on the page
 const VIDEO_WHO_WE_ARE = "https://www.youtube.com/watch?v=Oj2jJdNu57k"; // e.g. https://www.youtube.com/embed/XXXXXXXX
 const VIDEO_OUTREACH_LOOKS_LIKE = "https://youtu.be/G11gADLw8F4?si=lJGi-kP3QNizAMAI"; // e.g. https://www.youtube.com/embed/YYYYYYYY
