@@ -47,6 +47,7 @@ const unitOptions = [
   "Technical",
   "Skills Acquisition",
   "Ushering",
+  "Medical Unit",
   "Welfare",
 ] as const;
 
@@ -133,16 +134,16 @@ export default function Registration() {
   const onSubmit = async (values: FormValues) => {
     const scriptURL = `https://script.google.com/macros/s/${import.meta.env.VITE_SHEET_API_KEY}/exec`
 
-   
-      // Placeholder: wire to Supabase or EmailJS here
-      // For now, just log and toast success
-      const response = await fetch(scriptURL, { method: 'POST', body: JSON.stringify({ ...values }) })
-      console.log(response)
+
+    // Placeholder: wire to Supabase or EmailJS here
+    // For now, just log and toast success
+    const response = await fetch(scriptURL, { method: 'POST', body: JSON.stringify({ ...values }) })
+    console.log(response)
     if (response.ok) {
       await new Promise((r) => setTimeout(r, 600));
       toast.success("Registration submitted. We'll be in touch soon!");
       reset();
-    } else  {
+    } else {
       toast.error("Submission failed. Please try again.");
     }
   };
