@@ -47,7 +47,7 @@ const unitOptions = [
   "Technical",
   "Skills Acquisition",
   "Ushering",
-  "Medical Unit",
+  "Medical",
   "Welfare",
 ] as const;
 
