@@ -281,7 +281,7 @@ const ArticleDetail = () => {
       <motion.article
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white rounded-2xl shadow-lg overflow-hidden"
+        className="bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl overflow-hidden border border-white/20 hover:shadow-[0_20px_60px_rgba(59,130,246,0.15)] transition-all duration-500"
       >
         {article.cover_image && (
           <div className="relative  aspect-[20/9] ">
@@ -362,27 +362,27 @@ const ArticleDetail = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="bg-white rounded-2xl shadow-lg p-6"
+        className="bg-white/90 backdrop-blur-md rounded-2xl shadow-lg p-6 border border-white/20 hover:shadow-xl transition-all duration-300"
       >
         <h3 className="text-xl font-bold mb-4">Show your support</h3>
         <div className="flex gap-4">
           <button
             onClick={() => handleReaction('like')}
-            className="flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-800 rounded-lg hover:bg-blue-200 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-100 to-blue-200 text-blue-800 rounded-lg hover:from-blue-200 hover:to-blue-300 transition-all duration-300 hover:scale-105 hover:shadow-[0_4px_15px_rgba(59,130,246,0.3)]"
           >
             <ThumbsUp className="h-5 w-5" />
             Like ({getReactionCount('like')})
           </button>
           <button
             onClick={() => handleReaction('love')}
-            className="flex items-center gap-2 px-4 py-2 bg-red-100 text-red-800 rounded-lg hover:bg-red-200 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-red-100 to-red-200 text-red-800 rounded-lg hover:from-red-200 hover:to-red-300 transition-all duration-300 hover:scale-105 hover:shadow-[0_4px_15px_rgba(239,68,68,0.3)]"
           >
             <Heart className="h-5 w-5" />
             Love ({getReactionCount('love')})
           </button>
           <button
             onClick={() => handleReaction('pray')}
-            className="flex items-center gap-2 px-4 py-2 bg-purple-100 text-purple-800 rounded-lg hover:bg-purple-200 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-100 to-purple-200 text-purple-800 rounded-lg hover:from-purple-200 hover:to-purple-300 transition-all duration-300 hover:scale-105 hover:shadow-[0_4px_15px_rgba(147,51,234,0.3)]"
           >
             <Star className="h-5 w-5" />
             Pray ({getReactionCount('pray')})

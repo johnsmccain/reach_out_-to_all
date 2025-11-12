@@ -19,71 +19,209 @@ import img8 from "../asset/img8.jpeg"
 import img9 from "../asset/img9.jpeg"
 import img10 from "../asset/img10.jpeg"
 import img11 from "../asset/img11.jpeg"
+import img_1 from "../asset/img-1.jpg";
+import img_2 from "../asset/img-2.jpg";
+import img_3 from "../asset/img-3.jpg";
+import img_4 from "../asset/img-4.jpg";
+import img_5 from "../asset/img-5.jpg";
+import img_6 from "../asset/img-6.jpg";
+import img_7 from "../asset/img-7.jpg";
+import img_8 from "../asset/img-8.jpg";
+import img_9 from "../asset/img-9.jpg";
+import img_10 from "../asset/img-10.jpg";
+import img_11 from "../asset/img-11.jpg";
+import img_12 from "../asset/img-12.jpg";
+import img_13 from "../asset/img-13.jpg";
+import img_14 from "../asset/img-14.jpg";
+import img_15 from "../asset/img-15.jpg";
+import img_16 from "../asset/img-16.jpg";
+import img_17 from "../asset/img-17.jpg";
+import img_18 from "../asset/img-18.jpg";
+import img_19 from "../asset/img-19.jpg";
+import img_20 from "../asset/img-20.jpg";
+import img_21 from "../asset/img-21.jpg";
+import img_22 from "../asset/img-22.jpg";
+import img_23 from "../asset/img-23.jpg";
+import img_24 from "../asset/img-24.jpg";
+import img_25 from "../asset/img-25.jpg";
+import img_26 from "../asset/img-26.jpg";
+import img_27 from "../asset/img-27.jpg";
+import img_28 from "../asset/img-28.jpg";
+import img_29 from "../asset/img-29.jpg";
+import img_30 from "../asset/img-30.jpg";
+import img_31 from "../asset/img-31.jpg";
+import img_32 from "../asset/img-32.jpg";
+import img_33 from "../asset/img-33.jpg";
+import img_34 from "../asset/img-34.jpg";
+import img_35 from "../asset/img-35.jpg";
+import img_36 from "../asset/img-36.jpg";
+import img_37 from "../asset/img-37.jpg";
+import img_38 from "../asset/img-38.jpg";
+import img_39 from "../asset/img-39.jpg";
+import img_40 from "../asset/img-40.jpg";
+import img_41 from "../asset/img-41.jpg";
+import img_42 from "../asset/img-42.jpg";
+import img_43 from "../asset/img-43.jpg";
+import img_44 from "../asset/img-44.jpg";
+import img_45 from "../asset/img-45.jpg";
+import img_46 from "../asset/img-46.jpg";
+import img_47 from "../asset/img-47.jpg";
+import img_48 from "../asset/img-48.jpg";
+import img_49 from "../asset/img-49.jpg";
+import img_50 from "../asset/img-50.jpg";
+import img_51 from "../asset/img-51.jpg";
+import img_52 from "../asset/img-52.jpg";
+import img_53 from "../asset/img-53.jpg";
+import img_54 from "../asset/img-54.jpg";
+import img_55 from "../asset/img-55.jpg";
+import img_56 from "../asset/img-56.jpg";
+import img_57 from "../asset/img-57.jpg";
+import img_58 from "../asset/img-58.jpg";
+import img_59 from "../asset/img-59.jpg";
+import img_60 from "../asset/img-60.jpg";
+import img_61 from "../asset/img-61.jpg";
+import img_62 from "../asset/img-62.jpg";
+import img_63 from "../asset/img-63.jpg";
+import img_64 from "../asset/img-64.jpg";
+import img_65 from "../asset/img-65.jpg";
+
 import bawa from "@/asset/pastorbawa.png"
+import {motion} from "framer-motion" 
+
+
 
 
 const Home = () => {
   const [statistics, setStatistics] = React.useState<Statistics | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = React.useState(0);
 
+
   const heroImages = [
-    {
-      url: "https://images.unsplash.com/photo-1438232992991-995b7058bbb3?ixlib=rb-4.0.3",
-      alt: "Mission work",
-    },
-    {
-      url: img,
-      alt: "Community outreach",
-    },
-    {
-      url: imgs,
-      alt: "Humanitarian aid",
-    },
-    {
-      url: img1,
-      alt: "Gospel sharing",
-    },
-    {
-      url: img2,
-      alt: "Gospel sharing",
-    },
-    {
-      url: img3,
-      alt: "Gospel sharing",
-    },
-    {
-      url: img4,
-      alt: "Gospel sharing",
-    },
-    {
-      url: img5,
-      alt: "Gospel sharing",
-    },
-    {
-      url: img6,
-      alt: "Gospel sharing",
-    },
-    {
-      url: img7,
-      alt: "Gospel sharing",
-    },
-    {
-      url: img8,
-      alt: "Gospel sharing",
-    },
-    {
-      url: img9,
-      alt: "Gospel sharing",
-    },
-    {
-      url: img10,
-      alt: "Gospel sharing",
-    },
-    {
-      url: img11,
-      alt: "Gospel sharing",
-    },
-  ];
+  {
+    url: "https://images.unsplash.com/photo-1438232992991-995b7058bbb3?ixlib=rb-4.0.3",
+    alt: "Mission work",
+  },
+  {
+    url: img,
+    alt: "Community outreach",
+  },
+  {
+    url: imgs,
+    alt: "Humanitarian aid",
+  },
+  {
+    url: img1,
+    alt: "Gospel sharing",
+  },
+  {
+    url: img2,
+    alt: "Gospel sharing",
+  },
+  {
+    url: img3,
+    alt: "Gospel sharing",
+  },
+  {
+    url: img4,
+    alt: "Gospel sharing",
+  },
+  {
+    url: img5,
+    alt: "Gospel sharing",
+  },
+  {
+    url: img6,
+    alt: "Gospel sharing",
+  },
+  {
+    url: img7,
+    alt: "Gospel sharing",
+  },
+  {
+    url: img8,
+    alt: "Gospel sharing",
+  },
+  {
+    url: img9,
+    alt: "Gospel sharing",
+  },
+  {
+    url: img10,
+    alt: "Gospel sharing",
+  },
+  {
+    url: img11,
+    alt: "Gospel sharing",
+  },
+
+  // Imported local images
+  { url: img_1, alt: "Mission work" },
+  { url: img_2, alt: "Mission work" },
+  { url: img_3, alt: "Mission work" },
+  { url: img_4, alt: "Mission work" },
+  { url: img_5, alt: "Mission work" },
+  { url: img_6, alt: "Mission work" },
+  { url: img_7, alt: "Mission work" },
+  { url: img_8, alt: "Mission work" },
+  { url: img_9, alt: "Mission work" },
+  { url: img_10, alt: "Mission work" },
+  { url: img_11, alt: "Mission work" },
+  { url: img_12, alt: "Mission work" },
+  { url: img_13, alt: "Mission work" },
+  { url: img_14, alt: "Mission work" },
+  { url: img_15, alt: "Mission work" },
+  { url: img_16, alt: "Mission work" },
+  { url: img_17, alt: "Mission work" },
+  { url: img_18, alt: "Mission work" },
+  { url: img_19, alt: "Mission work" },
+  { url: img_20, alt: "Mission work" },
+  { url: img_21, alt: "Mission work" },
+  { url: img_22, alt: "Mission work" },
+  { url: img_23, alt: "Mission work" },
+  { url: img_24, alt: "Mission work" },
+  { url: img_25, alt: "Mission work" },
+  { url: img_26, alt: "Mission work" },
+  { url: img_27, alt: "Mission work" },
+  { url: img_28, alt: "Mission work" },
+  { url: img_29, alt: "Mission work" },
+  { url: img_30, alt: "Mission work" },
+  { url: img_31, alt: "Mission work" },
+  { url: img_32, alt: "Mission work" },
+  { url: img_33, alt: "Mission work" },
+  { url: img_34, alt: "Mission work" },
+  { url: img_35, alt: "Mission work" },
+  { url: img_36, alt: "Mission work" },
+  { url: img_37, alt: "Mission work" },
+  { url: img_38, alt: "Mission work" },
+  { url: img_39, alt: "Mission work" },
+  { url: img_40, alt: "Mission work" },
+  { url: img_41, alt: "Mission work" },
+  { url: img_42, alt: "Mission work" },
+  { url: img_43, alt: "Mission work" },
+  { url: img_44, alt: "Mission work" },
+  { url: img_45, alt: "Mission work" },
+  { url: img_46, alt: "Mission work" },
+  { url: img_47, alt: "Mission work" },
+  { url: img_48, alt: "Mission work" },
+  { url: img_49, alt: "Mission work" },
+  { url: img_50, alt: "Mission work" },
+  { url: img_51, alt: "Mission work" },
+  { url: img_52, alt: "Mission work" },
+  { url: img_53, alt: "Mission work" },
+  { url: img_54, alt: "Mission work" },
+  { url: img_55, alt: "Mission work" },
+  { url: img_56, alt: "Mission work" },
+  { url: img_57, alt: "Mission work" },
+  { url: img_58, alt: "Mission work" },
+  { url: img_59, alt: "Mission work" },
+  { url: img_60, alt: "Mission work" },
+  { url: img_61, alt: "Mission work" },
+  { url: img_62, alt: "Mission work" },
+  { url: img_63, alt: "Mission work" },
+  { url: img_64, alt: "Mission work" },
+  { url: img_65, alt: "Mission work" },
+];
+
 
   React.useEffect(() => {
     const interval = setInterval(() => {
@@ -148,7 +286,7 @@ const Home = () => {
   return (
     <div className="space-y-8 sm:space-y-16">
       {/* Hero Section with Image Carousel */}
-      <section className="relative h-[400px] sm:h-[600px] overflow-hidden rounded-2xl">
+      <section className="relative h-[400px] sm:h-[600px] overflow-hidden rounded-2xl border border-white/20 shadow-2xl">
         {heroImages.map((image, index) => (
           <div
             key={index}
@@ -166,21 +304,37 @@ const Home = () => {
         ))}
         <div className="relative container mx-auto px-4 h-full flex items-center">
           <div className="max-w-2xl text-white max-sm:mt-[130px]">
-            <h4 className="text-3xl sm:text-5xl font-bold mb-4 sm:mb-6 max-sm:text-2xl">
+            <motion.h4 
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="text-3xl sm:text-5xl font-bold mb-4 sm:mb-6 max-sm:text-2xl bg-gradient-to-r from-white via-blue-100 to-cyan-100 bg-clip-text text-transparent drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"
+            >
               Carrying the Gospel to the Ends of the Earth
-            </h4>
-            <p className="text-lg sm:text-xl mb-6 sm:mb-8 max-sm:hidden">
+            </motion.h4>
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="text-lg sm:text-xl mb-6 sm:mb-8 max-sm:hidden text-white/90 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]"
+            >
               Welcome to Reachout To All. Here, every soul counts. We are on a
               mission to reach out to all people with the gospel, accompanied by
               a humanitarian touch of love.
-            </p>
-            <Link
-              to="/get-involved"
-              className="inline-flex items-center bg-blue-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full hover:bg-blue-700 transition-colors text-sm sm:text-base"
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
             >
-              Get Involved
-              <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
-            </Link>
+              <Link
+                to="/get-involved"
+                className="inline-flex items-center bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full hover:from-blue-500 hover:to-purple-500 transition-all duration-300 text-sm sm:text-base shadow-[0_4px_20px_rgba(59,130,246,0.4)] hover:shadow-[0_6px_30px_rgba(59,130,246,0.6)] hover:scale-105"
+              >
+                Get Involved
+                <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
+              </Link>
+            </motion.div>
           </div>
         </div>
         {/* Carousel Indicators */}
@@ -188,8 +342,10 @@ const Home = () => {
           {heroImages.map((_, index) => (
             <button
               key={index}
-              className={`w-2 h-2 rounded-full transition-all ${
-                index === currentImageIndex ? "bg-white w-4" : "bg-white/50"
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                index === currentImageIndex 
+                  ? "bg-white w-4 shadow-[0_0_8px_rgba(255,255,255,0.8)]" 
+                  : "bg-white/50 hover:bg-white/70"
               }`}
               onClick={() => setCurrentImageIndex(index)}
             />

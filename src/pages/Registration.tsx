@@ -161,7 +161,7 @@ export default function Registration() {
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
         {/* Email */}
-        <section className="bg-white p-6 rounded-xl shadow">
+        <section className="bg-white/90 backdrop-blur-md p-6 rounded-xl shadow-lg border border-white/20 hover:shadow-xl transition-all duration-300">
           <div className="grid grid-cols-1 gap-4">
             <div>
               <label className="block text-sm font-medium mb-1">Email *</label>
@@ -172,8 +172,8 @@ export default function Registration() {
         </section>
 
         {/* Who We Are video */}
-        <section className="bg-white p-6 rounded-xl shadow">
-          <h2 className="text-lg font-semibold text-blue-900 mb-3">Who We Are in 25 seconds</h2>
+        <section className="bg-white/90 backdrop-blur-md p-6 rounded-xl shadow-lg border border-white/20 hover:shadow-xl transition-all duration-300">
+          <h2 className="text-lg font-semibold text-blue-900 mb-3 gradient-text">Who We Are in 25 seconds</h2>
           {toYouTubeEmbed(VIDEO_WHO_WE_ARE) ? (
             <div className="aspect-video w-full">
               <iframe className="w-full h-full rounded-lg" src={toYouTubeEmbed(VIDEO_WHO_WE_ARE) as string} title="Who We Are" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
@@ -184,7 +184,7 @@ export default function Registration() {
         </section>
 
         {/* Personal names & DOB */}
-        <section className="bg-white p-6 rounded-xl shadow">
+        <section className="bg-white/90 backdrop-blur-md p-6 rounded-xl shadow-lg border border-white/20 hover:shadow-xl transition-all duration-300">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium mb-1">First Name *</label>

@@ -25,7 +25,7 @@ const Navbar = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
-      className="bg-blue-900 text-white sticky top-0 z-50 shadow-lg"
+      className="bg-blue-900/90 backdrop-blur-md text-white sticky top-0 z-50 shadow-lg border-b border-blue-800/50"
     >
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
@@ -46,15 +46,16 @@ const Navbar = () => {
           <div className="hidden md:flex space-x-8">
             {navItems.map((item) => (
               <Link key={item.path} to={item.path} className="relative group">
-                <span className="hover:text-blue-200 text-white transition-colors">
+                <span className="hover:text-blue-200 text-white transition-all duration-300 hover:drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]">
                   {item.name}
                 </span>
                 {location.pathname === item.path && (
                   <motion.div
                     layoutId="underline"
-                    className="absolute left-0 right-0 h-0.5 bg-blue-200 bottom-[-4px]"
+                    className="absolute left-0 right-0 h-0.5 bg-gradient-to-r from-blue-400 to-cyan-400 bottom-[-4px] shadow-[0_0_8px_rgba(59,130,246,0.8)]"
                   />
                 )}
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-600/0 via-blue-400/10 to-blue-600/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg -z-10" />
               </Link>
             ))}
           </div>

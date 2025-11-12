@@ -43,7 +43,7 @@ const Donate = () => {
   const isFormValid = email && amount > 0;
 
   return (
-    <div className="max-w-2xl mx-auto p-6">
+    <div className="max-w-2xl mx-auto p-6 bg-white rounded-3xl shadow-lg">
       <div className="flex items-center space-x-2 mb-6">
         <CreditCard className="h-8 w-8 text-blue-600" />
         <h2 className="text-3xl font-bold">Donate</h2>
@@ -53,7 +53,7 @@ const Donate = () => {
       <div className="flex gap-3 justify-center mb-6">
         <button
           onClick={() => setPaymentType("bank")}
-          className={`flex items-center gap-2 px-4 py-2 border rounded-full ${
+          className={`flex items-center gap-2 px-4 py-2 border rounded-full shadow-lg ${
             paymentType === "bank"
               ? "bg-blue-600 text-white"
               : "text-blue-600 border-blue-600 hover:bg-blue-50"
@@ -64,7 +64,7 @@ const Donate = () => {
         </button>
         <button
           onClick={() => setPaymentType("card")}
-          className={`flex items-center gap-2 px-4 py-2 border rounded-full ${
+          className={`flex items-center gap-2 px-4 py-2 border rounded-full shadow-lg ${
             paymentType === "card"
               ? "bg-green-600 text-white"
               : "text-green-600 border-green-600 hover:bg-green-50"
@@ -75,7 +75,7 @@ const Donate = () => {
         </button>
         <button
           onClick={() => setPaymentType("crypto")}
-          className={`flex items-center gap-2 px-4 py-2 border rounded-full ${
+          className={`flex items-center gap-2 px-4 py-2 border rounded-full shadow-lg ${
             paymentType === "crypto"
               ? "bg-yellow-600 text-white"
               : "text-yellow-600 border-yellow-600 hover:bg-yellow-50"
@@ -88,7 +88,7 @@ const Donate = () => {
 
       {/* Render Sections */}
       {paymentType === "bank" ? (
-        <div className="bg-white rounded-lg shadow-lg p-8">
+        <div className="rounded-lg  p-3">
           <p className="text-lg text-gray-600 mb-6">
             Support our mission work through your generous donations. Your
             contribution helps us reach more people with the Gospel message.
@@ -108,7 +108,7 @@ const Donate = () => {
           </div>
         </div>
       ) : paymentType === "card" ? (
-        <div className="bg-white rounded-lg shadow-lg p-8">
+        <div className=" rounded-lg  p-3">
           <p className="text-lg text-gray-600 mb-6">
             Use your card or digital wallet to make a secure donation.
           </p>
@@ -157,7 +157,7 @@ const Donate = () => {
           </form>
         </div>
       ) : (
-        <div className="bg-white rounded-lg shadow-lg p-8">
+        <div className=" rounded-lg  p-3">
           <div className="text-lg text-gray-600 mb-6">
             Send crypto donations securely using your wallet. We currently
             accept 

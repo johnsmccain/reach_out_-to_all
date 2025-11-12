@@ -78,7 +78,7 @@ const Events = () => {
           {events.map((event) => (
             <div
               key={event.id}
-              className="bg-white rounded-lg shadow-lg overflow-hidden"
+              className="bg-white rounded-3xl shadow-lg overflow-hidden"
             >
               {event.imageUrl && (
                 <img
@@ -120,7 +120,7 @@ const Events = () => {
                       href={event.videoUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-600 hover:underline text-sm sm:text-base inline-flex items-center"
+                      className="text-blue-600 hover:underline text-sm sm:text-base inline-flex items-center cursor-pointer"
                     >
                       Watch Event Video
                     </a>

@@ -137,9 +137,11 @@ const DailyQuote = () => {
           <cite className="text-yellow-200 font-semibold">— {quote.author}</cite>
         </motion.footer>
 
-        {/* Decorative Elements */}
-        <div className="absolute top-2 right-2 w-2 h-2 bg-yellow-300 rounded-full animate-ping"></div>
-        <div className="absolute bottom-2 left-2 w-1 h-1 bg-white rounded-full animate-pulse"></div>
+        {/* Enhanced Decorative Elements */}
+        <div className="absolute top-2 right-2 w-2 h-2 bg-yellow-300 rounded-full animate-ping shadow-[0_0_8px_rgba(253,224,71,0.8)]"></div>
+        <div className="absolute bottom-2 left-2 w-1 h-1 bg-cyan-300 rounded-full animate-pulse shadow-[0_0_4px_rgba(103,232,249,0.8)]"></div>
+        <div className="absolute top-1/4 right-1/4 w-1 h-1 bg-purple-300 rounded-full animate-ping" style={{ animationDelay: '1.5s' }}></div>
+        <div className="absolute bottom-1/3 left-1/3 w-0.5 h-0.5 bg-blue-300 rounded-full animate-pulse" style={{ animationDelay: '2.5s' }}></div>
       </div>
     </motion.div>
   );

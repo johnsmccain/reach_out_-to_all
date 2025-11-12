@@ -145,7 +145,7 @@ const Resources = () => {
                   sermons.map((sermon) => (
                     <div
                       key={sermon.id}
-                      className="bg-white rounded-lg shadow-lg overflow-hidden"
+                      className="bg-white rounded-3xl shadow-lg overflow-hidden"
                     >
                       <div className="relative h-48">
                         <img
@@ -178,7 +178,7 @@ const Resources = () => {
                           href={sermon.videoUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                          className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-3xl hover:bg-blue-700 transition-colors"
                         >
                           <Video className="h-5 w-5 mr-2" />
                           Watch Sermon
@@ -206,7 +206,7 @@ const Resources = () => {
                   documents.map((doc) => (
                     <div
                       key={doc.id}
-                      className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col"
+                      className="bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col"
                     >
                       {/* Larger Thumbnail */}
                       <div className="relative h-56 overflow-hidden">
@@ -246,12 +246,12 @@ const Resources = () => {
                         </div>
 
                         {/* Action Buttons */}
-                        <div className="flex gap-2">
+                        <div className="flex overflow-x-hidden rounded-3xl shadow-lg">
                           {canPreview(doc.fileType) && (
                             <Button
                               onClick={() => handlePreview(doc)}
-                              variant="outline"
-                              className="flex-1 border-blue-600 text-blue-600 hover:bg-blue-50"
+                              variant="secondary"
+                              className="flex-1 bg-blue-100 text-blue-600 hover:bg-blue-50"
                             >
                               <Eye className="h-4 w-4 mr-2" />
                               Preview
@@ -282,7 +282,7 @@ const Resources = () => {
                   {previewDoc && canPreview(previewDoc.fileType) ? (
                     <iframe
                       src={previewDoc.fileUrl}
-                      className="w-full h-full border-0 rounded-lg"
+                      className="w-full h-full border-0 rounded-3xl"
                       title={`Preview of ${previewDoc.title}`}
                     />
                   ) : (
