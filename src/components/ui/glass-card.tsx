@@ -2,14 +2,15 @@ import React from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-interface GlassCardProps extends React.HTMLAttributes<HTMLDivElement> {
+interface GlassCardProps {
   variant?: "default" | "elevated" | "bordered";
   glow?: boolean;
   children: React.ReactNode;
+  className?: string;
 }
 
 const GlassCard = React.forwardRef<HTMLDivElement, GlassCardProps>(
-  ({ className, variant = "default", glow = false, children, ...props }, ref) => {
+  ({ className, variant = "default", glow = false, children }, ref) => {
     const baseClasses = "relative overflow-hidden rounded-2xl backdrop-blur-md transition-all duration-300";
     
     const variants = {
@@ -33,7 +34,7 @@ const GlassCard = React.forwardRef<HTMLDivElement, GlassCardProps>(
           glowEffect,
           className
         )}
-        {...props}
+
       >
         {/* Animated gradient background */}
         <div className="absolute inset-0 bg-gradient-to-br from-blue-400/10 via-purple-400/5 to-cyan-400/10 opacity-0 hover:opacity-100 transition-opacity duration-500" />

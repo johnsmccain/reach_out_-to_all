@@ -2,15 +2,18 @@ import React from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-interface FuturisticButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface FuturisticButtonProps {
   variant?: "primary" | "secondary" | "accent" | "ghost";
   size?: "sm" | "md" | "lg";
   glow?: boolean;
   children: React.ReactNode;
+  className?: string;
+  onClick?: () => void;
+  disabled?: boolean;
 }
 
 const FuturisticButton = React.forwardRef<HTMLButtonElement, FuturisticButtonProps>(
-  ({ className, variant = "primary", size = "md", glow = false, children, ...props }, ref) => {
+  ({ className, variant = "primary", size = "md", glow = false, children, onClick, disabled }, ref) => {
     const baseClasses = "relative overflow-hidden font-semibold transition-all duration-300 rounded-lg border";
     
     const variants = {
@@ -40,7 +43,8 @@ const FuturisticButton = React.forwardRef<HTMLButtonElement, FuturisticButtonPro
           glowEffect,
           className
         )}
-        {...props}
+        onClick={onClick}
+        disabled={disabled}
       >
         {/* Animated background */}
         <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
