@@ -301,11 +301,11 @@ const QuoteUploadModal: React.FC<QuoteUploadModalProps> = ({
           {/* File Input */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Quote Image (PNG only)
+              Quote Image (PNG/JPG/JPEG)
             </label>
             <input
               type="file"
-              accept="image/png"
+              accept="image/png, image/jpeg, image/jpg"
               onChange={handleFileChange}
               required
               className="mt-1 block w-full text-sm text-gray-500
