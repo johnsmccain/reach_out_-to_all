@@ -3,12 +3,25 @@ import { Calendar, MapPin, Clock } from "lucide-react";
 import { supabase } from "../lib/supabase";
 import type { Event } from "../types";
 import { format } from "date-fns";
+import EventDetailModal from "../components/EventDetailModal";
 
 const Events = () => {
   const [events, setEvents] = React.useState<Event[]>([]);
   const [activeTab, setActiveTab] = React.useState<
     "past" | "current" | "future"
   >("current");
+  const [selectedEvent, setSelectedEvent] = React.useState<Event | null>(null);
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+
+  const handleEventClick = (event: Event) => {
+    setSelectedEvent(event);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedEvent(null);
+  };
 
   React.useEffect(() => {
     const fetchEvents = async () => {
@@ -78,7 +91,8 @@ const Events = () => {
           {events.map((event) => (
             <div
               key={event.id}
-              className="bg-white rounded-3xl shadow-lg overflow-hidden"
+              className="bg-white rounded-3xl shadow-lg overflow-hidden cursor-pointer hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
+              onClick={() => handleEventClick(event)}
             >
               {event.imageUrl && (
                 <img
@@ -139,6 +153,12 @@ const Events = () => {
           </div>
         )}
       </div>
+      
+      <EventDetailModal
+        event={selectedEvent}
+        isOpen={isModalOpen}
+        onClose={closeModal}
+      />
     </div>
   );
 };
