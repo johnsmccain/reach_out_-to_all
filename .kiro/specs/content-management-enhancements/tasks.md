@@ -1,0 +1,179 @@
+# Implementation Plan
+
+- [x] 1. Database schema updates and storage setup
+  - [x] 1.1 Create migration file to add image_url and image_type columns to daily_quotes table
+    - Add nullable image_url TEXT column
+    - Add image_type VARCHAR(10) column with default 'text' and CHECK constraint
+    - _Requirements: 1.1, 1.2, 1.3_
+  - [x] 1.2 Create Supabase storage buckets and policies
+    - Create 'quote-images' bucket for daily quote images
+    - Create 'documents' bucket if it doesn't exist
+    - Set up RLS policies for admin upload and public read access
+    - Configure CORS and file size limits
+    - _Requirements: 1.1, 3.6, 3.7_
+
+- [x] 2. Implement PDF export functionality
+  - [x] 2.1 Create PDF generation utility module
+    - Create src/lib/pdfExport.ts file
+    - Implement generateArticlePDF function using jsPDF
+    - Add article title, author, date formatting
+    - Implement content text rendering with proper line breaks
+    - Add page numbering and footer with tags
+    - Handle multi-page content with page breaks
+    - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 2.7_
+  - [x] 2.2 Integrate PDF export into ArticleDetail component
+    - Update ArticleDetail.tsx to import PDF utility
+    - Replace placeholder downloadPDF function with actual PDF generation
+    - Add loading state during PDF generation
+    - Add error handling with toast notifications
+    - Sanitize filename from article title
+    - _Requirements: 2.1, 2.4, 2.6_
+  - [x] 2.3 Add cover image rendering to PDF
+    - Use html2canvas to convert cover image to canvas
+    - Embed image in PDF header section
+    - Handle cases where cover image is missing
+    - _Requirements: 2.2_
+
+- [x] 3. Enhance DailyQuote component for image support
+  - [x] 3.1 Update DailyQuote component to handle image quotes
+    - Update fetchTodaysQuote to retrieve image_url and image_type
+    - Add conditional rendering for image vs text quotes
+    - Implement responsive image display with proper aspect ratio
+    - Maintain existing text quote styling
+    - Add fallback to latest quote when no quote exists for current date
+    - _Requirements: 1.4, 1.5, 1.6_
+  - [x] 3.2 Update TypeScript types for DailyQuote
+    - Update DailyQuote interface in src/types.ts
+    - Add optional image_url field
+    - Add image_type field with 'text' | 'image' union type
+    - Make quote and author fields optional
+    - _Requirements: 1.1, 1.2_
+
+- [x] 4. Create admin quote image upload interface
+  - [x] 4.1 Create QuoteUploadModal component
+    - Create new component file src/components/admin/QuoteUploadModal.tsx
+    - Implement modal UI with file input for PNG files
+    - Add date picker for scheduling quotes
+    - Add image preview functionality
+    - Implement form validation (file type, date uniqueness)
+    - _Requirements: 1.1, 1.3, 1.7_
+  - [x] 4.2 Implement quote image upload logic
+    - Add file upload to Supabase Storage 'quote-images' bucket
+    - Generate unique filename with timestamp
+    - Store image URL and metadata in daily_quotes table
+    - Add success/error toast notifications
+    - Clear form after successful upload
+    - _Requirements: 1.2, 1.3_
+  - [x] 4.3 Integrate QuoteUploadModal into AdminDashboard
+    - Add "Upload Quote Image" button to quotes tab
+    - Wire up modal open/close state
+    - Refresh quotes list after successful upload
+    - Update quotes table to show image thumbnails
+    - Add image type indicator column
+    - _Requirements: 1.7, 5.2_
+
+- [x] 5. Enhance document management in Resources page
+  - [x] 5.1 Improve document card UI in Resources component
+    - Enhance document card layout with larger thumbnails
+    - Add file type badge display
+    - Improve download button styling and prominence
+    - Add file size display formatting
+    - Ensure responsive grid layout
+    - _Requirements: 3.1, 3.3, 3.5_
+  - [x] 5.2 Add document preview functionality
+    - Add preview button to document cards
+    - Implement modal for PDF preview using iframe
+    - Add fallback for non-previewable formats
+    - _Requirements: 3.2_
+
+- [x] 6. Create admin document upload interface
+  - [x] 6.1 Create DocumentUploadModal component
+    - Create new component file src/components/admin/DocumentUploadModal.tsx
+    - Implement modal UI with file input for documents (PDF, DOCX, TXT)
+    - Add optional thumbnail image upload
+    - Add title and description text fields
+    - Implement file type and size validation
+    - _Requirements: 3.6, 3.7_
+  - [x] 6.2 Implement document upload logic
+    - Calculate file size and extract file type
+    - Upload document to Supabase Storage 'documents' bucket
+    - Upload thumbnail to storage if provided
+    - Store metadata in documents table
+    - Add success/error notifications
+    - _Requirements: 3.7, 3.3_
+  - [x] 6.3 Add documents management tab to AdminDashboard
+    - Create new "Documents" section in admin dashboard
+    - Add "Upload Document" button
+    - Display documents table with thumbnails and metadata
+    - Implement edit and delete functionality
+    - Wire up DocumentUploadModal
+    - _Requirements: 5.3, 5.4, 5.5_
+
+- [x] 7. Enhance article comment system
+  - [x] 7.1 Improve comment form validation and UX
+    - Add character limit display for comment text
+    - Improve validation error messages
+    - Add loading state during comment submission
+    - Add empty state message when no comments exist
+    - Improve comment count display
+    - _Requirements: 4.3, 4.7_
+  - [x] 7.2 Enhance comment display and real-time updates
+    - Verify real-time subscription is working correctly
+    - Improve comment list styling
+    - Add loading skeleton for comments
+    - Ensure proper error handling for failed submissions
+    - _Requirements: 4.4, 4.5, 4.6_
+
+- [x] 8. Admin dashboard UI improvements
+  - [x] 8.1 Enhance quotes tab interface
+    - Update quotes table to display image thumbnails
+    - Add quote type indicator (text/image)
+    - Improve delete confirmation dialog
+    - Add edit functionality for text quotes
+    - Ensure proper error handling and notifications
+    - _Requirements: 5.2, 5.5, 5.6_
+  - [x] 8.2 Verify featured articles functionality
+    - Test "Featured Article" toggle in articles tab
+    - Ensure is_top flag updates correctly in database
+    - Verify featured articles display on home page
+    - _Requirements: 5.7_
+
+- [x] 9. Error handling and validation
+  - [x] 9.1 Implement comprehensive file upload validation
+    - Add file size limits (10MB for images, 50MB for documents)
+    - Validate file types on client side
+    - Add proper error messages for validation failures
+    - Implement retry mechanism for failed uploads
+    - _Requirements: 1.1, 3.6, 3.7_
+  - [x] 9.2 Add error handling for PDF generation
+    - Validate article data before PDF generation
+    - Handle browser compatibility issues
+    - Add fallback error messages
+    - Log errors for debugging
+    - _Requirements: 2.6_
+
+- [x] 10. Testing and polish
+  - [x] 10.1 Test daily quote rotation
+    - Verify quote changes at midnight
+    - Test fallback to latest quote
+    - Test with both text and image quotes
+    - _Requirements: 1.4, 1.5, 1.6_
+  - [x] 10.2 Test PDF export across different articles
+    - Test with short and long articles
+    - Test with and without cover images
+    - Verify formatting and page breaks
+    - Test filename sanitization
+    - _Requirements: 2.2, 2.3, 2.4, 2.7_
+  - [x] 10.3 Test document upload and download
+    - Test with different file types (PDF, DOCX, TXT)
+    - Verify file size display accuracy
+    - Test download functionality
+    - Test preview for PDFs
+    - _Requirements: 3.2, 3.3, 3.4, 3.5_
+  - [x] 10.4 Test responsive design
+    - Test all new features on mobile devices
+    - Verify image quote display on small screens
+    - Test modal responsiveness
+    - Verify document grid layout on tablets
+    - _Requirements: All_
+Good! I can see that both upload modals already have basic validation. Now I'll enhance them with comprehensive validation including retry mechanism

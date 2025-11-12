@@ -73,3 +73,43 @@ export interface Statistics {
   welfare_beneficiaries: number;
   updated_at: string;
 }
+
+export interface Article {
+  id: string;
+  title: string;
+  content: string;
+  author: string;
+  cover_image?: string;
+  tags: string[];
+  is_top: boolean;
+  published: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ArticleReaction {
+  id: string;
+  article_id: string;
+  user_id?: string;
+  type: 'like' | 'love' | 'pray';
+  created_at: string;
+}
+
+export interface ArticleComment {
+  id: string;
+  article_id: string;
+  user_id?: string;
+  comment: string;
+  author_name: string;
+  created_at: string;
+}
+
+export interface DailyQuote {
+  id: string;
+  quote?: string;
+  author?: string;
+  image_url?: string;
+  image_type: 'text' | 'image';
+  date: string;
+  created_at: string;
+}

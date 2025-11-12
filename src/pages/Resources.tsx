@@ -1,13 +1,18 @@
 import React from "react";
-import { Video, FileText, Download, ExternalLink } from "lucide-react";
+import { Video, FileText, Download, ExternalLink, Eye } from "lucide-react";
 import { supabase } from "../lib/supabase";
 import type { Sermon, Document } from "../types";
 import { format } from "date-fns";
+import { Badge } from "../components/ui/badge";
+import { Button } from "../components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../components/ui/dialog";
 
 const Resources = () => {
   const [sermons, setSermons] = React.useState<Sermon[]>([]);
   const [documents, setDocuments] = React.useState<Document[]>([]);
   const [loading, setLoading] = React.useState(true);
+  const [previewDoc, setPreviewDoc] = React.useState<Document | null>(null);
+  const [previewOpen, setPreviewOpen] = React.useState(false);
 
   React.useEffect(() => {
     const fetchResources = async () => {
@@ -60,6 +65,39 @@ const Resources = () => {
 
   const handleDownload = (doc: Document) => {
     window.open(doc.fileUrl, "_blank");
+  };
+
+  const handlePreview = (doc: Document) => {
+    setPreviewDoc(doc);
+    setPreviewOpen(true);
+  };
+
+  const formatFileSize = (sizeStr: string): string => {
+    // If already formatted (contains KB, MB, etc.), return as is
+    if (sizeStr.match(/[KMGT]B/i)) {
+      return sizeStr;
+    }
+    
+    // Otherwise, assume it's in bytes and format it
+    const bytes = parseInt(sizeStr);
+    if (isNaN(bytes)) return sizeStr;
+    
+    if (bytes < 1024) return `${bytes} B`;
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+    if (bytes < 1024 * 1024 * 1024) return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+    return `${(bytes / (1024 * 1024 * 1024)).toFixed(1)} GB`;
+  };
+
+  const getFileTypeBadgeColor = (fileType: string): string => {
+    const type = fileType.toLowerCase();
+    if (type.includes('pdf')) return 'bg-red-100 text-red-800 hover:bg-red-100';
+    if (type.includes('doc')) return 'bg-blue-100 text-blue-800 hover:bg-blue-100';
+    if (type.includes('txt')) return 'bg-gray-100 text-gray-800 hover:bg-gray-100';
+    return 'bg-purple-100 text-purple-800 hover:bg-purple-100';
+  };
+
+  const canPreview = (fileType: string): boolean => {
+    return fileType.toLowerCase().includes('pdf');
   };
 
   return (
@@ -159,51 +197,114 @@ const Resources = () => {
                 <FileText className="h-8 w-8 text-blue-600" />
                 <h2 className="text-3xl font-bold">Documents</h2>
               </div>
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {documents.length === 0 ? (
-                  <p className="text-gray-500 col-span-2 text-center py-8">
+                  <p className="text-gray-500 col-span-full text-center py-8">
                     No documents available yet.
                   </p>
                 ) : (
                   documents.map((doc) => (
                     <div
                       key={doc.id}
-                      className="bg-white rounded-lg shadow-lg overflow-hidden"
+                      className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col"
                     >
-                      <div className="relative h-48">
+                      {/* Larger Thumbnail */}
+                      <div className="relative h-56 overflow-hidden">
                         <img
                           src={doc.imageUrl}
                           alt={doc.title}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                        <div className="absolute bottom-4 left-4 right-4">
-                          <h3 className="text-xl font-bold text-white">
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                        
+                        {/* File Type Badge */}
+                        <div className="absolute top-3 right-3">
+                          <Badge className={`${getFileTypeBadgeColor(doc.fileType)} font-semibold text-xs px-3 py-1`}>
+                            {doc.fileType.toUpperCase()}
+                          </Badge>
+                        </div>
+
+                        {/* Title Overlay */}
+                        <div className="absolute bottom-0 left-0 right-0 p-4">
+                          <h3 className="text-xl font-bold text-white line-clamp-2">
                             {doc.title}
                           </h3>
                         </div>
                       </div>
-                      <div className="p-6">
-                        <p className="text-gray-600 mb-4">{doc.description}</p>
-                        <div className="text-sm text-gray-500 space-y-1 mb-4">
-                          <p>Type: {doc.fileType}</p>
-                          <p>Size: {doc.fileSize}</p>
+
+                      {/* Content */}
+                      <div className="p-5 flex-1 flex flex-col">
+                        <p className="text-gray-600 mb-4 line-clamp-3 flex-1">
+                          {doc.description}
+                        </p>
+                        
+                        {/* File Info */}
+                        <div className="flex items-center justify-between mb-4 text-sm">
+                          <span className="text-gray-500 font-medium">
+                            Size: {formatFileSize(doc.fileSize)}
+                          </span>
                         </div>
 
-                        {/* Download Button */}
-                        <button
-                          onClick={() => handleDownload(doc)}
-                          className="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-                        >
-                          <Download className="h-5 w-5 mr-2" />
-                          Download {doc.fileType.toUpperCase()}
-                        </button>
+                        {/* Action Buttons */}
+                        <div className="flex gap-2">
+                          {canPreview(doc.fileType) && (
+                            <Button
+                              onClick={() => handlePreview(doc)}
+                              variant="outline"
+                              className="flex-1 border-blue-600 text-blue-600 hover:bg-blue-50"
+                            >
+                              <Eye className="h-4 w-4 mr-2" />
+                              Preview
+                            </Button>
+                          )}
+                          <Button
+                            onClick={() => handleDownload(doc)}
+                            className={`${canPreview(doc.fileType) ? 'flex-1' : 'w-full'} bg-green-600 hover:bg-green-700 text-white font-semibold`}
+                          >
+                            <Download className="h-4 w-4 mr-2" />
+                            Download
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   ))
                 )}
               </div>
             </section>
+
+            {/* Preview Modal */}
+            <Dialog open={previewOpen} onOpenChange={setPreviewOpen}>
+              <DialogContent className="max-w-4xl h-[80vh]">
+                <DialogHeader>
+                  <DialogTitle>{previewDoc?.title}</DialogTitle>
+                </DialogHeader>
+                <div className="flex-1 overflow-hidden">
+                  {previewDoc && canPreview(previewDoc.fileType) ? (
+                    <iframe
+                      src={previewDoc.fileUrl}
+                      className="w-full h-full border-0 rounded-lg"
+                      title={`Preview of ${previewDoc.title}`}
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center h-full">
+                      <div className="text-center">
+                        <FileText className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+                        <p className="text-gray-600 mb-4">
+                          Preview not available for this file type.
+                        </p>
+                        <Button
+                          onClick={() => previewDoc && handleDownload(previewDoc)}
+                          className="bg-green-600 hover:bg-green-700"
+                        >
+                          <Download className="h-4 w-4 mr-2" />
+                          Download Instead
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </DialogContent>
+            </Dialog>
           </>
         )}
       </div>

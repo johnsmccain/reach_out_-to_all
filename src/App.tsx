@@ -14,6 +14,8 @@ import Login from "./pages/Login";
 import AuthGuard from "./components/AuthGuard";
 import PageTransition from "./components/PageTransition";
 import Registration from "./pages/Registration";
+import Articles from "./pages/Articles";
+import ArticleDetail from "./pages/ArticleDetail";
 
 function App() {
   return (
@@ -68,6 +70,22 @@ function App() {
                 element={
                   <PageTransition>
                     <Registration />
+                  </PageTransition>
+                }
+              />
+              <Route
+                path="/articles"
+                element={
+                  <PageTransition>
+                    <Articles />
+                  </PageTransition>
+                }
+              />
+              <Route
+                path="/articles/:id"
+                element={
+                  <PageTransition>
+                    <ArticleDetail />
                   </PageTransition>
                 }
               />

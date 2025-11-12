@@ -3,6 +3,8 @@ import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import StatisticsCounter from "../components/StatisticsCounter";
+import DailyQuote from "../components/DailyQuote";
+import TopArticles from "../components/TopArticles";
 import type { Statistics } from "../types";
 import img from "../asset/image1.jpg";
 import imgs from "../asset/image22.jpg";
@@ -159,7 +161,7 @@ const Home = () => {
               alt={image.alt}
               className="w-full h-full object-cover rounded-lg"
             />
-            <div className="absolute inset-0 bg-black bg-opacity-50" />
+            <div className="absolute inset-0 bg-black bg-opacity-10" />
           </div>
         ))}
         <div className="relative container mx-auto px-4 h-full flex items-center">
@@ -195,12 +197,22 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Daily Quote Section */}
+      <section className="container mx-auto px-4">
+        <DailyQuote />
+      </section>
+
       {/* Statistics Section */}
       <section className="container mx-auto px-4">
         <h2 className="text-2xl sm:text-3xl font-bold text-center text-blue-900 mb-6 sm:mb-8">
           Our Impact
         </h2>
         <StatisticsCounter statistics={statistics || undefined} />
+      </section>
+
+      {/* Top Articles Section */}
+      <section className="container mx-auto px-4">
+        <TopArticles />
       </section>
 
       <div className="container mx-auto px-4 space-y-6">
