@@ -1,6 +1,6 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Calendar, MapPin, Clock, Users } from "lucide-react";
+import { X, Calendar, MapPin, Clock } from "lucide-react";
 import type { Event } from "../types";
 
 interface EventDetailModalProps {
