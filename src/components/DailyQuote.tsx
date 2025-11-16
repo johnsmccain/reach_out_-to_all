@@ -51,13 +51,9 @@ const DailyQuote = () => {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
-        className="w-fit relative bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800 rounded-2xl overflow-hidden shadow-lg border border-white/20"
+        className="w-fit relative  rounded-2xl overflow-hidden shadow-lg border border-white/20"
       >
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-4 left-4 w-32 h-32 bg-white rounded-full blur-3xl"></div>
-          <div className="absolute bottom-4 right-4 w-24 h-24 bg-white rounded-full blur-2xl"></div>
-        </div>
+     
 
         <div className="relative z-10 p-4">
           <div className="flex items-center gap-3 mb-4 text-white">
@@ -67,7 +63,7 @@ const DailyQuote = () => {
             >
               <Quote className="h-6 w-6 text-yellow-300" />
             </motion.div>
-            <h3 className="text-lg font-bold">Daily Inspiration</h3>
+            <h3 className="text-lg font-bold text-black">Daily Inspiration</h3>
           </div>
 
           <motion.div
