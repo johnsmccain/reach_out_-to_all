@@ -51,7 +51,7 @@ const DailyQuote = () => {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
-        className="relative bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800 rounded-2xl overflow-hidden"
+        className="w-fit relative bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800 rounded-2xl overflow-hidden shadow-lg border border-white/20"
       >
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-10">
@@ -79,7 +79,7 @@ const DailyQuote = () => {
             <img
               src={quote.image_url}
               alt="Daily inspirational quote"
-              className="w-full h-auto rounded-lg object-contain max-h-[500px]"
+              className="w-full h-auto object-contain max-h-[500px] rounded-2xl shadow-lg border border-white/20"
             />
           </motion.div>
         </div>
