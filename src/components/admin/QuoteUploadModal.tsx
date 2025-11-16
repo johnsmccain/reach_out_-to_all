@@ -10,12 +10,12 @@ interface QuoteUploadModalProps {
 
 // File size limits
 const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // 10MB
-const ACCEPTED_IMAGE_TYPES = ["image/png"];
+const ACCEPTED_IMAGE_TYPES = ["image/png", "image/jpeg", "image/jpg"];
 
 // Validation error messages
 const VALIDATION_ERRORS = {
   FILE_TOO_LARGE: `File size must be less than ${MAX_IMAGE_SIZE / (1024 * 1024)}MB`,
-  INVALID_FILE_TYPE: "Please select a PNG image file",
+  INVALID_FILE_TYPE: "Please select a PNG, JPEG, or JPG image file",
   NO_FILE_SELECTED: "Please select an image file",
   DATE_ALREADY_EXISTS: "A quote already exists for this date",
   UPLOAD_FAILED: "Failed to upload quote image. Please try again.",
