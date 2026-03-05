@@ -123,48 +123,6 @@
   -webkit-line-clamp: 4;
 }
 
-/* Masonry Layout */
-.masonry-container {
-  /* Fallback for browsers that don't support CSS Grid masonry */
-  display: grid;
-  grid-auto-rows: 10px;
-  align-items: start;
-}
-
-.masonry-item {
-  /* Ensure items don't overflow */
-  overflow: hidden;
-  break-inside: avoid;
-  page-break-inside: avoid;
-}
-
-/* CSS Grid Masonry (when supported) */
-@supports (grid-template-rows: masonry) {
-  .masonry-container {
-    grid-template-rows: masonry;
-    grid-auto-rows: unset;
-  }
-}
-
-/* Responsive masonry columns */
-@media (max-width: 640px) {
-  .masonry-container {
-    grid-template-columns: 1fr !important;
-  }
-}
-
-@media (min-width: 641px) and (max-width: 1024px) {
-  .masonry-container {
-    grid-template-columns: repeat(2, 1fr) !important;
-  }
-}
-
-@media (min-width: 1025px) {
-  .masonry-container {
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)) !important;
-  }
-}
-
 /* Custom animations */
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
