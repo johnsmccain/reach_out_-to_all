@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react';
 
-interface PerformanceMetrics {
-  renderTime: number;
-  componentName: string;
-}
+// interface PerformanceMetrics {
+//   renderTime: number;
+//   componentName: string;
+// }
 
 /**
  * Hook to monitor component performance
