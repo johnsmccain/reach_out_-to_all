@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Search } from "lucide-react";
 import { useArticles } from "@/hooks/useArticles";
@@ -9,7 +9,6 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 const Articles = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedTag, setSelectedTag] = useState("");
-  const masonryRef = useRef<HTMLDivElement>(null);
 
   // Debounce search term for better performance
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
@@ -19,75 +18,6 @@ const Articles = () => {
     searchTerm: debouncedSearchTerm,
     selectedTag,
   });
-
-  const initializeMasonry = () => {
-    if (!masonryRef.current) return;
-
-    const container = masonryRef.current;
-    const items = container.children;
-    
-    if (items.length === 0) return;
-
-    // Get container width and calculate columns
-    const containerWidth = container.offsetWidth;
-    const itemWidth = 320; // Base width for each column
-    const gap = 32; // Gap between items
-    const columns = Math.max(1, Math.floor((containerWidth + gap) / (itemWidth + gap)));
-    
-    // Set container styles
-    container.style.display = 'grid';
-    container.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
-    container.style.gap = `${gap}px`;
-    container.style.alignItems = 'start';
-
-    // Reset all items
-    Array.from(items).forEach((item) => {
-      const element = item as HTMLElement;
-      element.style.gridRowEnd = 'auto';
-      element.style.marginBottom = '0';
-    });
-
-    // Calculate and set grid row spans for masonry effect
-    setTimeout(() => {
-      Array.from(items).forEach((item) => {
-        const element = item as HTMLElement;
-        const itemHeight = element.offsetHeight;
-        const rowHeight = parseInt(window.getComputedStyle(container).gridAutoRows) || 10;
-        const rowSpan = Math.ceil((itemHeight + gap) / (rowHeight + gap));
-        element.style.gridRowEnd = `span ${rowSpan}`;
-      });
-    }, 50);
-  };
-  useEffect(() => {
-    // Initialize masonry layout after articles load or filter changes
-    if (!loading && articles.length > 0) {
-      const timeoutId = setTimeout(() => {
-        initializeMasonry();
-      }, 100);
-      
-      return () => clearTimeout(timeoutId);
-    }
-  }, [loading, articles.length]);
-
-  useEffect(() => {
-    // Reinitialize masonry on window resize with throttling
-    let timeoutId: NodeJS.Timeout;
-    
-    const handleResize = () => {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-        if (!loading && articles.length > 0) {
-          initializeMasonry();
-        }
-      }, 150);
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      clearTimeout(timeoutId);
-    };
-  }, [loading, articles.length]);
 
   if (loading) {
     return <LoadingSpinner />;
@@ -159,24 +89,16 @@ const Articles = () => {
         </div>
       </motion.div>
 
-      {/* Articles Masonry Grid */}
+      {/* Articles Grid */}
       <motion.div
-        ref={masonryRef}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2 }}
-        className="masonry-container"
-        style={{
-          display: 'grid',
-          gridAutoRows: '10px',
-          gap: '32px',
-          alignItems: 'start'
-        }}
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
       >
         {articles.map((article, index) => (
           <motion.div 
             key={article.id} 
-            className="masonry-item"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ 

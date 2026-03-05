@@ -17,11 +17,7 @@ interface CardProps {
     index: number;
 }
 const ArticleCard = ({article, index}: CardProps) => {
-  // Create varied card heights for better masonry effect
-  const contentLength = htmlToPlainText(article.content).length;
-  const isLongContent = contentLength > 500;
-  const excerptLength = isLongContent ? 200 : 120;
-  const lineClamp = isLongContent ? 'line-clamp-4' : 'line-clamp-3';
+  const excerptLength = 150;
   
   return (
               <motion.article
@@ -52,7 +48,7 @@ const ArticleCard = ({article, index}: CardProps) => {
                 {article.title}
               </h2>
               
-              <p className={`text-gray-600 ${lineClamp}`}>
+              <p className="text-gray-600 line-clamp-3">
                 {htmlToPlainText(article.content).substring(0, excerptLength)}...
               </p>
               
