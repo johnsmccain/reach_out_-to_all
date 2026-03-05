@@ -1,37 +1,13 @@
 import React, { useState } from "react";
 import { ChevronDown, Menu } from "lucide-react";
 import image from "@/asset/pastorbawa.png";
-import img from "../asset/r2a 1.jpg";
-import imgs from "../asset/R2a 2.jpg";
-import img1 from "../asset/R2A3.jpg";
-import img2 from "../asset/R2A 4.jpg";
+import imagebank from "../asset/imageBank"
 
 const About = () => {
   const [activeTab, setActiveTab] = useState("story");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = React.useState(0);
-  const heroImages = [
-    {
-      url: "https://images.unsplash.com/photo-1438232992991-995b7058bbb3?ixlib=rb-4.0.3",
-      alt: "Mission work",
-    },
-    {
-      url: img,
-      alt: "Community outreach",
-    },
-    {
-      url: imgs,
-      alt: "Humanitarian aid",
-    },
-    {
-      url: img1,
-      alt: "Gospel sharing",
-    },
-    {
-      url: img2,
-      alt: "Gospel sharing",
-    },
-  ];
+  const heroImages = imagebank.r2a;
 
   React.useEffect(() => {
     const interval = setInterval(() => {
@@ -46,20 +22,20 @@ const About = () => {
   return (
     <div className="space-y-16">
       {/* Hero Section */}
-      <section className="relative h-[400px] md:h-[500px] overflow-hidden rounded-3xl">
+      <section className="relative h-100 md:h-125 overflow-hidden">
         {heroImages.map((image, index) => (
           <div
             key={index}
-            className={`absolute inset-0 transition-opacity duration-1000 rounded-xl ${
+            className={`absolute inset-0 transition-opacity duration-1000 rounded-sm ${
               index === currentImageIndex ? "opacity-100" : "opacity-0"
             }`}
           >
             <img
-              src={image.url}
-              alt={image.alt}
+              src={image}
+              alt={"R2A"}
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-black bg-opacity-50" />
+            <div className="absolute inset-0 bg-black opacity-30" />
           </div>
         ))}
         <div className="relative container mx-auto px-4 h-full flex items-center">
@@ -95,7 +71,7 @@ const About = () => {
       <div className="md:hidden px-4">
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="w-full flex items-center justify-between p-4 bg-white rounded-xl shadow-md"
+          className="w-full flex items-center justify-between p-4 bg-white rounded-sm shadow-md"
         >
           <span className="font-semibold">
             {
@@ -121,7 +97,7 @@ const About = () => {
                   setActiveTab(tab.id);
                   setIsMenuOpen(false);
                 }}
-                className={`w-full p-4 text-left rounded-xl ${
+                className={`w-full p-4 text-left rounded-sm ${
                   activeTab === tab.id
                     ? "bg-blue-50 text-blue-900"
                     : "text-gray-700 hover:bg-gray-50"
@@ -207,7 +183,7 @@ const About = () => {
             }`}
           >
             <div className="grid gap-8 md:grid-cols-2">
-              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-shadow">
+              <div className="bg-white p-6 md:p-8 rounded-sm shadow-lg border border-gray-100 hover:shadow-xl transition-shadow">
                 <h3 className="text-xl md:text-2xl font-bold mb-6 text-blue-900">
                   Our Foundation
                 </h3>
@@ -230,7 +206,7 @@ const About = () => {
                   </li>
                 </ul>
               </div>
-              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-shadow">
+              <div className="bg-white p-6 md:p-8 rounded-sm shadow-lg border border-gray-100 hover:shadow-xl transition-shadow">
                 <h3 className="text-xl md:text-2xl font-bold mb-6 text-blue-900">
                   Our Purpose
                 </h3>
@@ -266,10 +242,10 @@ const About = () => {
                 : "hidden opacity-0"
             }`}
           >
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-              <div className="flex flex-col lg:flex-row">
+            <div className="bg-white rounded-sm shadow-lg overflow-hidden">
+              <div className="flex flex-col items-center lg:flex-row justify-center ">
                 <div className="lg:w-1/3">
-                  <div className="relative pt-[100%] lg:pt-[150%]">
+                  <div className="relative pt-[100%] lg:pt-[150%] ">
                     <img
                       src={image}
                       alt="Pastor Bawa G. Emmanuel"
@@ -316,7 +292,7 @@ const About = () => {
             </div>
 
             {/* Regional Chapters */}
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden p-6 md:p-8">
+            <div className="bg-white rounded-sm shadow-lg overflow-hidden p-6 md:p-8">
               <h3 className="text-2xl font-bold text-blue-900 mb-6">
                 Regional Chapters
               </h3>
@@ -342,7 +318,7 @@ const About = () => {
             </div>
 
             {/* Leadership Structure */}
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden p-6 md:p-8">
+            <div className="bg-white rounded-sm shadow-lg overflow-hidden p-6 md:p-8">
               <h3 className="text-2xl font-bold text-blue-900 mb-6">
                 Leadership Structure
               </h3>
@@ -372,7 +348,7 @@ const About = () => {
       </section>
 
       {/* Core Values */}
-      <section className="bg-gradient-to-b from-gray-50 to-white py-12 md:py-20">
+      <section className="bg-linear-to-b from-gray-50 to-white py-12 md:py-20">
         <div className="container mx-auto px-4 max-w-4xl text-center space-y-12">
           <div className="space-y-6">
             <h2 className="text-3xl md:text-4xl font-bold text-blue-900">
@@ -401,7 +377,7 @@ const About = () => {
         <h2 className="text-3xl md:text-4xl font-bold text-blue-900 mb-8 text-center">
           Our Team
         </h2>
-        <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+        <div className="bg-white rounded-sm shadow-lg overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
               <tbody className="divide-y divide-gray-100">

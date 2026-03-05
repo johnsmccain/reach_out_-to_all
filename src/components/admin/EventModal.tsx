@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; // Import Toastify CSS
+import "react-toastify/dist/ReactToastify.css";
 import type { Event } from "@/types";
+import { X, Save, Calendar, MapPin, Video, Image as ImageIcon } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 // Supabase Configuration
-const supabaseUrl = "https://vrxowwnqvdsiqhjmnpob.supabase.co";
-const supabaseKey =
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZyeG93d25xdmRzaXFoam1ucG9iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgwMDU0NzYsImV4cCI6MjA3MzU4MTQ3Nn0.wuPmTtMry_sPGWdwIZBIi7ZhFwT8mHiJQVSvjfeYSm8"
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || "";
+const supabaseKey =  import.meta.env.VITE_SUPABASE_ANON_KEY || "";
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 interface EventModalProps {
@@ -16,7 +17,7 @@ interface EventModalProps {
   onSubmit: (eventDetails: any) => Promise<void>;
   editingEvent: Event | null;
 }
-
+ 
 const EventModal = ({
   isOpen,
   onClose,
@@ -24,7 +25,7 @@ const EventModal = ({
   editingEvent,
 }: EventModalProps) => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false); // Prevent multiple form submissions
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [formData, setFormData] = useState({
     title: editingEvent?.title || "",
@@ -37,7 +38,6 @@ const EventModal = ({
     type: editingEvent?.type || "future",
   });
 
-  // Reset form data when the modal opens
   useEffect(() => {
     if (isOpen) {
       setFormData({
@@ -54,7 +54,6 @@ const EventModal = ({
     }
   }, [isOpen, editingEvent]);
 
-  // Upload image to Cloudinary
   const handleFileUpload = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -85,7 +84,6 @@ const EventModal = ({
     }
   };
 
-  // Handle input changes
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -94,10 +92,9 @@ const EventModal = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Handle form submission
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (isSubmitting) return; // Prevent duplicate submission
+    if (isSubmitting) return;
     setIsSubmitting(true);
 
     if (!imageUrl) {
@@ -116,7 +113,6 @@ const EventModal = ({
     };
 
     try {
-      // Check if an event with the same title and date already exists
       const { data: existingEvent, error: fetchError } = await supabase
         .from("events")
         .select("*")
@@ -143,7 +139,6 @@ const EventModal = ({
         return;
       }
 
-      // Insert or update event using upsert
       const { error } = await supabase
         .from("events")
         .upsert([eventDetails], { onConflict: "id" });
@@ -176,98 +171,194 @@ const EventModal = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-lg max-w-2xl w-full p-6">
-        <h2 className="text-2xl font-bold mb-6">
-          {editingEvent ? "Edit Event" : "Add New Event"}
-        </h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            type="text"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            placeholder="Title"
-            required
-            className="block w-full p-2 border rounded"
-          />
-          <textarea
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            placeholder="Description"
-            required
-            className="block w-full p-2 border rounded"
-          />
-          <input
-            type="datetime-local"
-            name="date"
-            value={formData.date}
-            onChange={handleChange}
-            required
-            className="block w-full p-2 border rounded"
-          />
-          <input
-            type="text"
-            name="location"
-            value={formData.location}
-            onChange={handleChange}
-            placeholder="Location"
-            required
-            className="block w-full p-2 border rounded"
-          />
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleFileUpload}
-            className="block w-full p-2 border rounded"
-          />
-          {imageUrl && (
-            <img
-              src={imageUrl}
-              alt="Uploaded"
-              className="mt-4 rounded-md w-40"
-            />
-          )}
-          <input
-            type="url"
-            name="video_url"
-            value={formData.video_url}
-            onChange={handleChange}
-            placeholder="Video URL"
-            className="block w-full p-2 border rounded"
-          />
-          <select
-            name="type"
-            value={formData.type}
-            onChange={handleChange}
-            required
-            className="block w-full p-2 border rounded"
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50 overflow-y-auto">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            transition={{ duration: 0.2 }}
+            className="bg-white rounded-2xl w-full max-w-4xl max-h-[95vh] overflow-hidden shadow-2xl"
           >
-            <option value="past">Past</option>
-            <option value="current">Current</option>
-            <option value="future">Future</option>
-          </select>
-          <div className="flex justify-end space-x-4 mt-6">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 border rounded-md text-gray-700"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="px-4 py-2 bg-blue-600 text-white rounded-md"
-            >
-              {isSubmitting ? "Saving..." : editingEvent ? "Update" : "Create"}{" "}
-              Event
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+            {/* Header */}
+            <div className="sticky top-0 bg-linear-to-r from-blue-600 via-purple-600 to-cyan-600 text-white p-6 flex justify-between items-center z-10">
+              <div>
+                <h2 className="text-2xl font-bold flex items-center gap-2">
+                  <Calendar className="h-6 w-6" />
+                  {editingEvent ? 'Edit Event' : 'Create New Event'}
+                </h2>
+              </div>
+              <motion.button
+                whileHover={{ scale: 1.1, rotate: 90 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={onClose}
+                className="p-2 hover:bg-white/20 rounded-lg transition-colors"
+              >
+                <X className="h-6 w-6" />
+              </motion.button>
+            </div>
+
+            {/* Form */}
+            <form onSubmit={handleSubmit} className="p-6 space-y-6 overflow-y-auto max-h-[calc(95vh-88px)]">
+              {/* Title & Date Row */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                    <Calendar className="h-4 w-4 text-blue-600" />
+                    Title *
+                  </label>
+                  <input
+                    type="text"
+                    name="title"
+                    value={formData.title}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                    placeholder="Enter event title"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                    <Calendar className="h-4 w-4 text-blue-600" />
+                    Date & Time *
+                  </label>
+                  <input
+                    type="datetime-local"
+                    name="date"
+                    value={formData.date}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                  />
+                </div>
+              </div>
+
+              {/* Location & Type Row */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                    <MapPin className="h-4 w-4 text-blue-600" />
+                    Location *
+                  </label>
+                  <input
+                    type="text"
+                    name="location"
+                    value={formData.location}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                    placeholder="Enter event location"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Event Type *
+                  </label>
+                  <select
+                    name="type"
+                    value={formData.type}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                  >
+                    <option value="past">Past</option>
+                    <option value="current">Current</option>
+                    <option value="future">Future</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Description */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Description *
+                </label>
+                <textarea
+                  name="description"
+                  value={formData.description}
+                  onChange={handleChange}
+                  required
+                  rows={4}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                  placeholder="Enter event description"
+                />
+              </div>
+
+              {/* Image Upload */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                  <ImageIcon className="h-4 w-4 text-blue-600" />
+                  Event Image *
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileUpload}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                />
+                {imageUrl && (
+                  <div className="mt-3 rounded-xl overflow-hidden border border-gray-200">
+                    <img src={imageUrl} alt="Event preview" className="w-full h-48 object-cover" />
+                  </div>
+                )}
+              </div>
+
+              {/* Video URL */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                  <Video className="h-4 w-4 text-blue-600" />
+                  Video URL (Optional)
+                </label>
+                <input
+                  type="url"
+                  name="video_url"
+                  value={formData.video_url}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                  placeholder="https://youtube.com/watch?v=..."
+                />
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  type="button"
+                  onClick={onClose}
+                  disabled={isSubmitting}
+                  className="px-6 py-3 border-2 border-gray-300 rounded-xl text-gray-700 font-medium hover:bg-gray-50 transition-all duration-300 disabled:opacity-50"
+                >
+                  Cancel
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="px-6 py-3 bg-linear-to-r from-blue-600 to-purple-600 text-white font-medium rounded-xl hover:from-blue-500 hover:to-purple-500 transition-all duration-300 disabled:opacity-50 flex items-center gap-2 shadow-lg hover:shadow-xl"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                      <span>Saving...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Save className="h-5 w-5" />
+                      <span>{editingEvent ? 'Update' : 'Create'} Event</span>
+                    </>
+                  )}
+                </motion.button>
+              </div>
+            </form>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
   );
 };
 

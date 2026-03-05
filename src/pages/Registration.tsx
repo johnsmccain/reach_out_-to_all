@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
-import React from "react";
 // Optional YouTube video URLs; set these to embed videos on the page
 const VIDEO_WHO_WE_ARE = "https://www.youtube.com/watch?v=Oj2jJdNu57k"; // e.g. https://www.youtube.com/embed/XXXXXXXX
 const VIDEO_OUTREACH_LOOKS_LIKE = "https://youtu.be/G11gADLw8F4?si=lJGi-kP3QNizAMAI"; // e.g. https://www.youtube.com/embed/YYYYYYYY
@@ -59,10 +58,9 @@ const schema = z
     surname: z.string().min(1, "Surname is required"),
     otherName: z.string().optional(),
     dob: z.string().min(1, "Date of birth is required"),
-    gender: z.enum(["Male", "Female"], { required_error: "Gender is required" }),
+    gender: z.enum(["Male", "Female"] as const),
     maritalStatus: z.enum(
-      ["Single", "Married", "Widow/widower", "Divorced/Separated"],
-      { required_error: "Marital status is required" }
+      ["Single", "Married", "Widow/widower", "Divorced/Separated"] as const
     ),
     phonePrimary: z.string().min(6, "Enter a valid phone number"),
     phoneNIN: z.string().optional(),
@@ -72,28 +70,18 @@ const schema = z
       .string()
       .min(4, "Enter a valid year")
       .regex(/^\d{4}$/g, "Enter a 4-digit year"),
-    baptisedHolySpirit: z.enum(["Yes", "No"], {
-      required_error: "Please select an option",
-    }),
-    priorOutreach: z.enum(["Yes", "No"], {
-      required_error: "Please select an option",
-    }),
-    unit: z.enum(unitOptions, { required_error: "Please select a unit" }),
-    membership: z.enum(["Yes", "Uncertain"], {
-      required_error: "Please select an option",
-    }),
-    financialPartner: z.enum(["Yes", "No", "Uncertain"], {
-      required_error: "Please select an option",
-    }),
+    baptisedHolySpirit: z.enum(["Yes", "No"] as const),
+    priorOutreach: z.enum(["Yes", "No"] as const),
+    unit: z.enum(unitOptions),
+    membership: z.enum(["Yes", "Uncertain"] as const),
+    financialPartner: z.enum(["Yes", "No", "Uncertain"] as const),
     supportAmount: z.string().optional(),
     frequency: z
       .enum(["Monthly", "Quarterly", "Every 6 Months", "Yearly", "Other"] as const)
       .optional(),
     frequencyOther: z.string().optional(),
     callSense: z.string().min(1, "This field is required"),
-    rulesAgreement: z.enum(["Yes, I agree", "No, I Disagree"], {
-      required_error: "Please confirm your agreement",
-    }),
+    rulesAgreement: z.enum(["Yes, I agree", "No, I Disagree"] as const),
     comments: z.string().optional(),
   })
   .superRefine((data, ctx) => {
@@ -116,7 +104,7 @@ const schema = z
 type FormValues = z.infer<typeof schema>;
 
 export default function Registration() {
-  const [showForm, setShowForm] = React.useState(false);
+  const showForm = false;
   const {
     register,
     handleSubmit,
@@ -212,7 +200,7 @@ export default function Registration() {
           </section>
 
           {/* Gender & Marital Status */}
-          <section className="bg-white p-6 rounded-xl shadow">
+          <section className="bg-white p-6 rounded-xl shadow-sm">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium mb-2">Gender *</label>
@@ -235,7 +223,7 @@ export default function Registration() {
           </section>
 
           {/* Phones, Address, Church, Born Again Year */}
-          <section className="bg-white p-6 rounded-xl shadow">
+          <section className="bg-white p-6 rounded-xl shadow-sm">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium mb-1">Phone Number *</label>
@@ -265,7 +253,7 @@ export default function Registration() {
           </section>
 
           {/* Spiritual status & prior outreach */}
-          <section className="bg-white p-6 rounded-xl shadow">
+          <section className="bg-white p-6 rounded-xl shadow-sm">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium mb-2">Are you baptised in the Holy Spirit? *</label>
@@ -287,7 +275,7 @@ export default function Registration() {
           </section>
 
           {/* Unit selection */}
-          <section className="bg-white p-6 rounded-xl shadow">
+          <section className="bg-white p-6 rounded-xl shadow-sm">
             <label className="block text-sm font-medium mb-2">Which Unit do you like to Join during the outreach? *</label>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               {unitOptions.map((u) => (
@@ -298,7 +286,7 @@ export default function Registration() {
           </section>
 
           {/* Membership & Financial Partner */}
-          <section className="bg-white p-6 rounded-xl shadow space-y-6">
+          <section className="bg-white p-6 rounded-xl shadow-sm space-y-6">
             <div>
               <label className="block text-sm font-medium mb-2">Membership (Do you want to be a registered Member of Reachout To All?) *</label>
               <div className="space-y-2">
@@ -349,14 +337,14 @@ export default function Registration() {
           </section>
 
           {/* Call sense */}
-          <section className="bg-white p-6 rounded-xl shadow">
+          <section className="bg-white p-6 rounded-xl shadow-sm">
             <label className="block text-sm font-medium mb-1">What (do you sense) is your call? *</label>
             <input className="w-full border rounded-lg px-3 py-2" {...register("callSense")} />
             {errors.callSense && <p className="text-red-600 text-sm mt-1">{errors.callSense.message}</p>}
           </section>
 
           {/* Agreement */}
-          <section className="bg-white p-6 rounded-xl shadow">
+          <section className="bg-white p-6 rounded-xl shadow-sm">
             <p className="font-medium mb-2">I undertake to abide by all the rules governing the Outreach, so help me God. Amen. *</p>
             <div className="space-y-2">
               <label className="flex items-center gap-2"><input type="radio" value="Yes, I agree" {...register("rulesAgreement")} /> Yes, I agree</label>
@@ -366,13 +354,13 @@ export default function Registration() {
           </section>
 
           {/* Suggestion/Comment */}
-          <section className="bg-white p-6 rounded-xl shadow">
+          <section className="bg-white p-6 rounded-xl shadow-sm">
             <label className="block text-sm font-medium mb-1">Suggestion/Comment if any</label>
             <textarea rows={3} className="w-full border rounded-lg px-3 py-2" {...register("comments")} />
           </section>
 
           {/* Watch what outreach looks like video */}
-          <section className="bg-white p-6 rounded-xl shadow">
+          <section className="bg-white p-6 rounded-xl shadow-sm">
             <h2 className="text-lg font-semibold text-blue-900 mb-3">Watch what outreach looks like</h2>
             {toYouTubeEmbed(VIDEO_OUTREACH_LOOKS_LIKE) ? (
               <div className="aspect-video w-full">

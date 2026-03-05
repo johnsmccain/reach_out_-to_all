@@ -1,5 +1,11 @@
 import DepayWidgets from "@depay/widgets";
 import { TokensIcon } from "@radix-ui/react-icons";
+import * as ethers from "ethers";
+
+// Make ethers available globally for DePay
+if (typeof window !== "undefined") {
+  (window as any).ethers = ethers;
+}
 const Depay = () => {
   const handleDepay = () => {
     DepayWidgets.Payment({

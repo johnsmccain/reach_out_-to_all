@@ -1,4 +1,5 @@
-import jsPDF from 'jspdf';
+// PDF Export using Puppeteer backend service
+import axios from 'axios';
 
 export interface ArticlePDFOptions {
   title: string;
@@ -9,14 +10,17 @@ export interface ArticlePDFOptions {
   tags: string[];
 }
 
+// Configuration
+const PDF_SERVICE_URL = import.meta.env.VITE_PDF_SERVICE_URL || 'http://localhost:3001';
+
 // Error messages
 const PDF_ERRORS = {
   MISSING_TITLE: 'Article title is required for PDF generation',
   MISSING_CONTENT: 'Article content is required for PDF generation',
   CONTENT_TOO_LARGE: 'Article content is too large to generate PDF',
-  IMAGE_LOAD_FAILED: 'Failed to load cover image',
   GENERATION_FAILED: 'Failed to generate PDF. Please try again.',
-  BROWSER_NOT_SUPPORTED: 'Your browser does not support PDF generation',
+  SERVICE_UNAVAILABLE: 'PDF service is currently unavailable. Please try again later.',
+  NETWORK_ERROR: 'Network error. Please check your connection and try again.',
   INVALID_DATA: 'Invalid article data provided',
 };
 
@@ -30,8 +34,8 @@ function validateArticleData(options: ArticlePDFOptions): string | null {
     return PDF_ERRORS.MISSING_CONTENT;
   }
 
-  // Check if content is too large (> 500KB of text)
-  if (options.content.length > 500000) {
+  // Check if content is too large (> 1MB of text)
+  if (options.content.length > 1000000) {
     return PDF_ERRORS.CONTENT_TOO_LARGE;
   }
 
@@ -39,7 +43,7 @@ function validateArticleData(options: ArticlePDFOptions): string | null {
 }
 
 /**
- * Generates a PDF document from article data
+ * Generates a PDF document from article data using Puppeteer backend
  * @param options Article data to include in the PDF
  * @returns Promise that resolves when PDF is generated and downloaded
  * @throws Error if validation fails or PDF generation encounters an error
@@ -53,151 +57,70 @@ export async function generateArticlePDF(options: ArticlePDFOptions): Promise<vo
       throw new Error(validationError);
     }
 
-    // Check browser compatibility
-    if (!checkBrowserCompatibility()) {
-      console.error('Browser not compatible with PDF generation');
-      throw new Error(PDF_ERRORS.BROWSER_NOT_SUPPORTED);
-    }
-
     const { title, author, date, content, coverImage, tags } = options;
 
-    // Create new PDF document (A4 size)
-    const pdf = new jsPDF({
-      orientation: 'portrait',
-      unit: 'mm',
-      format: 'a4'
-    });
-
-    const pageWidth = pdf.internal.pageSize.getWidth();
-    const pageHeight = pdf.internal.pageSize.getHeight();
-    const margin = 20;
-    const contentWidth = pageWidth - (margin * 2);
-    let yPosition = margin;
-
-    // Add cover image if provided
-    if (coverImage) {
-      try {
-        const imgData = await loadImageAsDataURL(coverImage);
-        const imgWidth = contentWidth;
-        const imgHeight = imgWidth * 10 / 20; // Fixed height for cover image based on 20:9 aspect ratio
-        
-        pdf.addImage(imgData, 'JPEG', margin, yPosition, imgWidth, imgHeight);
-        yPosition += imgHeight + 10;
-      } catch (error) {
-        console.warn('Error loading cover image, continuing without it:', error);
-        // Continue without image if it fails to load
-        // Add a note that image couldn't be loaded
-        pdf.setFontSize(9);
-        pdf.setTextColor(150, 150, 150);
-        pdf.text('[Cover image could not be loaded]', margin, yPosition);
-        yPosition += 10;
-        pdf.setTextColor(0, 0, 0);
+    // Call PDF service
+    const response = await axios.post(
+      `${PDF_SERVICE_URL}/api/pdf/generate`,
+      {
+        title: title.trim(),
+        author: author.trim(),
+        date,
+        content: content.trim(),
+        coverImage: coverImage?.trim(),
+        tags: tags || [],
+      },
+      {
+        responseType: 'blob',
+        timeout: 60000, // 60 second timeout
+        headers: {
+          'Content-Type': 'application/json',
+        },
       }
-    }
+    );
 
-    // Add title
-    pdf.setFontSize(22);
-    pdf.setFont('helvetica', 'bold');
-    const titleLines = pdf.splitTextToSize(title, contentWidth);
-    pdf.text(titleLines, margin, yPosition);
-    yPosition += (titleLines.length * 8) + 5;
-
-    // Add author and date
-    pdf.setFontSize(12);
-    pdf.setFont('helvetica', 'normal');
-    pdf.setTextColor(100, 100, 100);
-    pdf.text(`By ${author || 'Unknown Author'}`, margin, yPosition);
-    yPosition += 6;
-    pdf.text(date || 'No date', margin, yPosition);
-    yPosition += 10;
-
-    // Add separator line
-    pdf.setDrawColor(200, 200, 200);
-    pdf.line(margin, yPosition, pageWidth - margin, yPosition);
-    yPosition += 10;
-
-    // Add content
-    pdf.setFontSize(11);
-    pdf.setFont('helvetica', 'normal');
-    pdf.setTextColor(0, 0, 0);
-
-    const paragraphs = content.split('\n').filter(p => p.trim());
+    // Create blob from response
+    const blob = new Blob([response.data], { type: 'application/pdf' });
     
-    for (const paragraph of paragraphs) {
-      if (paragraph.trim()) {
-        try {
-          const lines = pdf.splitTextToSize(paragraph, contentWidth);
-          
-          for (const line of lines) {
-            // Check if we need a new page
-            if (yPosition > pageHeight - margin - 20) {
-              pdf.addPage();
-              yPosition = margin;
-            }
-            
-            pdf.text(line, margin, yPosition);
-            yPosition += 6;
-          }
-          
-          // Add spacing between paragraphs
-          yPosition += 4;
-        } catch (error) {
-          console.error('Error rendering paragraph:', error);
-          // Continue with next paragraph
-        }
-      }
-    }
-
-    // Add footer with tags on the last page
-    const footerY = pageHeight - 15;
-    pdf.setFontSize(9);
-    pdf.setTextColor(100, 100, 100);
+    // Create download link
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${sanitizeFilename(title)}.pdf`;
     
-    if (tags && tags.length > 0) {
-      try {
-        const tagsText = `Tags: ${tags.map(tag => `#${tag}`).join(' ')}`;
-        const tagLines = pdf.splitTextToSize(tagsText, contentWidth);
-        pdf.text(tagLines, margin, footerY - 5);
-      } catch (error) {
-        console.error('Error rendering tags:', error);
-        // Continue without tags
-      }
-    }
-
-    // Add page numbers to all pages
-    try {
-      const totalPages = pdf.getNumberOfPages();
-      for (let i = 1; i <= totalPages; i++) {
-        pdf.setPage(i);
-        pdf.setFontSize(9);
-        pdf.setTextColor(100, 100, 100);
-        pdf.text(
-          `Page ${i} of ${totalPages}`,
-          pageWidth / 2,
-          pageHeight - 10,
-          { align: 'center' }
-        );
-      }
-    } catch (error) {
-      console.error('Error adding page numbers:', error);
-      // Continue without page numbers
-    }
-
-    // Generate filename from title (sanitize)
-    const filename = sanitizeFilename(title);
+    // Trigger download
+    document.body.appendChild(link);
+    link.click();
     
-    // Save the PDF
-    try {
-      pdf.save(`${filename}.pdf`);
-    } catch (error) {
-      console.error('Error saving PDF:', error);
-      throw new Error('Failed to save PDF file. Please try again.');
-    }
+    // Cleanup
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+
   } catch (error: any) {
-    // Log the error for debugging
     console.error('PDF generation error:', error);
     
-    // Re-throw with user-friendly message
+    // Handle specific error types
+    if (axios.isAxiosError(error)) {
+      if (error.code === 'ECONNABORTED') {
+        throw new Error('PDF generation timed out. Please try again.');
+      }
+      
+      if (error.response) {
+        // Server responded with error
+        const errorMessage = error.response.data?.message || error.response.data?.error;
+        throw new Error(errorMessage || PDF_ERRORS.GENERATION_FAILED);
+      }
+      
+      if (error.request) {
+        // Request made but no response
+        throw new Error(PDF_ERRORS.SERVICE_UNAVAILABLE);
+      }
+      
+      // Network error
+      throw new Error(PDF_ERRORS.NETWORK_ERROR);
+    }
+    
+    // Re-throw validation errors
     if (error.message && Object.values(PDF_ERRORS).includes(error.message)) {
       throw error;
     }
@@ -207,96 +130,19 @@ export async function generateArticlePDF(options: ArticlePDFOptions): Promise<vo
 }
 
 /**
- * Checks if the browser supports required features for PDF generation
- * @returns true if browser is compatible, false otherwise
+ * Checks if the PDF service is available
+ * @returns Promise that resolves to true if service is available
  */
-function checkBrowserCompatibility(): boolean {
+export async function checkPDFServiceHealth(): Promise<boolean> {
   try {
-    // Check for required features
-    if (typeof document === 'undefined') {
-      return false;
-    }
-
-    // Check for canvas support
-    const canvas = document.createElement('canvas');
-    if (!canvas.getContext || !canvas.getContext('2d')) {
-      return false;
-    }
-
-    // Check for Blob support (required for PDF save)
-    if (typeof Blob === 'undefined') {
-      return false;
-    }
-
-    return true;
+    const response = await axios.get(`${PDF_SERVICE_URL}/health`, {
+      timeout: 5000,
+    });
+    return response.status === 200 && response.data?.status === 'ok';
   } catch (error) {
-    console.error('Browser compatibility check failed:', error);
+    console.error('PDF service health check failed:', error);
     return false;
   }
-}
-
-/**
- * Loads an image from URL and converts it to data URL
- * @param imageUrl URL of the image to load
- * @returns Promise that resolves with data URL
- * @throws Error if image fails to load or canvas is not supported
- */
-async function loadImageAsDataURL(imageUrl: string): Promise<string> {
-  return new Promise((resolve, reject) => {
-    // Validate URL
-    if (!imageUrl || typeof imageUrl !== 'string') {
-      reject(new Error('Invalid image URL'));
-      return;
-    }
-
-    const img = new Image();
-    img.crossOrigin = 'anonymous';
-    
-    // Set timeout for image loading (10 seconds)
-    const timeout = setTimeout(() => {
-      reject(new Error('Image loading timeout'));
-    }, 10000);
-    
-    img.onload = () => {
-      clearTimeout(timeout);
-      
-      try {
-        const canvas = document.createElement('canvas');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        
-        const ctx = canvas.getContext('2d');
-        if (!ctx) {
-          reject(new Error('Failed to get canvas context'));
-          return;
-        }
-        
-        ctx.drawImage(img, 0, 0);
-        
-        try {
-          const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
-          resolve(dataUrl);
-        } catch (error) {
-          reject(new Error('Failed to convert image to data URL'));
-        }
-      } catch (error) {
-        reject(new Error('Failed to process image'));
-      }
-    };
-    
-    img.onerror = (error) => {
-      clearTimeout(timeout);
-      console.error('Image load error:', error);
-      reject(new Error(PDF_ERRORS.IMAGE_LOAD_FAILED));
-    };
-    
-    try {
-      img.src = imageUrl;
-    } catch (error) {
-      clearTimeout(timeout);
-      reject(new Error('Failed to set image source'));
-    }
-  });
 }
 
 /**

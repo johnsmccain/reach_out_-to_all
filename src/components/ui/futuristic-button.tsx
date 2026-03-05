@@ -17,9 +17,9 @@ const FuturisticButton = React.forwardRef<HTMLButtonElement, FuturisticButtonPro
     const baseClasses = "relative overflow-hidden font-semibold transition-all duration-300 rounded-lg border";
     
     const variants = {
-      primary: "bg-gradient-to-r from-blue-600 to-purple-600 text-white border-blue-500/50 hover:from-blue-500 hover:to-purple-500",
-      secondary: "bg-gradient-to-r from-gray-700 to-gray-800 text-white border-gray-600/50 hover:from-gray-600 hover:to-gray-700",
-      accent: "bg-gradient-to-r from-cyan-500 to-blue-500 text-white border-cyan-400/50 hover:from-cyan-400 hover:to-blue-400",
+      primary: "bg-linear-to-r from-blue-600 to-purple-600 text-white border-blue-500/50 hover:from-blue-500 hover:to-purple-500",
+      secondary: "bg-linear-to-r from-gray-700 to-gray-800 text-white border-gray-600/50 hover:from-gray-600 hover:to-gray-700",
+      accent: "bg-linear-to-r from-cyan-500 to-blue-500 text-white border-cyan-400/50 hover:from-cyan-400 hover:to-blue-400",
       ghost: "bg-transparent text-blue-600 border-blue-600/50 hover:bg-blue-600/10"
     };
 
@@ -47,7 +47,7 @@ const FuturisticButton = React.forwardRef<HTMLButtonElement, FuturisticButtonPro
         disabled={disabled}
       >
         {/* Animated background */}
-        <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+        <div className="absolute inset-0 bg-linear-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
         
         {/* Content */}
         <span className="relative z-10 flex items-center justify-center gap-2">
@@ -55,7 +55,7 @@ const FuturisticButton = React.forwardRef<HTMLButtonElement, FuturisticButtonPro
         </span>
         
         {/* Border glow */}
-        <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-blue-400/0 via-blue-400/50 to-blue-400/0 opacity-0 hover:opacity-100 transition-opacity duration-300 blur-sm" />
+        <div className="absolute inset-0 rounded-lg bg-linear-to-r from-blue-400/0 via-blue-400/50 to-blue-400/0 opacity-0 hover:opacity-100 transition-opacity duration-300 blur-xs" />
       </motion.button>
     );
   }

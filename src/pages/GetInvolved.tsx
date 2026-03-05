@@ -3,10 +3,7 @@ import { Heart, Send } from "lucide-react";
 import toast from "react-hot-toast";
 import Donate from "@/components/Donate";
 
-import img from "../asset/r2a 1.jpg";
-import imgs from "../asset/R2a 2.jpg";
-import img1 from "../asset/R2A3.jpg";
-import img2 from "../asset/R2A 4.jpg";
+import imageBank from "@/asset/imageBank";
 
 const VOLUNTEER_UNITS = ["Financial", "Prayer", "Others"];
 const MEMBERSHIP_OPTIONS = ["Yes", "No"];
@@ -46,7 +43,7 @@ const GetInvolved = () => {
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >
+    >,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -90,31 +87,24 @@ const GetInvolved = () => {
     }
   };
 
-  const heroImages = [
-    {
-      url: "https://images.unsplash.com/photo-1438232992991-995b7058bbb3?ixlib=rb-4.0.3",
-      alt: "Mission work",
-    },
-    { url: img, alt: "Community outreach" },
-    { url: imgs, alt: "Humanitarian aid" },
-    { url: img1, alt: "Gospel sharing" },
-    { url: img2, alt: "Community service" },
-  ];
+  const heroImages = imageBank.r2a;
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) =>
-        prevIndex === heroImages.length - 1 ? 0 : prevIndex + 1
+        prevIndex === heroImages.length - 1 ? 0 : prevIndex + 1,
       );
     }, 5000);
 
     return () => clearInterval(interval);
   }, []);
 
+  const show = true;
+
   return (
-    <div className="space-y-16">
+    <div className="space-y-16 my-5">
       {/* Hero Section */}
-      <section className="relative h-[300px] sm:h-[400px] rounded-3xl overflow-hidden">
+      <section className="relative h-75 sm:h-150 overflow-hidden">
         <div className="absolute inset-0">
           {heroImages.map((image, index) => (
             <div
@@ -124,11 +114,11 @@ const GetInvolved = () => {
               }`}
             >
               <img
-                src={image.url}
-                alt={image.alt}
+                src={image}
+                alt={"image"}
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-black bg-opacity-50" />
+              <div className="absolute inset-0 bg-black opacity-30" />
             </div>
           ))}
         </div>
@@ -161,122 +151,181 @@ const GetInvolved = () => {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           {/* Volunteer Form */}
-          <div>
-            <div className="flex items-center space-x-2 mb-6">
-              <Heart className="h-8 w-8 text-blue-600" />
-              <h2 className="text-2xl sm:text-3xl font-bold">Volunteer</h2>
+          {show ? (
+            <div className="max-w-4xl mx-auto ">
+              <header className="mb-8 text-center">
+                <h1 className="text-3xl md:text-4xl font-bold text-blue-900">
+                  2025 Mission Outreach Registration
+                </h1>
+                <p className="mt-2 text-gray-700">
+                  Amadaka Community, Eastern Obolo Local Government Area of Akwa
+                  Ibom State.
+                </p>
+                <p className="text-gray-700">
+                  Sunday 22nd – Thursday 26th December, 2025
+                </p>
+                <div className="mt-3 inline-block bg-red-600 text-white text-sm px-3 py-1 rounded-full">
+                  Registration Starting on mon, 27th October 2025. then closing
+                  on 8th November 2025.
+                </div>
+              </header>
             </div>
+          ) : (
+            <div>
+              <div className="flex items-center space-x-2 mb-6">
+                <Heart className="h-8 w-8 text-blue-600" />
+                <h2 className="text-2xl sm:text-3xl font-bold">Volunteer</h2>
+              </div>
 
-            <form onSubmit={handleVolunteerSubmit} className="space-y-6">
-              <input type="hidden" name="_subject" value="New Volunteer Application" />
+              <form onSubmit={handleVolunteerSubmit} className="space-y-6">
+                <input
+                  type="hidden"
+                  name="_subject"
+                  value="New Volunteer Application"
+                />
 
-              {[
-                { label: "Name", name: "name", type: "text", placeholder: "Enter your full name" },
-                { label: "Email", name: "email", type: "email", placeholder: "Enter your email address" },
-                { label: "Phone", name: "phone", type: "tel", placeholder: "Enter your phone number" },
-                { label: "Address", name: "address", type: "text", placeholder: "Enter your address" },
-                { label: "State/Province", name: "state", type: "text", placeholder: "Enter your state/province" },
-                { label: "Country", name: "country", type: "text", placeholder: "Enter your country" },
-              ].map(({ label, name, type, placeholder }) => (
-                <div key={name}>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
-                  <input
-                    type={type}
-                    name={name}
-                    value={formData[name as keyof typeof formData]}
+                {[
+                  {
+                    label: "Name",
+                    name: "name",
+                    type: "text",
+                    placeholder: "Enter your full name",
+                  },
+                  {
+                    label: "Email",
+                    name: "email",
+                    type: "email",
+                    placeholder: "Enter your email address",
+                  },
+                  {
+                    label: "Phone",
+                    name: "phone",
+                    type: "tel",
+                    placeholder: "Enter your phone number",
+                  },
+                  {
+                    label: "Address",
+                    name: "address",
+                    type: "text",
+                    placeholder: "Enter your address",
+                  },
+                  {
+                    label: "State/Province",
+                    name: "state",
+                    type: "text",
+                    placeholder: "Enter your state/province",
+                  },
+                  {
+                    label: "Country",
+                    name: "country",
+                    type: "text",
+                    placeholder: "Enter your country",
+                  },
+                ].map(({ label, name, type, placeholder }) => (
+                  <div key={name}>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      {label}
+                    </label>
+                    <input
+                      type={type}
+                      name={name}
+                      value={formData[name as keyof typeof formData]}
+                      onChange={handleChange}
+                      required
+                      className="w-full px-4 py-2 border border-gray-300 rounded-xl"
+                      placeholder={placeholder}
+                    />
+                  </div>
+                ))}
+
+                {/* Select Inputs */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Volunteer Options
+                  </label>
+                  <select
+                    name="volunteer"
+                    value={formData.volunteer}
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-2 border border-gray-300 rounded-xl"
-                    placeholder={placeholder}
-                  />
+                  >
+                    <option value="">Select volunteer option</option>
+                    {VOLUNTEER_UNITS.map((unit) => (
+                      <option key={unit} value={unit}>
+                        {unit}
+                      </option>
+                    ))}
+                  </select>
                 </div>
-              ))}
 
-              {/* Select Inputs */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Volunteer Options
-                </label>
-                <select
-                  name="volunteer"
-                  value={formData.volunteer}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-xl"
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Membership
+                  </label>
+                  <select
+                    name="membership"
+                    value={formData.membership}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 rounded-xl"
+                  >
+                    <option value="">Are you a member?</option>
+                    {MEMBERSHIP_OPTIONS.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Select Unit
+                  </label>
+                  <select
+                    name="unit"
+                    value={formData.unit}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 rounded-xl"
+                  >
+                    <option value="">Select a unit</option>
+                    {SERVICE_UNITS.map((unit) => (
+                      <option key={unit} value={unit}>
+                        {unit}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Message (Optional)
+                  </label>
+                  <textarea
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    rows={4}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-xl"
+                    placeholder="Tell us about your interests and experience"
+                  ></textarea>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 flex items-center justify-center space-x-2 disabled:opacity-50"
                 >
-                  <option value="">Select volunteer option</option>
-                  {VOLUNTEER_UNITS.map((unit) => (
-                    <option key={unit} value={unit}>
-                      {unit}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Membership
-                </label>
-                <select
-                  name="membership"
-                  value={formData.membership}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-xl"
-                >
-                  <option value="">Are you a member?</option>
-                  {MEMBERSHIP_OPTIONS.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Select Unit
-                </label>
-                <select
-                  name="unit"
-                  value={formData.unit}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-xl"
-                >
-                  <option value="">Select a unit</option>
-                  {SERVICE_UNITS.map((unit) => (
-                    <option key={unit} value={unit}>
-                      {unit}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Message (Optional)
-                </label>
-                <textarea
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  rows={4}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-xl"
-                  placeholder="Tell us about your interests and experience"
-                ></textarea>
-              </div>
-
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 flex items-center justify-center space-x-2 disabled:opacity-50"
-              >
-                <span>{loading ? "Submitting..." : "Submit Application"}</span>
-                <Send className="h-5 w-5" />
-              </button>
-            </form>
-          </div>
+                  <span>
+                    {loading ? "Submitting..." : "Submit Application"}
+                  </span>
+                  <Send className="h-5 w-5" />
+                </button>
+              </form>
+            </div>
+          )}
 
           {/* Donation Section */}
           <div>

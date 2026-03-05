@@ -93,7 +93,7 @@ const DailyQuote = () => {
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5 }}
-      className="relative bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800 rounded-2xl p-8 text-white overflow-hidden"
+      className="relative bg-linear-to-br from-blue-600 via-purple-600 to-blue-800 rounded-2xl p-8 text-white overflow-hidden"
     >
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
@@ -102,7 +102,7 @@ const DailyQuote = () => {
       </div>
 
       {/* Glow Effect */}
-      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-pulse"></div>
+      <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/5 to-transparent animate-pulse"></div>
 
       <div className="relative z-10 space-y-4">
         <div className="flex items-center gap-3">

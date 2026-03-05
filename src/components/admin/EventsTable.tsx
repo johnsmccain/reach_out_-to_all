@@ -89,7 +89,7 @@ const EventsTable = ({ events, onEdit, onDelete }: EventsTableProps) => {
         {events.map((event) => (
           <div
             key={event.id}
-            className="border border-gray-200 rounded-lg p-4 shadow-sm"
+            className="border border-gray-200 rounded-lg p-4 shadow-xs"
           >
             <div className="flex items-center mb-2">
               <Calendar className="h-5 w-5 text-gray-400 mr-2" />

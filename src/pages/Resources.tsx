@@ -5,7 +5,7 @@ import type { Sermon, Document } from "../types";
 import { format } from "date-fns";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../components/ui/dialog";
+import { Dialog, DialogContent } from "../components/ui/dialog";
 
 const Resources = () => {
   const [sermons, setSermons] = React.useState<Sermon[]>([]);
@@ -103,14 +103,14 @@ const Resources = () => {
   return (
     <div className="space-y-12">
       {/* Hero Section */}
-      <section className="relative h-[300px] rounded-2xl overflow-hidden">
+      <section className="relative h-150 overflow-hidden">
         <div className="absolute inset-0">
           <img
             src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?ixlib=rb-4.0.3"
             alt="Resources"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-black bg-opacity-50" />
+          <div className="absolute inset-0 bg-black opacity-30" />
         </div>
         <div className="relative container mx-auto px-4 h-full flex items-center">
           <div className="max-w-2xl text-white">
@@ -126,7 +126,7 @@ const Resources = () => {
       <div className="container mx-auto px-4">
         {loading ? (
           <div className="flex justify-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+            <div className="animate-spin rounded-sm-sm-full h-12 w-12 border-b-2 border-blue-600"></div>
           </div>
         ) : (
           <>
@@ -136,7 +136,7 @@ const Resources = () => {
                 <Video className="h-8 w-8 text-blue-600" />
                 <h2 className="text-3xl font-bold">Sermons</h2>
               </div>
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="grid  grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {sermons.length === 0 ? (
                   <p className="text-gray-500 col-span-2 text-center py-8">
                     No sermons available yet.
@@ -145,7 +145,7 @@ const Resources = () => {
                   sermons.map((sermon) => (
                     <div
                       key={sermon.id}
-                      className="bg-white rounded-3xl shadow-lg overflow-hidden"
+                      className="bg-white rounded-sm shadow-lg overflow-hidden"
                     >
                       <div className="relative h-48">
                         <img
@@ -153,7 +153,7 @@ const Resources = () => {
                           alt={sermon.title}
                           className="w-full h-full object-cover"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                        <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent" />
                         <div className="absolute bottom-4 left-4 right-4">
                           <h3 className="text-xl font-bold text-white mb-2">
                             {sermon.title}
@@ -178,7 +178,7 @@ const Resources = () => {
                           href={sermon.videoUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-3xl hover:bg-blue-700 transition-colors"
+                          className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-sm hover:bg-blue-700 transition-colors"
                         >
                           <Video className="h-5 w-5 mr-2" />
                           Watch Sermon
@@ -197,7 +197,7 @@ const Resources = () => {
                 <FileText className="h-8 w-8 text-blue-600" />
                 <h2 className="text-3xl font-bold">Documents</h2>
               </div>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {documents.length === 0 ? (
                   <p className="text-gray-500 col-span-full text-center py-8">
                     No documents available yet.
@@ -206,7 +206,7 @@ const Resources = () => {
                   documents.map((doc) => (
                     <div
                       key={doc.id}
-                      className="bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col"
+                      className="bg-white rounded-sm shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col"
                     >
                       {/* Larger Thumbnail */}
                       <div className="relative h-56 overflow-hidden">
@@ -215,7 +215,7 @@ const Resources = () => {
                           alt={doc.title}
                           className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                        <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent" />
                         
                         {/* File Type Badge */}
                         <div className="absolute top-3 right-3">
@@ -246,7 +246,7 @@ const Resources = () => {
                         </div>
 
                         {/* Action Buttons */}
-                        <div className="flex overflow-x-hidden rounded-3xl shadow-lg">
+                        <div className="flex overflow-x-hidden rounded-sm shadow-lg">
                           {canPreview(doc.fileType) && (
                             <Button
                               onClick={() => handlePreview(doc)}
@@ -274,15 +274,15 @@ const Resources = () => {
 
             {/* Preview Modal */}
             <Dialog open={previewOpen} onOpenChange={setPreviewOpen}>
-              <DialogContent className="max-w-4xl h-[80vh]">
-                <DialogHeader>
+              <DialogContent className="max-w-[80vw] h-[80vh] px-10">
+                {/* <DialogHeader>
                   <DialogTitle>{previewDoc?.title}</DialogTitle>
-                </DialogHeader>
+                </DialogHeader> */}
                 <div className="flex-1 overflow-hidden">
                   {previewDoc && canPreview(previewDoc.fileType) ? (
                     <iframe
                       src={previewDoc.fileUrl}
-                      className="w-full h-full border-0 rounded-3xl"
+                      className="w-full h-full border-0 rounded-sm"
                       title={`Preview of ${previewDoc.title}`}
                     />
                   ) : (

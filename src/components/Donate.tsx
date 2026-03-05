@@ -38,12 +38,12 @@ const Donate = () => {
     "bank"
   );
   const [email, setEmail] = useState<string>("");
-  const [amount, setAmount] = useState<number | any>();
+  const [amount, setAmount] = useState<number>(0);
 
   const isFormValid = email && amount > 0;
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded-3xl shadow-lg">
+    <div className="max-w-2xl mx-auto p-6 bg-white rounded-sm shadow-lg">
       <div className="flex items-center space-x-2 mb-6">
         <CreditCard className="h-8 w-8 text-blue-600" />
         <h2 className="text-3xl font-bold">Donate</h2>
@@ -129,7 +129,7 @@ const Donate = () => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                 placeholder="you@example.com"
               />
             </div>
@@ -144,7 +144,7 @@ const Donate = () => {
                 min={100}
                 value={amount}
                 onChange={(e) => setAmount(Number(e.target.value))}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                 placeholder="Enter amount"
               />
             </div>
@@ -161,7 +161,7 @@ const Donate = () => {
           <div className="text-lg text-gray-600 mb-6">
             Send crypto donations securely using your wallet. We currently
             accept 
-            {supportedCryptoDonations.map(({ label }: any, idx) => (
+            {supportedCryptoDonations.map(({ label }: { label: string }, idx) => (
               <div key={idx} className="rounded-full inline-block m-1 p-1 bg-green-100 text-sm">
                 <span >{label}</span>
               </div>

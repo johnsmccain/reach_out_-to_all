@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import toast from "react-hot-toast";
+import { X, Save, FileText, Image as ImageIcon } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface DocumentUploadModalProps {
   isOpen: boolean;
@@ -94,11 +96,6 @@ const DocumentUploadModal: React.FC<DocumentUploadModalProps> = ({
     // Validate file size
     if (file.size > MAX_IMAGE_SIZE) {
       return VALIDATION_ERRORS.IMAGE_TOO_LARGE;
-    }
-
-    // Additional validation: check if file is actually an image
-    if (!file.type.startsWith("image/")) {
-      return VALIDATION_ERRORS.INVALID_IMAGE_TYPE;
     }
 
     return null;
@@ -276,19 +273,15 @@ const DocumentUploadModal: React.FC<DocumentUploadModalProps> = ({
         );
 
         if (!thumbnailResult.success) {
-          throw new Error(`Thumbnail upload failed: ${thumbnailResult.error?.message || 'Unknown error'}`);
+          console.warn('Thumbnail upload failed, continuing without thumbnail');
+          thumbnailUrl = null;
+        } else {
+          const { data: thumbnailUrlData } = supabase.storage
+            .from("documents")
+            .getPublicUrl(uploadedThumbnailFilename);
+
+          thumbnailUrl = thumbnailUrlData?.publicUrl || null;
         }
-
-        // Get public URL for thumbnail
-        const { data: thumbnailUrlData } = supabase.storage
-          .from("documents")
-          .getPublicUrl(uploadedThumbnailFilename);
-
-        if (!thumbnailUrlData?.publicUrl) {
-          throw new Error("Failed to get public URL for thumbnail");
-        }
-
-        thumbnailUrl = thumbnailUrlData.publicUrl;
       }
 
       // Upload document file
@@ -373,132 +366,166 @@ const DocumentUploadModal: React.FC<DocumentUploadModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6">
-        <h2 className="text-2xl font-bold mb-6">Upload Document</h2>
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50 overflow-y-auto">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            transition={{ duration: 0.2 }}
+            className="bg-white rounded-2xl w-full max-w-4xl max-h-[95vh] overflow-hidden shadow-2xl"
+          >
+            {/* Header */}
+            <div className="sticky top-0 bg-linear-to-r from-blue-600 via-purple-600 to-cyan-600 text-white p-6 flex justify-between items-center z-10">
+              <div>
+                <h2 className="text-2xl font-bold flex items-center gap-2">
+                  <FileText className="h-6 w-6" />
+                  Upload Document
+                </h2>
+              </div>
+              <motion.button
+                whileHover={{ scale: 1.1, rotate: 90 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={onClose}
+                className="p-2 hover:bg-white/20 rounded-lg transition-colors"
+              >
+                <X className="h-6 w-6" />
+              </motion.button>
+            </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Title */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Title <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              required
-              placeholder="Enter document title"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-3 py-2 border"
-            />
-          </div>
-
-          {/* Description */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Description <span className="text-red-500">*</span>
-            </label>
-            <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              required
-              rows={3}
-              placeholder="Enter document description"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-3 py-2 border"
-            />
-          </div>
-
-          {/* Document File Input */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Document File <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="file"
-              accept=".pdf,.doc,.docx,.txt"
-              onChange={handleFileChange}
-              required
-              className="mt-1 block w-full text-sm text-gray-500
-                file:mr-4 file:py-2 file:px-4
-                file:rounded-md file:border-0
-                file:text-sm file:font-semibold
-                file:bg-blue-50 file:text-blue-700
-                hover:file:bg-blue-100"
-            />
-            <p className="mt-1 text-xs text-gray-500">
-              Accepted formats: PDF, DOCX, DOC, TXT (Max: {MAX_DOCUMENT_SIZE / (1024 * 1024)}MB)
-            </p>
-            {fileError && (
-              <p className="mt-1 text-sm text-red-600">{fileError}</p>
-            )}
-            {selectedFile && !fileError && (
-              <p className="mt-2 text-sm text-green-600">
-                Selected: {selectedFile.name} ({formatFileSize(selectedFile.size)})
-              </p>
-            )}
-          </div>
-
-          {/* Thumbnail Image Input (Optional) */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Thumbnail Image (Optional)
-            </label>
-            <input
-              type="file"
-              accept="image/jpeg,image/jpg,image/png"
-              onChange={handleThumbnailChange}
-              className="mt-1 block w-full text-sm text-gray-500
-                file:mr-4 file:py-2 file:px-4
-                file:rounded-md file:border-0
-                file:text-sm file:font-semibold
-                file:bg-green-50 file:text-green-700
-                hover:file:bg-green-100"
-            />
-            <p className="mt-1 text-xs text-gray-500">
-              Accepted formats: JPG, PNG (Max: {MAX_IMAGE_SIZE / (1024 * 1024)}MB)
-            </p>
-            {thumbnailError && (
-              <p className="mt-1 text-sm text-red-600">{thumbnailError}</p>
-            )}
-          </div>
-
-          {/* Thumbnail Preview */}
-          {thumbnailPreview && (
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Thumbnail Preview
-              </label>
-              <div className="border rounded-lg p-4 bg-gray-50">
-                <img
-                  src={thumbnailPreview}
-                  alt="Thumbnail preview"
-                  className="max-w-full h-auto max-h-48 mx-auto rounded-md"
+            {/* Form */}
+            <form onSubmit={handleSubmit} className="p-6 space-y-6 overflow-y-auto max-h-[calc(95vh-88px)]">
+              {/* Title */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                  <FileText className="h-4 w-4 text-blue-600" />
+                  Title *
+                </label>
+                <input
+                  type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  required
+                  placeholder="Enter document title"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
                 />
               </div>
-            </div>
-          )}
 
-          {/* Action Buttons */}
-          <div className="flex justify-end space-x-4 mt-6">
-            <button
-              type="button"
-              onClick={onClose}
-              disabled={isUploading}
-              className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              disabled={isUploading || !selectedFile || !title.trim() || !description.trim() || !!fileError || !!thumbnailError}
-              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isUploading ? "Uploading..." : "Upload Document"}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+              {/* Description */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Description *
+                </label>
+                <textarea
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  required
+                  rows={3}
+                  placeholder="Enter document description"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                />
+              </div>
+
+              {/* Document File Input */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                  <FileText className="h-4 w-4 text-blue-600" />
+                  Document File *
+                </label>
+                <input
+                  type="file"
+                  accept=".pdf,.doc,.docx,.txt"
+                  onChange={handleFileChange}
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                />
+                <p className="mt-2 text-xs text-gray-500">
+                  Accepted formats: PDF, DOCX, DOC, TXT (Max: {MAX_DOCUMENT_SIZE / (1024 * 1024)}MB)
+                </p>
+                {fileError && (
+                  <p className="mt-2 text-sm text-red-600">{fileError}</p>
+                )}
+                {selectedFile && !fileError && (
+                  <p className="mt-2 text-sm text-green-600">
+                    Selected: {selectedFile.name} ({formatFileSize(selectedFile.size)})
+                  </p>
+                )}
+              </div>
+
+              {/* Thumbnail Image Input (Optional) */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                  <ImageIcon className="h-4 w-4 text-blue-600" />
+                  Thumbnail Image (Optional)
+                </label>
+                <input
+                  type="file"
+                  accept="image/jpeg,image/jpg,image/png"
+                  onChange={handleThumbnailChange}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100"
+                />
+                <p className="mt-2 text-xs text-gray-500">
+                  Accepted formats: JPG, PNG (Max: {MAX_IMAGE_SIZE / (1024 * 1024)}MB)
+                </p>
+                {thumbnailError && (
+                  <p className="mt-2 text-sm text-red-600">{thumbnailError}</p>
+                )}
+              </div>
+
+              {/* Thumbnail Preview */}
+              {thumbnailPreview && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Thumbnail Preview
+                  </label>
+                  <div className="rounded-xl overflow-hidden border border-gray-200">
+                    <img
+                      src={thumbnailPreview}
+                      alt="Thumbnail preview"
+                      className="w-full h-auto max-h-48 object-cover"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Action Buttons */}
+              <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  type="button"
+                  onClick={onClose}
+                  disabled={isUploading}
+                  className="px-6 py-3 border-2 border-gray-300 rounded-xl text-gray-700 font-medium hover:bg-gray-50 transition-all duration-300 disabled:opacity-50"
+                >
+                  Cancel
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  type="submit"
+                  disabled={isUploading || !selectedFile || !title.trim() || !description.trim() || !!fileError || !!thumbnailError}
+                  className="px-6 py-3 bg-linear-to-r from-blue-600 to-purple-600 text-white font-medium rounded-xl hover:from-blue-500 hover:to-purple-500 transition-all duration-300 disabled:opacity-50 flex items-center gap-2 shadow-lg hover:shadow-xl"
+                >
+                  {isUploading ? (
+                    <>
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                      <span>Uploading...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Save className="h-5 w-5" />
+                      <span>Upload Document</span>
+                    </>
+                  )}
+                </motion.button>
+              </div>
+            </form>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
   );
 };
 

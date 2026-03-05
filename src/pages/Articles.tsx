@@ -1,52 +1,117 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { Calendar, User, Tag, Search } from "lucide-react";
-import { supabase } from "../lib/supabase";
-import type { Article } from "../types";
+import { Search } from "lucide-react";
+import { useArticles } from "@/hooks/useArticles";
+import { useDebounce } from "@/hooks/useDebounce";
+import ArticleCard from "@/components/ArticleCard";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 const Articles = () => {
-  const [articles, setArticles] = useState<Article[]>([]);
-  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedTag, setSelectedTag] = useState("");
+  const masonryRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    fetchArticles();
-  }, []);
+  // Debounce search term for better performance
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
-  const fetchArticles = async () => {
-    const { data, error } = await supabase
-      .from("articles")
-      .select("*")
-      .eq("published", true)
-      .order("created_at", { ascending: false });
-
-    if (error) {
-      console.error("Error fetching articles:", error);
-    } else if (data) {
-      setArticles(data);
-    }
-    setLoading(false);
-  };
-
-  const filteredArticles = articles.filter((article) => {
-    const matchesSearch = article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         article.content.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesTag = !selectedTag || article.tags.includes(selectedTag);
-    return matchesSearch && matchesTag;
+  // Use custom hook for articles data
+  const { articles, allTags, loading, error } = useArticles({
+    searchTerm: debouncedSearchTerm,
+    selectedTag,
   });
 
-  const allTags = [...new Set(articles.flatMap(article => article.tags))];
+  const initializeMasonry = () => {
+    if (!masonryRef.current) return;
+
+    const container = masonryRef.current;
+    const items = container.children;
+    
+    if (items.length === 0) return;
+
+    // Get container width and calculate columns
+    const containerWidth = container.offsetWidth;
+    const itemWidth = 320; // Base width for each column
+    const gap = 32; // Gap between items
+    const columns = Math.max(1, Math.floor((containerWidth + gap) / (itemWidth + gap)));
+    
+    // Set container styles
+    container.style.display = 'grid';
+    container.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
+    container.style.gap = `${gap}px`;
+    container.style.alignItems = 'start';
+
+    // Reset all items
+    Array.from(items).forEach((item) => {
+      const element = item as HTMLElement;
+      element.style.gridRowEnd = 'auto';
+      element.style.marginBottom = '0';
+    });
+
+    // Calculate and set grid row spans for masonry effect
+    setTimeout(() => {
+      Array.from(items).forEach((item) => {
+        const element = item as HTMLElement;
+        const itemHeight = element.offsetHeight;
+        const rowHeight = parseInt(window.getComputedStyle(container).gridAutoRows) || 10;
+        const rowSpan = Math.ceil((itemHeight + gap) / (rowHeight + gap));
+        element.style.gridRowEnd = `span ${rowSpan}`;
+      });
+    }, 50);
+  };
+  useEffect(() => {
+    // Initialize masonry layout after articles load or filter changes
+    if (!loading && articles.length > 0) {
+      const timeoutId = setTimeout(() => {
+        initializeMasonry();
+      }, 100);
+      
+      return () => clearTimeout(timeoutId);
+    }
+  }, [loading, articles.length]);
+
+  useEffect(() => {
+    // Reinitialize masonry on window resize with throttling
+    let timeoutId: NodeJS.Timeout;
+    
+    const handleResize = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        if (!loading && articles.length > 0) {
+          initializeMasonry();
+        }
+      }, 150);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      clearTimeout(timeoutId);
+    };
+  }, [loading, articles.length]);
 
   if (loading) {
+    return <LoadingSpinner />;
+  }
+
+  if (error) {
     return (
-      <div className="flex justify-center items-center min-h-[400px]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div className="container mx-auto px-4 py-16 text-center">
+        <div className="max-w-md mx-auto">
+          <div className="text-red-500 text-6xl mb-4">⚠️</div>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">Oops! Something went wrong</h2>
+          <p className="text-gray-600 mb-4">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            Try Again
+          </button>
+        </div>
       </div>
     );
   }
 
+  
   return (
     <div className="container mx-auto space-y-8">
       {/* Header */}
@@ -66,7 +131,7 @@ const Articles = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="bg-white rounded-2xl shadow-lg p-6 space-y-4"
+        className="bg-white rounded-sm shadow-lg p-6 space-y-4"
       >
         <div className="flex flex-col md:flex-row gap-4">
           <div className="relative flex-1">
@@ -76,13 +141,13 @@ const Articles = () => {
               placeholder="Search articles..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
           <select
             value={selectedTag}
             onChange={(e) => setSelectedTag(e.target.value)}
-            className="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="px-4 py-3 border border-gray-300 rounded-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
             <option value="">All Tags</option>
             {allTags.map((tag) => (
@@ -94,78 +159,38 @@ const Articles = () => {
         </div>
       </motion.div>
 
-      {/* Articles Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {filteredArticles.map((article, index) => (
-          <motion.article
-            key={article.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
-            className="bg-white/90 backdrop-blur-md rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 group border border-white/20 hover:border-blue-400/30"
+      {/* Articles Masonry Grid */}
+      <motion.div
+        ref={masonryRef}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.2 }}
+        className="masonry-container"
+        style={{
+          display: 'grid',
+          gridAutoRows: '10px',
+          gap: '32px',
+          alignItems: 'start'
+        }}
+      >
+        {articles.map((article, index) => (
+          <motion.div 
+            key={article.id} 
+            className="masonry-item"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ 
+              delay: index * 0.05,
+              duration: 0.3,
+              ease: "easeOut"
+            }}
           >
-            {article.cover_image && (
-              <div className="relative h-48 overflow-hidden">
-                <img
-                  src={article.cover_image}
-                  alt={article.title}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                {article.is_top && (
-                  <div className="absolute top-4 left-4 bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                    Top Article
-                  </div>
-                )}
-              </div>
-            )}
-            
-            <div className="p-6 space-y-4">
-              <h2 className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-2">
-                {article.title}
-              </h2>
-              
-              <p className="text-gray-600 line-clamp-3">
-                {article.content.substring(0, 150)}...
-              </p>
-              
-              <div className="flex items-center gap-4 text-sm text-gray-500">
-                <div className="flex items-center gap-1">
-                  <User className="h-4 w-4" />
-                  {article.author}
-                </div>
-                <div className="flex items-center gap-1">
-                  <Calendar className="h-4 w-4" />
-                  {new Date(article.created_at).toLocaleDateString()}
-                </div>
-              </div>
-              
-              {article.tags.length > 0 && (
-                <div className="flex flex-wrap gap-2">
-                  {article.tags.slice(0, 3).map((tag) => (
-                    <span
-                      key={tag}
-                      className="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full"
-                    >
-                      <Tag className="h-3 w-3" />
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              )}
-              
-              <Link
-                to={`/articles/${article.id}`}
-                className="inline-block w-full text-center bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-lg hover:from-blue-500 hover:to-purple-500 transition-all duration-300 shadow-[0_4px_15px_rgba(59,130,246,0.3)] hover:shadow-[0_6px_20px_rgba(59,130,246,0.4)] hover:scale-[1.02]"
-              >
-                Read More
-              </Link>
-            </div>
-          </motion.article>
+            <ArticleCard article={article} index={index} />
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
 
-      {filteredArticles.length === 0 && (
+      {articles.length === 0 && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

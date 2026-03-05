@@ -43,7 +43,11 @@ export interface Sermon {
   description: string;
   video_url: string;
   videoUrl: string;
+  audio_url?: string;
+  audioUrl?: string;
+  image_url?: string;
   imageUrl?: string;
+  created_at: string;
   createdAt: string;
 }
 
@@ -112,4 +116,8 @@ export interface DailyQuote {
   image_type: 'text' | 'image';
   date: string;
   created_at: string;
+}
+
+export interface IError {
+  message: string;
 }

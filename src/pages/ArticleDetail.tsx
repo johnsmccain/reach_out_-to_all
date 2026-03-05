@@ -5,6 +5,8 @@ import { Calendar, User, Download, Heart, ThumbsUp, MessageCircle, ArrowLeft, St
 import { supabase } from "../lib/supabase";
 import type { Article, ArticleReaction, ArticleComment } from "../types";
 import toast from "react-hot-toast";
+import { RichContentRenderer } from "@/components/RichContentRenderer";
+import { migrateContent } from "@/lib/contentMigration";
 
 const ArticleDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -215,7 +217,6 @@ const ArticleDetail = () => {
         coverImage: article.cover_image || undefined,
         tags: article.tags || []
       });
-      
       toast.success("PDF downloaded successfully!");
     } catch (error: any) {
       console.error("Error generating PDF:", error);
@@ -249,7 +250,7 @@ const ArticleDetail = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-[400px]">
+      <div className="flex justify-center items-center min-h-100">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
       </div>
     );
@@ -284,14 +285,14 @@ const ArticleDetail = () => {
         className="bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl overflow-hidden border border-white/20 hover:shadow-[0_20px_60px_rgba(59,130,246,0.15)] transition-all duration-500"
       >
         {article.cover_image && (
-          <div className="relative  aspect-[20/9] ">
+          <div className="relative  aspect-20/9 ">
             <img
               src={article.cover_image}
               alt={article.title}
               className="w-full h-full object-cover"
             />
             {article.is_top && (
-              <div className="absolute top-4 left-4 bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+              <div className="absolute top-4 left-4 bg-linear-to-r from-yellow-400 to-orange-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
                 Top Article
               </div>
             )}
@@ -333,13 +334,10 @@ const ArticleDetail = () => {
             </div>
           </div>
 
-          <div className="prose prose-lg max-w-none">
-            {article.content.split('\n').map((paragraph, index) => (
-              <p key={index} className="mb-4 text-gray-700 leading-relaxed">
-                {paragraph}
-              </p>
-            ))}
-          </div>
+          <RichContentRenderer 
+            content={migrateContent(article.content)} 
+            className="text-gray-700"
+          />
 
           {/* Tags */}
           {article.tags.length > 0 && (
@@ -368,21 +366,21 @@ const ArticleDetail = () => {
         <div className="flex gap-4">
           <button
             onClick={() => handleReaction('like')}
-            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-100 to-blue-200 text-blue-800 rounded-lg hover:from-blue-200 hover:to-blue-300 transition-all duration-300 hover:scale-105 hover:shadow-[0_4px_15px_rgba(59,130,246,0.3)]"
+            className="flex items-center gap-2 px-4 py-2 bg-linear-to-r from-blue-100 to-blue-200 text-blue-800 rounded-lg hover:from-blue-200 hover:to-blue-300 transition-all duration-300 hover:scale-105 hover:shadow-[0_4px_15px_rgba(59,130,246,0.3)]"
           >
             <ThumbsUp className="h-5 w-5" />
             Like ({getReactionCount('like')})
           </button>
           <button
             onClick={() => handleReaction('love')}
-            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-red-100 to-red-200 text-red-800 rounded-lg hover:from-red-200 hover:to-red-300 transition-all duration-300 hover:scale-105 hover:shadow-[0_4px_15px_rgba(239,68,68,0.3)]"
+            className="flex items-center gap-2 px-4 py-2 bg-linear-to-r from-red-100 to-red-200 text-red-800 rounded-lg hover:from-red-200 hover:to-red-300 transition-all duration-300 hover:scale-105 hover:shadow-[0_4px_15px_rgba(239,68,68,0.3)]"
           >
             <Heart className="h-5 w-5" />
             Love ({getReactionCount('love')})
           </button>
           <button
             onClick={() => handleReaction('pray')}
-            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-100 to-purple-200 text-purple-800 rounded-lg hover:from-purple-200 hover:to-purple-300 transition-all duration-300 hover:scale-105 hover:shadow-[0_4px_15px_rgba(147,51,234,0.3)]"
+            className="flex items-center gap-2 px-4 py-2 bg-linear-to-r from-purple-100 to-purple-200 text-purple-800 rounded-lg hover:from-purple-200 hover:to-purple-300 transition-all duration-300 hover:scale-105 hover:shadow-[0_4px_15px_rgba(147,51,234,0.3)]"
           >
             <Star className="h-5 w-5" />
             Pray ({getReactionCount('pray')})

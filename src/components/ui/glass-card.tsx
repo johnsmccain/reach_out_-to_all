@@ -37,10 +37,10 @@ const GlassCard = React.forwardRef<HTMLDivElement, GlassCardProps>(
 
       >
         {/* Animated gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-400/10 via-purple-400/5 to-cyan-400/10 opacity-0 hover:opacity-100 transition-opacity duration-500" />
+        <div className="absolute inset-0 bg-linear-to-br from-blue-400/10 via-purple-400/5 to-cyan-400/10 opacity-0 hover:opacity-100 transition-opacity duration-500" />
         
         {/* Border glow effect */}
-        <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-400/0 via-blue-400/20 to-purple-400/0 opacity-0 hover:opacity-100 transition-opacity duration-300 blur-sm" />
+        <div className="absolute inset-0 rounded-2xl bg-linear-to-r from-blue-400/0 via-blue-400/20 to-purple-400/0 opacity-0 hover:opacity-100 transition-opacity duration-300 blur-xs" />
         
         {/* Content */}
         <div className="relative z-10 p-6">
@@ -48,8 +48,8 @@ const GlassCard = React.forwardRef<HTMLDivElement, GlassCardProps>(
         </div>
         
         {/* Corner accents */}
-        <div className="absolute top-0 left-0 w-20 h-20 bg-gradient-to-br from-blue-400/20 to-transparent rounded-br-full opacity-50" />
-        <div className="absolute bottom-0 right-0 w-16 h-16 bg-gradient-to-tl from-purple-400/20 to-transparent rounded-tl-full opacity-50" />
+        <div className="absolute top-0 left-0 w-20 h-20 bg-linear-to-br from-blue-400/20 to-transparent rounded-br-full opacity-50" />
+        <div className="absolute bottom-0 right-0 w-16 h-16 bg-linear-to-tl from-purple-400/20 to-transparent rounded-tl-full opacity-50" />
       </motion.div>
     );
   }

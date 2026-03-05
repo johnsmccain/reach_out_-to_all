@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import toast from "react-hot-toast";
+import { X, Save, Image as ImageIcon, Calendar } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface QuoteUploadModalProps {
   isOpen: boolean;
@@ -276,90 +278,128 @@ const QuoteUploadModal: React.FC<QuoteUploadModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-lg w-full max-w-2xl p-6">
-        <h2 className="text-2xl font-bold mb-6">Upload Quote Image</h2>
-        
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Date Picker */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Schedule Date
-            </label>
-            <input
-              type="date"
-              value={selectedDate}
-              onChange={handleDateChange}
-              required
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-3 py-2 border"
-            />
-            {dateError && (
-              <p className="mt-1 text-sm text-red-600">{dateError}</p>
-            )}
-          </div>
-
-          {/* File Input */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Quote Image (PNG/JPG/JPEG)
-            </label>
-            <input
-              type="file"
-              accept="image/png, image/jpeg, image/jpg"
-              onChange={handleFileChange}
-              required
-              className="mt-1 block w-full text-sm text-gray-500
-                file:mr-4 file:py-2 file:px-4
-                file:rounded-md file:border-0
-                file:text-sm file:font-semibold
-                file:bg-blue-50 file:text-blue-700
-                hover:file:bg-blue-100"
-            />
-            <p className="mt-1 text-xs text-gray-500">
-              Maximum file size: {MAX_IMAGE_SIZE / (1024 * 1024)}MB
-            </p>
-            {fileError && (
-              <p className="mt-1 text-sm text-red-600">{fileError}</p>
-            )}
-          </div>
-
-          {/* Image Preview */}
-          {previewUrl && (
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Preview
-              </label>
-              <div className="border rounded-lg p-4 bg-gray-50">
-                <img
-                  src={previewUrl}
-                  alt="Quote preview"
-                  className="max-w-full h-auto max-h-96 mx-auto rounded-md"
-                />
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50 overflow-y-auto">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            transition={{ duration: 0.2 }}
+            className="bg-white rounded-2xl w-full max-w-4xl max-h-[95vh] overflow-hidden shadow-2xl"
+          >
+            {/* Header */}
+            <div className="sticky top-0 bg-linear-to-r from-blue-600 via-purple-600 to-cyan-600 text-white p-6 flex justify-between items-center z-10">
+              <div>
+                <h2 className="text-2xl font-bold flex items-center gap-2">
+                  <ImageIcon className="h-6 w-6" />
+                  Upload Quote Image
+                </h2>
               </div>
+              <motion.button
+                whileHover={{ scale: 1.1, rotate: 90 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={onClose}
+                className="p-2 hover:bg-white/20 rounded-lg transition-colors"
+              >
+                <X className="h-6 w-6" />
+              </motion.button>
             </div>
-          )}
 
-          {/* Action Buttons */}
-          <div className="flex justify-end space-x-4 mt-6">
-            <button
-              type="button"
-              onClick={onClose}
-              disabled={isUploading}
-              className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              disabled={isUploading || !!dateError || !!fileError || !selectedFile}
-              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isUploading ? "Uploading..." : "Upload Quote"}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+            {/* Form */}
+            <form onSubmit={handleSubmit} className="p-6 space-y-6 overflow-y-auto max-h-[calc(95vh-88px)]">
+              {/* Date Picker */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                  <Calendar className="h-4 w-4 text-blue-600" />
+                  Schedule Date *
+                </label>
+                <input
+                  type="date"
+                  value={selectedDate}
+                  onChange={handleDateChange}
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                />
+                {dateError && (
+                  <p className="mt-2 text-sm text-red-600">{dateError}</p>
+                )}
+              </div>
+
+              {/* File Input */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                  <ImageIcon className="h-4 w-4 text-blue-600" />
+                  Quote Image (PNG/JPG/JPEG) *
+                </label>
+                <input
+                  type="file"
+                  accept="image/png, image/jpeg, image/jpg"
+                  onChange={handleFileChange}
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                />
+                <p className="mt-2 text-xs text-gray-500">
+                  Maximum file size: {MAX_IMAGE_SIZE / (1024 * 1024)}MB
+                </p>
+                {fileError && (
+                  <p className="mt-2 text-sm text-red-600">{fileError}</p>
+                )}
+              </div>
+
+              {/* Image Preview */}
+              {previewUrl && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Preview
+                  </label>
+                  <div className="rounded-xl overflow-hidden border border-gray-200">
+                    <img
+                      src={previewUrl}
+                      alt="Quote preview"
+                      className="w-full h-auto max-h-96 object-contain"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Action Buttons */}
+              <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  type="button"
+                  onClick={onClose}
+                  disabled={isUploading}
+                  className="px-6 py-3 border-2 border-gray-300 rounded-xl text-gray-700 font-medium hover:bg-gray-50 transition-all duration-300 disabled:opacity-50"
+                >
+                  Cancel
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  type="submit"
+                  disabled={isUploading || !!dateError || !!fileError || !selectedFile}
+                  className="px-6 py-3 bg-linear-to-r from-blue-600 to-purple-600 text-white font-medium rounded-xl hover:from-blue-500 hover:to-purple-500 transition-all duration-300 disabled:opacity-50 flex items-center gap-2 shadow-lg hover:shadow-xl"
+                >
+                  {isUploading ? (
+                    <>
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                      <span>Uploading...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Save className="h-5 w-5" />
+                      <span>Upload Quote</span>
+                    </>
+                  )}
+                </motion.button>
+              </div>
+            </form>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
   );
 };
 

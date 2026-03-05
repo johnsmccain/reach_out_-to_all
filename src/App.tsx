@@ -1,29 +1,37 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { AnimatePresence } from "framer-motion";
+import { Suspense, lazy } from "react";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import GetInvolved from "./pages/GetInvolved";
-import Contact from "./pages/Contact";
-import Events from "./pages/Events";
-import Resources from "./pages/Resources";
-import AdminDashboard from "./pages/AdminDashboard";
-import Login from "./pages/Login";
-import AuthGuard from "./components/AuthGuard";
 import PageTransition from "./components/PageTransition";
-import Registration from "./pages/Registration";
-import Articles from "./pages/Articles";
-import ArticleDetail from "./pages/ArticleDetail";
+import LoadingSpinner from "./components/LoadingSpinner";
 
-function App() {
+// Lazy load components for better performance
+const Home = lazy(() => import("./pages/Home"));
+const About = lazy(() => import("./pages/About"));
+const GetInvolved = lazy(() => import("./pages/GetInvolved"));
+const Contact = lazy(() => import("./pages/Contact"));
+const Events = lazy(() => import("./pages/Events"));
+const Sermons = lazy(() => import("./pages/Sermons"));
+const Resources = lazy(() => import("./pages/Resources"));
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
+const Login = lazy(() => import("./pages/Login"));
+const AuthGuard = lazy(() => import("./components/AuthGuard"));
+const Registration = lazy(() => import("./pages/Registration"));
+const Articles = lazy(() => import("./pages/Articles"));
+const ArticleDetail = lazy(() => import("./pages/ArticleDetail"));
+
+function AppContent() {
+  const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith('/admin');
+
   return (
-    <Router>
-      <div className="min-h-screen bg-gradient-to-b from-white to-blue-50">
-        <Navbar />
-        <AnimatePresence mode="wait">
-          <main className="container mx-auto px-4 py-8">
+    <>
+      {!isAdminRoute && <Navbar />}
+      <AnimatePresence mode="wait">
+        <main>
+          <Suspense fallback={<LoadingSpinner />}>
             <Routes>
               <Route
                 path="/"
@@ -62,6 +70,14 @@ function App() {
                 element={
                   <PageTransition>
                     <Events />
+                  </PageTransition>
+                }
+              />
+              <Route
+                path="/sermons"
+                element={
+                  <PageTransition>
+                    <Sermons />
                   </PageTransition>
                 }
               />
@@ -116,34 +132,50 @@ function App() {
                 }
               />
             </Routes>
-          </main>
-        </AnimatePresence>
-        <Footer />
-        <Toaster
-          position="top-right"
-          toastOptions={{
-            style: {
-              background: "#4B5563",
-              color: "#fff",
+          </Suspense>
+        </main>
+      </AnimatePresence>
+      {!isAdminRoute && <Footer />}
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 3000,
+          style: {
+            background: "#fff",
+            color: "#1f2937",
+            boxShadow: "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
+            border: "1px solid #e5e7eb",
+            borderRadius: "0.75rem",
+            padding: "1rem",
+          },
+          success: {
+            duration: 3000,
+            iconTheme: {
+              primary: "#10b981",
+              secondary: "#fff",
             },
-            success: {
-              duration: 3000,
-              style: {
-                background: "#059669",
-              },
+          },
+          error: {
+            duration: 4000,
+            iconTheme: {
+              primary: "#ef4444",
+              secondary: "#fff",
             },
-            error: {
-              duration: 4000,
-              style: {
-                background: "#DC2626",
-              },
-            },
-          }}
-        />
+          },
+        }}
+      />
+    </>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/30">
+        <AppContent />
       </div>
     </Router>
   );
 }
 
 export default App;
-
