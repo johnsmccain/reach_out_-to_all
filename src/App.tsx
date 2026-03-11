@@ -15,6 +15,7 @@ const Contact = lazy(() => import("./pages/Contact"));
 const Events = lazy(() => import("./pages/Events"));
 const Sermons = lazy(() => import("./pages/Sermons"));
 const Resources = lazy(() => import("./pages/Resources"));
+const Chapters = lazy(() => import("./pages/Chapters"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const Login = lazy(() => import("./pages/Login"));
 const AuthGuard = lazy(() => import("./components/AuthGuard"));
@@ -114,6 +115,14 @@ function AppContent() {
                 }
               />
               <Route
+                path="/chapters"
+                element={
+                  <PageTransition>
+                    <Chapters />
+                  </PageTransition>
+                }
+              />
+              <Route
                 path="/login"
                 element={
                   <PageTransition>
@@ -171,7 +180,7 @@ function AppContent() {
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/30">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/30 dark:from-black dark:via-gray-900 dark:to-gray-950 transition-colors duration-300">
         <AppContent />
       </div>
     </Router>

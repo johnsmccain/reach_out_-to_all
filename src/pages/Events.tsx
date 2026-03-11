@@ -2,7 +2,7 @@ import React from "react";
 import { Calendar, MapPin, Clock } from "lucide-react";
 import { supabase } from "../lib/supabase";
 import type { Event } from "../types";
-import { format } from "date-fns";
+import { format, isPast, isFuture, isToday, isYesterday, isTomorrow } from "date-fns";
 import EventDetailModal from "../components/EventDetailModal";
 
 const Events = () => {
@@ -23,22 +23,44 @@ const Events = () => {
     setSelectedEvent(null);
   };
 
+  // Helper function to categorize events based on date
+  const categorizeEvent = (eventDate: string): "past" | "current" | "future" => {
+    const date = new Date(eventDate);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    const eventDateOnly = new Date(date);
+    eventDateOnly.setHours(0, 0, 0, 0);
+
+    if (isPast(eventDateOnly) && !isToday(eventDateOnly)) {
+      return "past";
+    } else if (isToday(eventDateOnly)) {
+      return "current";
+    } else {
+      return "future";
+    }
+  };
+
   React.useEffect(() => {
     const fetchEvents = async () => {
       const { data } = await supabase
         .from("events")
         .select("*")
-        .eq("type", activeTab)
-        .order("date", { ascending: activeTab !== "past" });
+        .order("date", { ascending: activeTab === "past" ? false : true });
 
       if (data) {
-        setEvents(
-          data.map((event) => ({
-            ...event,
-            imageUrl: event.image_url,
-            videoUrl: event.video_url,
-          }))
+        const mappedEvents = data.map((event) => ({
+          ...event,
+          imageUrl: event.image_url,
+          videoUrl: event.video_url,
+        }));
+
+        // Filter events based on active tab
+        const filteredEvents = mappedEvents.filter(
+          (event) => categorizeEvent(event.date) === activeTab
         );
+
+        setEvents(filteredEvents);
       }
     };
 
@@ -68,17 +90,17 @@ const Events = () => {
         </div>
       </section>
 
-      {/* Event Tabs */}
+        {/* Event Tabs */}
       <div className="container mx-auto px-4">
-        <div className="flex flex-wrap gap-2 sm:gap-4 border-b border-gray-200">
+        <div className="flex flex-wrap gap-2 sm:gap-4 border-b border-gray-200 dark:border-gray-700">
           {(["past", "current", "future"] as const).map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={`px-3 sm:px-6 rounded py-2 sm:py-3 text-base sm:text-lg font-medium border-b-2 transition-colors ${
                 activeTab === tab
-                  ? "bg-linear-to-r from-blue-600 via-purple-600 to-cyan-600 text-white"
-                  : "border-transparent text-gray-500 hover:text-gray-700"
+                  ? "bg-linear-to-r from-blue-600 to-blue-500 dark:from-red-600 dark:to-red-500 text-white border-blue-600 dark:border-red-600"
+                  : "border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
               }`}
             >
               {tab.charAt(0).toUpperCase() + tab.slice(1)} Events
@@ -91,7 +113,7 @@ const Events = () => {
           {events.map((event) => (
             <div
               key={event.id}
-              className="bg-white rounded shadow-lg overflow-hidden cursor-pointer hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
+              className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden cursor-pointer hover:shadow-xl transition-all duration-300 hover:scale-[1.02] border border-gray-200 dark:border-gray-700"
               onClick={() => handleEventClick(event)}
             >
               {event.imageUrl && (
@@ -102,28 +124,28 @@ const Events = () => {
                 />
               )}
               <div className="p-4 sm:p-6">
-                <h3 className="text-xl sm:text-2xl font-bold mb-2">
+                <h3 className="text-xl sm:text-2xl font-bold mb-2 text-gray-900 dark:text-white">
                   {event.title}
                 </h3>
-                <p className="text-gray-600 mb-4 text-sm sm:text-base line-clamp-3">
+                <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm sm:text-base line-clamp-3">
                   {event.description}
                 </p>
 
                 <div className="space-y-2">
-                  <div className="flex items-center text-gray-600 text-sm sm:text-base">
-                    <Calendar className="h-4 w-4 sm:h-5 sm:w-5 mr-2 shrink-0" />
+                  <div className="flex items-center text-gray-600 dark:text-gray-400 text-sm sm:text-base">
+                    <Calendar className="h-4 w-4 sm:h-5 sm:w-5 mr-2 shrink-0 text-blue-600 dark:text-blue-400" />
                     <span className="truncate">
                       {format(new Date(event.date), "MMMM d, yyyy")}
                     </span>
                   </div>
-                  <div className="flex items-center text-gray-600 text-sm sm:text-base">
-                    <Clock className="h-4 w-4 sm:h-5 sm:w-5 mr-2 shrink-0" />
+                  <div className="flex items-center text-gray-600 dark:text-gray-400 text-sm sm:text-base">
+                    <Clock className="h-4 w-4 sm:h-5 sm:w-5 mr-2 shrink-0 text-blue-600 dark:text-red-400" />
                     <span className="truncate">
                       {format(new Date(event.date), "h:mm a")}
                     </span>
                   </div>
-                  <div className="flex items-center text-gray-600 text-sm sm:text-base">
-                    <MapPin className="h-4 w-4 sm:h-5 sm:w-5 mr-2 shrink-0" />
+                  <div className="flex items-center text-gray-600 dark:text-gray-400 text-sm sm:text-base">
+                    <MapPin className="h-4 w-4 sm:h-5 sm:w-5 mr-2 shrink-0 text-blue-600 dark:text-red-400" />
                     <span className="truncate">{event.location}</span>
                   </div>
                 </div>
@@ -134,7 +156,7 @@ const Events = () => {
                       href={event.videoUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-600 hover:underline text-sm sm:text-base inline-flex items-center cursor-pointer"
+                      className="text-blue-600 dark:text-blue-400 hover:underline text-sm sm:text-base inline-flex items-center cursor-pointer"
                     >
                       Watch Event Video
                     </a>
@@ -147,7 +169,7 @@ const Events = () => {
 
         {events.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-gray-500 text-lg">
+            <p className="text-gray-500 dark:text-gray-400 text-lg">
               No events found for this category.
             </p>
           </div>

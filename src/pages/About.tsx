@@ -99,8 +99,8 @@ const About = () => {
                 }}
                 className={`w-full p-4 text-left rounded-sm ${
                   activeTab === tab.id
-                    ? "bg-blue-50 text-blue-900"
-                    : "text-gray-700 hover:bg-gray-50"
+                    ? "bg-blue-50 text-blue-900 dark:text-red-600"
+                    : "text-gray-700 dark:text-gray-600 hover:bg-gray-50"
                 }`}
               >
                 {tab.label}
@@ -125,13 +125,13 @@ const About = () => {
                 onClick={() => setActiveTab(tab.id)}
                 className={`py-4 px-6 font-semibold text-lg transition-colors relative ${
                   activeTab === tab.id
-                    ? "text-blue-900"
-                    : "text-gray-500 hover:text-blue-900"
+                    ? "text-blue-900 dark:text-red-600"
+                    : "text-gray-500 hover:text-blue-900 dark:hover:text-red-700"
                 }`}
               >
                 {tab.label}
                 {activeTab === tab.id && (
-                  <div className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-900" />
+                  <div className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-800 dark:bg-red-900" />
                 )}
               </button>
             ))}
@@ -143,8 +143,8 @@ const About = () => {
               activeTab === "story" ? "block opacity-100" : "hidden opacity-0"
             }`}
           >
-            <div className="prose prose-lg max-w-none text-gray-700">
-              <p className="text-xl font-semibold text-blue-900 mb-6">
+            <div className="prose prose-lg max-w-none text-gray-700 dark:text-gray-600">
+              <p className="text-xl font-semibold  text-blue-900  dark:text-red-700 mb-6">
                 All praise and glory be to God Almighty, to whom we belong, for
                 granting us the privilege of working alongside Him in reaching
                 out to souls.
@@ -184,47 +184,47 @@ const About = () => {
           >
             <div className="grid gap-8 md:grid-cols-2">
               <div className="bg-white p-6 md:p-8 rounded-sm shadow-lg border border-gray-100 hover:shadow-xl transition-shadow">
-                <h3 className="text-xl md:text-2xl font-bold mb-6 text-blue-900">
+                <h3 className="text-xl md:text-2xl font-bold mb-6 text-blue-900 dark:text-red-600">
                   Our Foundation
                 </h3>
                 <ul className="space-y-6">
                   <li className="flex flex-col">
-                    <span className="text-lg font-semibold text-blue-900">
+                    <span className="text-lg font-semibold text-blue-900 dark:text-red-600">
                       Motto
                     </span>
-                    <span className="text-gray-700 mt-2">
+                    <span className="text-gray-700 dark:text-gray-600 mt-2">
                       Every soul counts.
                     </span>
                   </li>
                   <li className="flex flex-col">
-                    <span className="text-lg font-semibold text-blue-900">
+                    <span className="text-lg font-semibold text-blue-900 dark:text-red-600">
                       Mandate
                     </span>
-                    <span className="text-gray-700 mt-2">
+                    <span className="text-gray-700 dark:text-gray-600 mt-2">
                       To reawaken the body of Christ to the Great Commission.
                     </span>
                   </li>
                 </ul>
               </div>
               <div className="bg-white p-6 md:p-8 rounded-sm shadow-lg border border-gray-100 hover:shadow-xl transition-shadow">
-                <h3 className="text-xl md:text-2xl font-bold mb-6 text-blue-900">
+                <h3 className="text-xl md:text-2xl font-bold mb-6 text-blue-900 dark:text-red-600">
                   Our Purpose
                 </h3>
                 <ul className="space-y-6">
                   <li className="flex flex-col">
-                    <span className="text-lg font-semibold text-blue-900">
+                    <span className="text-lg font-semibold text-blue-900 dark:text-red-600">
                       Goal
                     </span>
-                    <span className="text-gray-700 mt-2">
+                    <span className="text-gray-700 dark:text-gray-600 mt-2">
                       To preach the Gospel simply, presenting Christ crucified
                       for salvation.
                     </span>
                   </li>
                   <li className="flex flex-col">
-                    <span className="text-lg font-semibold text-blue-900">
+                    <span className="text-lg font-semibold text-blue-900 dark:text-red-600">
                       Mission
                     </span>
-                    <span className="text-gray-700 mt-2">
+                    <span className="text-gray-700 dark:text-gray-600 mt-2">
                       To reach all people with the Gospel and empower their
                       holistic development.
                     </span>
@@ -254,13 +254,13 @@ const About = () => {
                   </div>
                 </div>
                 <div className="lg:w-2/3 p-6 md:p-8 lg:p-12">
-                  <h3 className="text-2xl md:text-3xl font-bold text-blue-900 mb-2">
+                  <h3 className="text-2xl md:text-3xl font-bold  text-blue-900  dark:text-red-700 mb-2">
                     Bawa G. Emmanuel
                   </h3>
-                  <p className="text-lg md:text-xl text-blue-600 mb-6 md:mb-8">
+                  <p className="text-lg md:text-xl text-blue-600  dark:text-red-500 mb-6 md:mb-8">
                     Coordinator/President
                   </p>
-                  <div className="prose prose-base md:prose-lg text-gray-700">
+                  <div className="prose prose-base md:prose-lg text-gray-700 dark:text-gray-600">
                     <p>
                       Bawa G. Emmanuel has an apostolic and evangelistic
                       mandate, serving as a spiritual midwife to bring about the
@@ -293,24 +293,24 @@ const About = () => {
 
             {/* Regional Chapters */}
             <div className="bg-white rounded-sm shadow-lg overflow-hidden p-6 md:p-8">
-              <h3 className="text-2xl font-bold text-blue-900 mb-6">
+              <h3 className="text-2xl font-bold  text-blue-900  dark:text-red-700 mb-6">
                 Regional Chapters
               </h3>
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-4">
-                  <h4 className="text-xl font-semibold text-blue-900">
+                  <h4 className="text-xl font-semibold text-blue-900 dark:text-red-600">
                     Lagos Reachout to All
                   </h4>
-                  <p className="text-gray-700">
+                  <p className="text-gray-700 dark:text-gray-600">
                     Our vibrant Lagos chapter, reaching the bustling metropolis
                     with the Gospel.
                   </p>
                 </div>
                 <div className="space-y-4">
-                  <h4 className="text-xl font-semibold text-blue-900">
+                  <h4 className="text-xl font-semibold text-blue-900 dark:text-red-600">
                     Kano Reachout to All
                   </h4>
-                  <p className="text-gray-700">
+                  <p className="text-gray-700 dark:text-gray-600">
                     Serving and ministering to communities in Northern Nigeria.
                   </p>
                 </div>
@@ -319,24 +319,24 @@ const About = () => {
 
             {/* Leadership Structure */}
             <div className="bg-white rounded-sm shadow-lg overflow-hidden p-6 md:p-8">
-              <h3 className="text-2xl font-bold text-blue-900 mb-6">
+              <h3 className="text-2xl font-bold  text-blue-900  dark:text-red-700 mb-6">
                 Leadership Structure
               </h3>
               <div className="space-y-6">
                 <div className="space-y-4">
-                  <h4 className="text-xl font-semibold text-blue-900">
+                  <h4 className="text-xl font-semibold text-blue-900 dark:text-red-600">
                     Coordinator
                   </h4>
-                  <p className="text-gray-700">
+                  <p className="text-gray-700 dark:text-gray-600">
                     Overseeing all ministry operations and providing strategic
                     direction.
                   </p>
                 </div>
                 <div className="space-y-4">
-                  <h4 className="text-xl font-semibold text-blue-900">
+                  <h4 className="text-xl font-semibold text-blue-900 dark:text-red-600">
                     Central Planning Committee (CPC)
                   </h4>
-                  <p className="text-gray-700">
+                  <p className="text-gray-700 dark:text-gray-600">
                     A dedicated team responsible for planning and executing
                     ministry initiatives, events, and outreach programs.
                   </p>
@@ -351,20 +351,20 @@ const About = () => {
       <section className="bg-linear-to-b from-gray-50 to-white py-12 md:py-20">
         <div className="container mx-auto px-4 max-w-4xl text-center space-y-12">
           <div className="space-y-6">
-            <h2 className="text-3xl md:text-4xl font-bold text-blue-900">
+            <h2 className="text-3xl md:text-4xl font-bold text-blue-900 dark:text-red-700">
               What We Believe
             </h2>
-            <p className="text-lg md:text-xl text-gray-700 max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-gray-700 dark:text-gray-600 max-w-2xl mx-auto">
               We believe that all people deserve to be reached with the gospel
               alongside humanitarian services for their rounded development.
             </p>
           </div>
 
           <div className="space-y-6">
-            <h2 className="text-3xl md:text-4xl font-bold text-blue-900">
+            <h2 className="text-3xl md:text-4xl font-bold text-blue-900 dark:text-red-700">
               Call to Action
             </h2>
-            <p className="text-lg md:text-xl text-gray-700 max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-gray-700 dark:text-gray-600 max-w-2xl mx-auto">
               You can get involved in reaching out to lives using your skills,
               talents, and resources.
             </p>
@@ -374,7 +374,7 @@ const About = () => {
 
       {/* Team Section */}
       <section className="container mx-auto px-4 max-w-4xl mb-16">
-        <h2 className="text-3xl md:text-4xl font-bold text-blue-900 mb-8 text-center">
+        <h2 className="text-3xl md:text-4xl font-bold  text-blue-900  dark:text-red-700 mb-8 text-center">
           Our Team
         </h2>
         <div className="bg-white rounded-sm shadow-lg overflow-hidden">
@@ -401,10 +401,10 @@ const About = () => {
                     key={index}
                     className="hover:bg-blue-50/50 transition-colors group"
                   >
-                    <td className="px-4 md:px-8 py-4 md:py-6 font-semibold text-blue-900 group-hover:text-blue-700">
+                    <td className="px-4 md:px-8 py-4 md:py-6 font-semibold text-blue-900 group-hover:text-blue-700  dark:text-red-700 dark:group-hover:text-red-600">
                       {member.role}
                     </td>
-                    <td className="px-4 md:px-8 py-4 md:py-6 text-gray-700 group-hover:text-gray-900">
+                    <td className="px-4 md:px-8 py-4 md:py-6 text-gray-700 dark:text-gray-600 group-hover:text-gray-900">
                       {member.name}
                     </td>
                   </tr>

@@ -99,7 +99,7 @@ const DashboardLayout = ({
                   className="h-10 w-10 rounded-full ring-2 ring-primary-500/20"
                 />
                 <div className="flex flex-col">
-                  <span className="font-bold text-sm bg-linear-to-r from-blue-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent">
+                  <span className="font-bold text-sm bg-linear-to-r from-blue-700 via-blue-600 to-blue-500   dark:from-red-700 dark:via-red-600 dark:to-red-500    bg-clip-text text-transparent">
                     Reachout To All
                   </span>
                   <span className="text-xs text-neutral-500">Admin Portal</span>
@@ -131,7 +131,7 @@ const DashboardLayout = ({
                 onClick={() => handleNavClick(item.path)}
                 className={`relative flex items-center gap-3 px-3 py-2.5 transition-all duration-300 group w-full text-left ${
                   active
-                    ? "text-white bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600"
+                    ? "text-white bg-gradient-to-r from-blue-700 via-blue-600 to-blue-500   dark:from-red-700 dark:via-red-600 dark:to-red-500   "
                     : "text-neutral-700 hover:bg-neutral-100"
                 }`}
               >
@@ -232,7 +232,7 @@ const DashboardLayout = ({
                       }}
                       className={`flex items-center gap-3 px-3 py-2.5 transition-all w-full text-left ${
                         active
-                          ? "text-white bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600"
+                          ? "text-white bg-gradient-to-r from-blue-700 via-blue-600 to-blue-500   dark:from-red-700 dark:via-red-600 dark:to-red-500   "
                           : "text-neutral-700 hover:bg-neutral-100"
                       }`}
                     >

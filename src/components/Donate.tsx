@@ -45,7 +45,7 @@ const Donate = () => {
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white rounded-sm shadow-lg">
       <div className="flex items-center space-x-2 mb-6">
-        <CreditCard className="h-8 w-8 text-blue-600" />
+        <CreditCard className="h-8 w-8 text-blue-600 dark:text-red-600" />
         <h2 className="text-3xl font-bold">Donate</h2>
       </div>
 
@@ -55,8 +55,8 @@ const Donate = () => {
           onClick={() => setPaymentType("bank")}
           className={`flex items-center gap-2 px-4 py-2 border rounded-full shadow-lg ${
             paymentType === "bank"
-              ? "bg-blue-600 text-white"
-              : "text-blue-600 border-blue-600 hover:bg-blue-50"
+              ? "bg-blue-600 text-white dark:bg-red-600"
+              : "text-blue-600 border-blue-600 dark:text-red-600 dark:border-red-600 hover:bg-blue-50"
           }`}
         >
           <Banknote className="w-4 h-4" />

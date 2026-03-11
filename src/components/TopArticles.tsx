@@ -42,8 +42,8 @@ const TopArticles = () => {
         animate={{ opacity: 1, y: 0 }}
         className="text-center space-y-4"
       >
-        <h2 className="text-3xl md:text-4xl font-bold text-blue-900">Featured Articles</h2>
-        <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+        <h2 className="text-3xl md:text-4xl font-bold text-blue-900 dark:text-red-400 ">Featured Articles</h2>
+        <p className="text-xl text-gray-600 max-w-2xl mx-auto dark:text-gray-300">
           Discover our most impactful stories and insights from the mission field
         </p>
       </motion.div>
@@ -64,7 +64,7 @@ const TopArticles = () => {
       >
         <Link
           to="/articles"
-          className="inline-flex items-center gap-2 bg-linear-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-full hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl"
+          className="inline-flex items-center gap-2 bg-linear-to-r from-blue-600 via-blue-800 to-blue-500 dark:from-red-600 dark:via-red-500 dark:to-red-800 text-white px-8 py-3 rounded-full hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl"
         >
           View All Articles
           <ArrowRight className="h-5 w-5" />

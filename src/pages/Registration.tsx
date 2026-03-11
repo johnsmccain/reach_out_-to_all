@@ -142,10 +142,10 @@ export default function Registration() {
     <>
       {showForm ? <div className="max-w-4xl mx-auto ">
         <header className="mb-8 text-center">
-          <h1 className="text-3xl md:text-4xl font-bold text-blue-900">2025 Mission Outreach Registration</h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-blue-900 dark:text-red-700">2025 Mission Outreach Registration</h1>
           <p className="mt-2 text-gray-700">Amadaka Community, Eastern Obolo Local Government Area of Akwa Ibom State.</p>
           <p className="text-gray-700">Sunday 22nd – Thursday 26th December, 2025</p>
-          <div className="mt-3 inline-block bg-red-600 text-white text-sm px-3 py-1 rounded-full">
+          <div className="mt-3 inline-block bg-red-600 text-white dark:text-gray-600 text-sm px-3 py-1 rounded-full">
             Registration Starting on mon, 27th October 2025.  then closing on 8th November 2025.
           </div>
         </header>
@@ -170,7 +170,7 @@ export default function Registration() {
                 <iframe className="w-full h-full rounded-lg" src={toYouTubeEmbed(VIDEO_WHO_WE_ARE) as string} title="Who We Are" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
               </div>
             ) : (
-              <p className="text-sm text-gray-600">Provide a YouTube embed URL to display the video.</p>
+              <p className="text-sm text-gray-600 dark:text-gray-100">Provide a YouTube embed URL to display the video.</p>
             )}
           </section>
 
@@ -367,24 +367,24 @@ export default function Registration() {
                 <iframe className="w-full h-full rounded-lg" src={toYouTubeEmbed(VIDEO_OUTREACH_LOOKS_LIKE) as string} title="Outreach Overview" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
               </div>
             ) : (
-              <p className="text-sm text-gray-600">Provide a YouTube embed URL to display the video.</p>
+              <p className="text-sm text-gray-600 dark:text-gray-100">Provide a YouTube embed URL to display the video.</p>
             )}
           </section>
 
           <div className="flex items-center justify-between">
-            <p className="text-sm text-gray-600">Fields marked with * are required.</p>
+            <p className="text-sm text-gray-600 dark:text-gray-100">Fields marked with * are required.</p>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-6 py-2 rounded-lg bg-blue-700 text-white hover:bg-blue-800 disabled:opacity-60"
+              className="px-6 py-2 rounded-lg bg-blue-700 text-white dark:text-gray-600 hover:bg-blue-800 disabled:opacity-60"
             >
               {isSubmitting ? "Submitting..." : "Submit Registration"}
             </button>
           </div>
         </form>
-      </div> : <div className="flex flex-col items-center mt-9 min-h-screen px-4">
-        <h2 className="text-2xl font-bold mb-4 text-center">Registration for 2025 December Mission Outreach is over.</h2>
-        <p className="mb-6 text-center">
+      </div> : <div className="flex flex-col items-center dark:text-gray-100 mt-9 min-h-screen px-4">
+        <h2 className="text-2xl font-bold dark:text-gray-100 mb-4 text-center">Registration for 2025 December Mission Outreach is over.</h2>
+        <p className="mb-6 text-center dark:text-gray-100">
           <strong>Remain Blessed. For more information, please contact:</strong>
         </p>
         <a href="tel:+2347037043343">Call +2347037043343</a>

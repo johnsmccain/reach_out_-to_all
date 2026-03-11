@@ -80,7 +80,7 @@ const Sermons = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 text-white overflow-hidden">
+      <section className="relative py-20 bg-gradient-to-r from-blue-700 via-blue-600 to-blue-500   dark:from-red-700 dark:via-red-600 dark:to-red-500    text-white overflow-hidden">
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="relative container mx-auto px-4">
           <motion.div
@@ -246,7 +246,7 @@ const Sermons = () => {
       </section>
 
       {/* Call to Action */}
-      {/* <section className="py-16 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+      {/* <section className="py-16 bg-gradient-to-r from-blue-700 via-blue-600 to-blue-500   dark:from-red-700 dark:via-red-600 dark:to-red-500   text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Never Miss a Message

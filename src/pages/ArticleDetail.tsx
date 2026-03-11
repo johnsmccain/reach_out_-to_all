@@ -260,7 +260,7 @@ const ArticleDetail = () => {
     return (
       <div className="text-center py-12">
         <h1 className="text-2xl font-bold text-gray-900">Article not found</h1>
-        <Link to="/articles" className="text-blue-600 hover:underline mt-4 inline-block">
+        <Link to="/articles" className="text-blue-600  dark:text-red-600 hover:underline mt-4 inline-block">
           ← Back to Articles
         </Link>
       </div>
@@ -305,7 +305,7 @@ const ArticleDetail = () => {
               {article.title}
             </h1>
             
-            <div className="flex flex-wrap items-center gap-4 text-gray-600">
+            <div className="flex flex-wrap items-center gap-4 text-gray-600 dark:text-gray-100">
               <div className="flex items-center gap-2">
                 <User className="h-5 w-5" />
                 <span>{article.author}</span>

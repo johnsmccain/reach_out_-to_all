@@ -25,7 +25,7 @@ const ArticleCard = ({article, index}: CardProps) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
-            className="bg-white/90 backdrop-blur-md rounded-sm shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 group border border-white/20 hover:border-blue-400/30 w-full"
+            className="bg-white/50 dark:bg-gray-800/90 backdrop-blur-md rounded-sm shadow-lg dark:shadow-gray-900/50 overflow-hidden hover:shadow-2xl dark:hover:shadow-gray-900/70 transition-all duration-500 group border border-white/20 dark:border-gray-700/30 hover:border-blue-400/30 dark:hover:border-blue-400/50 w-full"
           >
             {article.cover_image && (
               <div className="relative overflow-hidden" style={{ aspectRatio: '16/9' }}>
@@ -44,15 +44,15 @@ const ArticleCard = ({article, index}: CardProps) => {
             )}
             
             <div className="p-6 space-y-4">
-              <h2 className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-2">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-red-400 transition-colors line-clamp-2">
                 {article.title}
               </h2>
               
-              <p className="text-gray-600 line-clamp-3">
+              <p className="text-gray-600 dark:text-gray-400 line-clamp-3">
                 {htmlToPlainText(article.content).substring(0, excerptLength)}...
               </p>
               
-              <div className="flex items-center gap-4 text-sm text-gray-500">
+              <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
                 <div className="flex items-center gap-1">
                   <User className="h-4 w-4" />
                   {article.author}
@@ -68,7 +68,7 @@ const ArticleCard = ({article, index}: CardProps) => {
                   {article.tags.slice(0, 3).map((tag) => (
                     <span
                       key={tag}
-                      className="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full"
+                      className="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-red-400  text-xs rounded-full"
                     >
                       <Tag className="h-3 w-3" />
                       {tag}
@@ -79,7 +79,7 @@ const ArticleCard = ({article, index}: CardProps) => {
               
               <Link
                 to={`/articles/${article.id}`}
-                className="inline-block w-full text-center bg-linear-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-lg hover:from-blue-500 hover:to-purple-500 transition-all duration-300 shadow-[0_4px_15px_rgba(59,130,246,0.3)] hover:shadow-[0_6px_20px_rgba(59,130,246,0.4)] hover:scale-[1.02]"
+                className="inline-block w-full text-center bg-linear-to-r f from-blue-600 via-blue-800 to-blue-500 dark:from-red-600 dark:via-red-800 dark:to-red-500 text-white px-4 py-2 rounded-lg hover:from-blue-500 hover:to-purple-500 transition-all duration-300 shadow-[0_4px_15px_rgba(59,130,246,0.3)] hover:shadow-[0_6px_20px_rgba(59,130,246,0.4)] hover:scale-[1.02]"
               >
                 Read More
               </Link>

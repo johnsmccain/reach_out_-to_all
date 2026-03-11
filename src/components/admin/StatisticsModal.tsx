@@ -64,7 +64,7 @@ const StatisticsModal = ({ isOpen, onClose, onSubmit, currentStats }: Statistics
             className="bg-white rounded-2xl w-full max-w-4xl max-h-[95vh] overflow-hidden shadow-2xl"
           >
             {/* Header */}
-            <div className="sticky top-0 bg-linear-to-r from-blue-600 via-purple-600 to-cyan-600 text-white p-6 flex justify-between items-center z-10">
+            <div className="sticky top-0 bg-linear-to-r from-blue-700 via-blue-600 to-blue-500   dark:from-red-700 dark:via-red-600 dark:to-red-500    text-white p-6 flex justify-between items-center z-10">
               <div>
                 <h2 className="text-2xl font-bold flex items-center gap-2">
                   <BarChart3 className="h-6 w-6" />
@@ -227,7 +227,7 @@ const StatisticsModal = ({ isOpen, onClose, onSubmit, currentStats }: Statistics
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   type="submit"
-                  className="px-6 py-3 bg-linear-to-r from-blue-600 to-purple-600 text-white font-medium rounded-xl hover:from-blue-500 hover:to-purple-500 transition-all duration-300 flex items-center gap-2 shadow-lg hover:shadow-xl"
+                  className="px-6 py-3 bg-linear-to-r from-blue-700 via-blue-600 to-blue-500   dark:from-red-700 dark:via-red-600 dark:to-red-500   text-white font-medium rounded-xl hover:from-blue-500 hover:to-purple-500 transition-all duration-300 flex items-center gap-2 shadow-lg hover:shadow-xl"
                 >
                   <Save className="h-5 w-5" />
                   <span>Update Statistics</span>

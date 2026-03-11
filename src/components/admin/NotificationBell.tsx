@@ -89,7 +89,7 @@ const NotificationBell = () => {
             className="absolute right-0 mt-2 w-96 bg-white shadow-2xl z-[9999] max-h-[600px] flex flex-col"
           >
             {/* Header */}
-            <div className="p-4 border-b border-gray-200 bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600">
+            <div className="p-4 border-b border-gray-200 bg-gradient-to-r from-blue-700 via-blue-600 to-blue-500   dark:from-red-700 dark:via-red-600 dark:to-red-500   ">
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-bold text-white">Notifications</h3>
                 <div className="flex items-center gap-2">
@@ -199,7 +199,7 @@ const NotificationBell = () => {
                         </button>
                         
                         <div className="flex items-center gap-2">
-                          <span className="text-sm text-gray-600">
+                          <span className="text-sm text-gray-600 dark:text-gray-100">
                             Page {currentPage} of {totalPages}
                           </span>
                         </div>

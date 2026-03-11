@@ -50,7 +50,7 @@ const Articles = () => {
         animate={{ opacity: 1, y: 0 }}
         className="text-center space-y-4"
       >
-        <h1 className="text-4xl md:text-5xl font-bold text-blue-900">Articles</h1>
+        <h1 className="text-4xl md:text-5xl font-bold text-blue-900 dark:text-red-700">Articles</h1>
         <p className="text-xl text-gray-600 max-w-2xl mx-auto">
           Discover inspiring stories, insights, and teachings from our mission work
         </p>

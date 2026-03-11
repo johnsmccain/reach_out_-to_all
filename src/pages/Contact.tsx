@@ -58,33 +58,33 @@ const Contact = () => {
         <div className="grid md:grid-cols-2 gap-12">
           {/* Contact Information */}
           <div className="space-y-8">
-            <h2 className="text-3xl font-bold text-blue-900">Get in Touch</h2>
-            <p className="text-lg text-gray-600">
+            <h2 className="text-3xl font-bold text-blue-900 dark:text-red-400">Get in Touch</h2>
+            <p className="text-lg text-gray-600 dark:text-gray-100">
               Have questions about our mission work or want to get involved?
               We're here to help you on your journey.
             </p>
 
             <div className="space-y-4">
               <div className="flex items-center space-x-4">
-                <Mail className="h-6 w-6 text-blue-600" />
+                <Mail className="h-6 w-6 text-blue-600 dark:text-red-600" />
                 <div>
                   <h3 className="font-semibold">Email</h3>
-                  <p className="text-gray-600">reachouttoall@yahoo.com</p>
+                  <p className="text-gray-600 dark:text-gray-100">reachouttoall@yahoo.com</p>
                 </div>
               </div>
 
               <div className="flex items-center space-x-4">
-                <Phone className="h-6 w-6 text-blue-600" />
+                <Phone className="h-6 w-6 text-blue-600 dark:text-red-600" />
                 <div>
                   <h3 className="font-semibold">Phone</h3>
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 dark:text-gray-100">
                     +2347037043343, +2348123605848
                   </p>
                 </div>
               </div>
 
               <div className="flex items-start space-x-4">
-                <MapPin className="h-6 w-6 shrink-0 text-blue-600 mt-1" />
+                <MapPin className="h-6 w-6 shrink-0 text-blue-600 dark:text-red-600 mt-1" />
                 <div>
                   <h3 className="font-semibold">Address</h3>
                   <p className="text-gray-600 leading-relaxed">
@@ -111,7 +111,7 @@ const Contact = () => {
                   type="text"
                   id="name"
                   name="user_name"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-full focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-full focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-red-500 dark:focus:border-red-500"
                   required
                 />
               </div>
@@ -127,7 +127,7 @@ const Contact = () => {
                   type="email"
                   id="email"
                   name="user_email"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-full focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-full focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-red-500 dark:focus:border-red-500"
                   required
                 />
               </div>
@@ -143,7 +143,7 @@ const Contact = () => {
                   type="text"
                   id="subject"
                   name="subject"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-full focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-full focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-red-500 dark:focus:border-red-500"
                   required
                 />
               </div>
@@ -159,7 +159,7 @@ const Contact = () => {
                   id="message"
                   name="message"
                   rows={4}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-red-500 dark:focus:border-red-500"
                   required
                 ></textarea>
               </div>
@@ -167,7 +167,7 @@ const Contact = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition-colors flex items-center justify-center space-x-2 disabled:opacity-50"
+                className="w-full text-white dark:text-gray-100 px-6 py-3 rounded-full hover:bg-blue-700 bg-blue-600  dark:hover:bg-red-700 dark:bg-red-600 transition-colors flex items-center justify-center space-x-2 disabled:opacity-50"
               >
                 <span>{loading ? "Sending..." : "Send Message"}</span>
                 <Send className="h-5 w-5" />

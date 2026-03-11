@@ -96,6 +96,8 @@ import img9jpeg from './img9.jpeg';
 import img10jpeg from './img10.jpeg';
 import img11jpeg from './img11.jpeg';
 
+import charity from "./icons/charity_4358914.png"
+import kindness from "./icons/kindness.png"
 // Named exports for easy importing
 export {
   // Main Images
@@ -192,6 +194,8 @@ export {
   img9jpeg,
   img10jpeg,
   img11jpeg,
+
+  charity, kindness
 };
 
 // Default export with all images organized by category

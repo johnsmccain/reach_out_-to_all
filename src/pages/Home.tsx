@@ -126,7 +126,7 @@ const Home = () => {
             >
               <Link
                 to="/get-involved"
-                className="inline-flex items-center bg-linear-to-r from-blue-600 to-purple-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full hover:from-blue-500 hover:to-purple-500 transition-all duration-300 text-sm sm:text-base shadow-[0_4px_20px_rgba(59,130,246,0.4)] hover:shadow-[0_6px_30px_rgba(59,130,246,0.6)] hover:scale-105"
+                className="inline-flex items-center bg-linear-to-r from-blue-600 via-blue-700 to-blue-400 dark:from-red-600 dark:via-red-700 dark:to-red-400 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full hover:from-blue-500 hover:to-purple-500 transition-all duration-300 text-sm sm:text-base shadow-[0_4px_20px_rgba(59,130,246,0.4)] hover:shadow-[0_6px_30px_rgba(59,130,246,0.6)] hover:scale-105"
               >
                 Get Involved
                 <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
@@ -157,7 +157,7 @@ const Home = () => {
 
       {/* Statistics Section */}
       <section className="container mx-auto px-4">
-        <h2 className="text-2xl sm:text-3xl font-bold text-center text-blue-900 mb-6 sm:mb-8">
+        <h2 className="text-3xl md:text-4xl font-bold text-center text-blue-900 dark:text-red-400  mb-6 sm:mb-8">
           Our Impact
         </h2>
         <StatisticsCounter statistics={statistics || undefined} />
@@ -170,35 +170,35 @@ const Home = () => {
 
       <div className="container mx-auto px-4 space-y-6">
         {/* Title */}
-        <h2 className="text-3xl sm:text-4xl font-bold">{title}</h2>
-        <img src={pastorbawa} alt="" className="sm:w-75 sm:h-[300]" />
+        <img src={pastorbawa} alt="" className="sm:w-75 sm:h-[300] mx-auto" />
+        <h2 className="text-3xl sm:text-4xl font-bold dark:text-white text-center">{title}</h2>
         {/* Introduction */}
-        <p className="text-lg sm:text-xl">{introduction}</p>
+        <p className="text-lg sm:text-xl dark:text-gray-300">{introduction}</p>
 
         {/* Message */}
-        <p className="text-lg sm:text-xl">{message}</p>
+        <p className="text-lg sm:text-xl dark:text-gray-300">{message}</p>
 
         {/* List of Items */}
         <div className="space-y-4">
           {items.map((item, index) => (
-            <p key={index} className="text-lg sm:text-xl rounded-xl">
+            <p key={index} className="text-lg sm:text-xl rounded-xl dark:text-gray-300">
               {item.text}
             </p>
           ))}
         </div>
 
         {/* Closing */}
-        <p className="text-lg sm:text-xl">{closing}</p>
+        <p className="text-lg sm:text-xl dark:text-gray-300">{closing}</p>
 
         {/* Signature */}
-        <div className="mt-6 text-lg sm:text-xl">
+        <div className="mt-6 text-lg sm:text-xl dark:text-gray-300">
           <p>On behalf of the Brethren,</p>
           <p className="font-bold">Bawa G. Emmanuel</p>
           <p>Coordinator, Reachout To All</p>
         </div>
 
         {/* Contact Info */}
-        <div className="text-lg sm:text-xl space-y-2">
+        <div className="text-lg sm:text-xl space-y-2 dark:text-gray-300">
           {contact.map((item, index) => (
             <p key={index} className="wrap-break-word max-sm;gap-2">
               <strong>{item.label}</strong>{" "}
@@ -207,7 +207,7 @@ const Home = () => {
                   href={item.value}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline break-all"
+                  className="text-blue-600 dark:text-red-400 hover:underline break-all"
                 >
                   {item.value}
                 </a>
@@ -222,46 +222,46 @@ const Home = () => {
       {/* Featured Sections */}
       <section className="container mx-auto px-4 mb-5">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
-          <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6">
-            <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg dark:shadow-gray-900/50 p-4 sm:p-6 hover:shadow-xl dark:hover:shadow-gray-900/70 transition-shadow">
+            <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 dark:text-white">
               Upcoming Events
             </h3>
-            <p className="mb-4 text-sm sm:text-base">
+            <p className="mb-4 text-sm sm:text-base dark:text-gray-300">
               Join us in our upcoming mission activities and events.
             </p>
             <Link
               to="/events"
-              className="text-blue-600 hover:underline text-sm sm:text-base"
+              className="text-blue-600 dark:text-red-400 hover:underline text-sm sm:text-base"
             >
               View Events →
             </Link>
           </div>
 
-          <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6">
-            <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg dark:shadow-gray-900/50 p-4 sm:p-6 hover:shadow-xl dark:hover:shadow-gray-900/70 transition-shadow">
+            <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 dark:text-white">
               Get Involved
             </h3>
-            <p className="mb-4 text-sm sm:text-base">
+            <p className="mb-4 text-sm sm:text-base dark:text-gray-300">
               Discover ways to contribute to our mission work.
             </p>
             <Link
               to="/get-involved"
-              className="text-blue-600 hover:underline text-sm sm:text-base"
+              className="text-blue-600 dark:text-red-400 hover:underline text-sm sm:text-base"
             >
               Learn More →
             </Link>
           </div>
 
-          <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6">
-            <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg dark:shadow-gray-900/50 p-4 sm:p-6 hover:shadow-xl dark:hover:shadow-gray-900/70 transition-shadow">
+            <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 dark:text-white">
               Resources
             </h3>
-            <p className="mb-4 text-sm sm:text-base">
+            <p className="mb-4 text-sm sm:text-base dark:text-gray-300">
               Access sermons, podcasts, and other spiritual materials.
             </p>
             <Link
               to="/resources"
-              className="text-blue-600 hover:underline text-sm sm:text-base"
+              className="text-blue-600 dark:text-red-400 hover:underline text-sm sm:text-base"
             >
               Browse Resources →
             </Link>

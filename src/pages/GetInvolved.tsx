@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Heart, Send } from "lucide-react";
+import { Heart, Send} from "lucide-react";
 import toast from "react-hot-toast";
+import { motion } from "framer-motion";
 import Donate from "@/components/Donate";
 
-import imageBank from "@/asset/imageBank";
+import imageBank, {kindness} from "@/asset/imageBank";
 
 const VOLUNTEER_UNITS = ["Financial", "Prayer", "Others"];
 const MEMBERSHIP_OPTIONS = ["Yes", "No"];
@@ -152,23 +153,34 @@ const GetInvolved = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           {/* Volunteer Form */}
           {show ? (
-            <div className="max-w-4xl mx-auto ">
-              <header className="mb-8 text-center">
-                <h1 className="text-3xl md:text-4xl font-bold text-blue-900">
-                  2025 Mission Outreach Registration
-                </h1>
-                <p className="mt-2 text-gray-700">
-                  Amadaka Community, Eastern Obolo Local Government Area of Akwa
-                  Ibom State.
-                </p>
-                <p className="text-gray-700">
-                  Sunday 22nd – Thursday 26th December, 2025
-                </p>
-                <div className="mt-3 inline-block bg-red-600 text-white text-sm px-3 py-1 rounded-full">
-                  Registration Starting on mon, 27th October 2025. then closing
-                  on 8th November 2025.
+            <div className="max-w-4xl mx-auto w-full my-auto">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-red-900/20 dark:to-red-700/20 rounded-2xl p-8 border border-blue-200 dark:border-red-800"
+              >
+                {/* Offering Icon */}
+                <div className="flex justify-center mb-6">
+                  <motion.div
+                    animate={{ y: [0, -10, 0] }}
+                    transition={{ duration: 3, repeat: Infinity }}
+                    className="relative"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-500 dark:to-red-500  rounded-full blur-lg opacity-50"></div>
+                    <div className="relative bg-white dark:bg-gray-100 p-4 rounded-full">
+                      <img src={kindness} alt="" className="h-30 w-30 text-blue-600 dark:text-red-400" />
+                      
+                    </div>
+                  </motion.div>
                 </div>
-              </header>
+
+                {/* Title */}
+                <h1 className="text-3xl md:text-4xl font-bold text-center text-blue-900 dark:text-red-100 mb-4">
+                  Every peny count
+                </h1>
+
+              </motion.div>
             </div>
           ) : (
             <div>
@@ -316,7 +328,7 @@ const GetInvolved = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 flex items-center justify-center space-x-2 disabled:opacity-50"
+                  className="w-full text-white dark:text-gray-100 px-6 py-3 rounded-full hover:bg-blue-700 bg-blue-600  dark:hover:bg-red-700 dark:bg-red-600 flex items-center justify-center space-x-2 disabled:opacity-50"
                 >
                   <span>
                     {loading ? "Submitting..." : "Submit Application"}

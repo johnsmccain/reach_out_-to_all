@@ -17,7 +17,7 @@ const FuturisticButton = React.forwardRef<HTMLButtonElement, FuturisticButtonPro
     const baseClasses = "relative overflow-hidden font-semibold transition-all duration-300 rounded-lg border";
     
     const variants = {
-      primary: "bg-linear-to-r from-blue-600 to-purple-600 text-white border-blue-500/50 hover:from-blue-500 hover:to-purple-500",
+      primary: "bg-linear-to-r from-blue-700 via-blue-600 to-blue-500   dark:from-red-700 dark:via-red-600 dark:to-red-500   text-white border-blue-500/50 hover:from-blue-500 hover:to-purple-500",
       secondary: "bg-linear-to-r from-gray-700 to-gray-800 text-white border-gray-600/50 hover:from-gray-600 hover:to-gray-700",
       accent: "bg-linear-to-r from-cyan-500 to-blue-500 text-white border-cyan-400/50 hover:from-cyan-400 hover:to-blue-400",
       ghost: "bg-transparent text-blue-600 border-blue-600/50 hover:bg-blue-600/10"

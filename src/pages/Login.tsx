@@ -92,7 +92,7 @@ const LoginNew = () => {
             >
               <Shield className="h-8 w-8 " />
             </motion.div>
-            <h1 className="text-4xl font-bold mb-3 bg-linear-to-r from-blue-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent shadow-xs">
+            <h1 className="text-4xl font-bold mb-3 bg-linear-to-r from-blue-700 via-blue-600 to-blue-500   dark:from-red-700 dark:via-red-600 dark:to-red-500    bg-clip-text text-transparent shadow-xs">
               Welcome Back
             </h1>
             <p className="text-neutral-600">
@@ -183,7 +183,7 @@ const LoginNew = () => {
                 whileTap={{ scale: 0.98 }}
                 type="submit"
                 disabled={loading}
-                className="w-full relative px-6 py-3 bg-linear-to-r from-blue-600 to-purple-600 text-white font-medium rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden group"
+                className="w-full relative px-6 py-3 bg-linear-to-r from-blue-700 via-blue-600 to-blue-500   dark:from-red-700 dark:via-red-600 dark:to-red-500   text-white font-medium rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden group"
               >
                 <div className="absolute inset-0 bg-linear-to-r from-blue-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div className="relative flex items-center justify-center space-x-2">

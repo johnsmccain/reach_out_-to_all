@@ -17,7 +17,7 @@ const Sermons = ({ handleDelete }: SermonsProps) => {
             setEditingSermon(null);
             setShowSermonModal(true);
           }}
-          className="bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 text-white px-4 py-2 hover:from-blue-700 hover:via-purple-700 hover:to-cyan-700 transition-all duration-300 shadow-lg"
+          className="bg-gradient-to-r from-blue-700 via-blue-600 to-blue-500   dark:from-red-700 dark:via-red-600 dark:to-red-500    text-white px-4 py-2 hover:from-blue-700 hover:via-purple-700 hover:to-cyan-700 transition-all duration-300 shadow-lg"
         >
           Add Sermon
         </button>
