@@ -2,7 +2,7 @@ import React from "react";
 import { Calendar, MapPin, Clock } from "lucide-react";
 import { supabase } from "../lib/supabase";
 import type { Event } from "../types";
-import { format, isPast, isFuture, isToday, isYesterday, isTomorrow } from "date-fns";
+import { format, isPast, isToday } from "date-fns";
 import EventDetailModal from "../components/EventDetailModal";
 
 const Events = () => {
