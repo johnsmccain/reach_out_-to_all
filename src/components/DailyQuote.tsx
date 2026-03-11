@@ -51,96 +51,166 @@ const DailyQuote = () => {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
-        className="w-fit relative  rounded-2xl overflow-hidden shadow-lg border border-white/20"
+        className="relative rounded-2xl overflow-hidden shadow-lg border border-white/20 bg-linear-to-br from-blue-900 via-blue-800 to-blue-700  dark:from-red-900 dark:via-red-800 dark:to-red-700"
       >
-     
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center p-4 md:p-8">
+          {/* Left Image */}
+          <div className="relative z-10">
+            <div className="flex items-center gap-3 mb-4 text-white md:hidden">
+              <motion.div
+                animate={{ rotate: [0, 5, -5, 0] }}
+                transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+              >
+                <Quote className="h-6 w-6 text-blue-300 dark:text-red-300" />
+              </motion.div>
+              <h3 className="text-lg font-bold">Daily Inspiration</h3>
+            </div>
 
-        <div className="relative z-10 p-4">
-          <div className="flex items-center gap-3 mb-4 text-white">
             <motion.div
-              animate={{ rotate: [0, 5, -5, 0] }}
-              transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="relative w-full"
             >
-              <Quote className="h-6 w-6 text-yellow-300" />
+              <img
+                src={quote.image_url}
+                alt="Daily inspirational quote"
+                className="w-full h-auto object-contain max-h-[500px] rounded-2xl shadow-lg border border-white/20"
+              />
             </motion.div>
-            <h3 className="text-lg font-bold text-black">Daily Inspiration</h3>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="relative w-full"
-          >
-            <img
-              src={quote.image_url}
-              alt="Daily inspirational quote"
-              className="w-full h-auto object-contain max-h-[500px] rounded-2xl shadow-lg border border-white/20"
+          {/* Right Visual Element */}
+          <div className="hidden md:flex items-center justify-center relative h-64">
+            {/* Animated Orbs */}
+            <motion.div
+              animate={{ y: [0, -20, 0], x: [0, 10, 0] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute w-32 h-32 bg-linear-to-br from-red-300 to-red-400 dark:from-blue-300 dark:to-blue-400 rounded-full blur-2xl opacity-40"
             />
-          </motion.div>
+            <motion.div
+              animate={{ y: [0, 20, 0], x: [0, -10, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+              className="absolute w-24 h-24 bg-linear-to-br from-blue-300 to-blue-400 dark:from-red-300 dark:to-red-400 rounded-full blur-2xl opacity-30"
+            />
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 20, repeat: Infinity, linear: true }}
+              className="absolute w-40 h-40 border-2 border-white/20 rounded-full"
+            />
+            <motion.div
+              animate={{ rotate: -360 }}
+              transition={{ duration: 15, repeat: Infinity, linear: true }}
+              className="absolute w-32 h-32 border border-white/10 rounded-full"
+            />
+            
+            {/* Center Glow */}
+            <motion.div
+              animate={{ scale: [1, 1.2, 1] }}
+              transition={{ duration: 3, repeat: Infinity }}
+              className="relative z-10 w-16 h-16 bg-linear-to-br from-white to-red-200 rounded-full shadow-[0_0_30px_rgba(255,255,255,0.6)]"
+            />
+          </div>
         </div>
 
         {/* Decorative Elements */}
-        <div className="absolute top-2 right-2 w-2 h-2 bg-yellow-300 rounded-full animate-ping"></div>
-        <div className="absolute bottom-2 left-2 w-1 h-1 bg-white rounded-full animate-pulse"></div>
+        <div className="absolute top-2 right-2 w-2 h-2 bg-blue-300 rounded-full animate-ping shadow-[0_0_8px_rgba(253,224,71,0.8)]"></div>
+        <div className="absolute bottom-2 left-2 w-1 h-1 bg-blue-400 rounded-full animate-pulse shadow-[0_0_4px_rgba(103,232,249,0.8)]"></div>
+        <div className="absolute top-1/4 right-1/4 w-1 h-1 bg-blue-500 rounded-full animate-ping" style={{ animationDelay: '1.5s' }}></div>
+        <div className="absolute bottom-1/3 left-1/3 w-0.5 h-0.5 bg-blue-600 rounded-full animate-pulse" style={{ animationDelay: '2.5s' }}></div>
       </motion.div>
     );
   }
 
   // Render text quote (default)
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5 }}
-      className="relative bg-linear-to-br from-blue-600 via-purple-600 to-blue-800 rounded-2xl p-8 text-white overflow-hidden"
-    >
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-4 left-4 w-32 h-32 bg-white rounded-full blur-3xl"></div>
-        <div className="absolute bottom-4 right-4 w-24 h-24 bg-white rounded-full blur-2xl"></div>
-      </div>
+  // return (
+  //   <motion.div
+  //     initial={{ opacity: 0, scale: 0.95 }}
+  //     animate={{ opacity: 1, scale: 1 }}
+  //     transition={{ duration: 0.5 }}
+  //     className="relative bg-linear-to-br from-blue-600 via-purple-600 to-blue-800 rounded-2xl p-8 text-white overflow-hidden"
+  //   >
+  //     {/* Background Pattern */}
+  //     <div className="absolute inset-0 opacity-10">
+  //       <div className="absolute top-4 left-4 w-32 h-32 bg-white rounded-full blur-3xl"></div>
+  //       <div className="absolute bottom-4 right-4 w-24 h-24 bg-white rounded-full blur-2xl"></div>
+  //     </div>
 
-      {/* Glow Effect */}
-      <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/5 to-transparent animate-pulse"></div>
+  //     {/* Glow Effect */}
+  //     <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/5 to-transparent animate-pulse"></div>
 
-      <div className="relative z-10 space-y-4">
-        <div className="flex items-center gap-3">
-          <motion.div
-            animate={{ rotate: [0, 5, -5, 0] }}
-            transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
-          >
-            <Quote className="h-8 w-8 text-yellow-300" />
-          </motion.div>
-          <h3 className="text-xl font-bold">Daily Inspiration</h3>
-        </div>
+  //     <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+  //       {/* Left Content */}
+  //       <div className="space-y-4">
+  //         <div className="flex items-center gap-3">
+  //           <motion.div
+  //             animate={{ rotate: [0, 5, -5, 0] }}
+  //             transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+  //           >
+  //             <Quote className="h-8 w-8 text-yellow-300" />
+  //           </motion.div>
+  //           <h3 className="text-xl font-bold">Daily Inspiration</h3>
+  //         </div>
 
-        <motion.blockquote
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="text-lg md:text-xl font-medium leading-relaxed italic"
-        >
-          "{quote.quote}"
-        </motion.blockquote>
+  //         <motion.blockquote
+  //           initial={{ opacity: 0, y: 10 }}
+  //           animate={{ opacity: 1, y: 0 }}
+  //           transition={{ delay: 0.2 }}
+  //           className="text-lg md:text-xl font-medium leading-relaxed italic"
+  //         >
+  //           "{quote.quote}"
+  //         </motion.blockquote>
 
-        <motion.footer
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4 }}
-          className="text-right"
-        >
-          <cite className="text-yellow-200 font-semibold">— {quote.author}</cite>
-        </motion.footer>
+  //         <motion.footer
+  //           initial={{ opacity: 0 }}
+  //           animate={{ opacity: 1 }}
+  //           transition={{ delay: 0.4 }}
+  //           className="text-right"
+  //         >
+  //           <cite className="text-yellow-200 font-semibold">— {quote.author}</cite>
+  //         </motion.footer>
+  //       </div>
 
-        {/* Enhanced Decorative Elements */}
-        <div className="absolute top-2 right-2 w-2 h-2 bg-yellow-300 rounded-full animate-ping shadow-[0_0_8px_rgba(253,224,71,0.8)]"></div>
-        <div className="absolute bottom-2 left-2 w-1 h-1 bg-cyan-300 rounded-full animate-pulse shadow-[0_0_4px_rgba(103,232,249,0.8)]"></div>
-        <div className="absolute top-1/4 right-1/4 w-1 h-1 bg-purple-300 rounded-full animate-ping" style={{ animationDelay: '1.5s' }}></div>
-        <div className="absolute bottom-1/3 left-1/3 w-0.5 h-0.5 bg-blue-300 rounded-full animate-pulse" style={{ animationDelay: '2.5s' }}></div>
-      </div>
-    </motion.div>
-  );
+  //       {/* Right Visual Element */}
+  //       <div className="hidden md:flex items-center justify-center relative h-64">
+  //         {/* Animated Orbs */}
+  //         <motion.div
+  //           animate={{ y: [0, -20, 0], x: [0, 10, 0] }}
+  //           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+  //           className="absolute w-32 h-32 bg-gradient-to-br from-yellow-300 to-orange-400 rounded-full blur-2xl opacity-40"
+  //         />
+  //         <motion.div
+  //           animate={{ y: [0, 20, 0], x: [0, -10, 0] }}
+  //           transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+  //           className="absolute w-24 h-24 bg-gradient-to-br from-cyan-300 to-blue-400 rounded-full blur-2xl opacity-30"
+  //         />
+  //         <motion.div
+  //           animate={{ rotate: 360 }}
+  //           transition={{ duration: 20, repeat: Infinity, linear: true }}
+  //           className="absolute w-40 h-40 border-2 border-white/20 rounded-full"
+  //         /> jkjk
+  //         <motion.div
+  //           animate={{ rotate: -360 }}
+  //           transition={{ duration: 15, repeat: Infinity, linear: true }}
+  //           className="absolute w-32 h-32 border border-white/10 rounded-full"
+  //         />
+          
+  //         {/* Center Glow */}
+  //         <motion.div
+  //           animate={{ scale: [1, 1.2, 1] }}
+  //           transition={{ duration: 3, repeat: Infinity }}
+  //           className="relative z-10 w-16 h-16 bg-gradient-to-br from-white to-yellow-200 rounded-full shadow-[0_0_30px_rgba(255,255,255,0.6)]"
+  //         />
+  //       </div>
+  //     </div>
+
+  //     {/* Enhanced Decorative Elements */}
+  //     <div className="absolute top-2 right-2 w-2 h-2 bg-yellow-300 rounded-full animate-ping shadow-[0_0_8px_rgba(253,224,71,0.8)]"></div>
+  //     <div className="absolute bottom-2 left-2 w-1 h-1 bg-cyan-300 rounded-full animate-pulse shadow-[0_0_4px_rgba(103,232,249,0.8)]"></div>
+  //     <div className="absolute top-1/4 right-1/4 w-1 h-1 bg-purple-300 rounded-full animate-ping" style={{ animationDelay: '1.5s' }}></div>
+  //     <div className="absolute bottom-1/3 left-1/3 w-0.5 h-0.5 bg-blue-300 rounded-full animate-pulse" style={{ animationDelay: '2.5s' }}></div>
+  //   </motion.div>
+  // );
 };
 
 export default DailyQuote;
